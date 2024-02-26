@@ -6,7 +6,7 @@ import proxyRouter from "./routes/proxy";
 
 const __homedir = process.env.NODE_ENV === "development" ? path.join(__dirname, "..") : __dirname;
 
-var expressApp = express();
+const expressApp = express();
 
 expressApp.use(express.json());
 expressApp.use(express.urlencoded({ extended: false }));
