@@ -5,6 +5,10 @@ import path from "node:path";
 import expressApp from "./server";
 expressApp.listen(4080, "127.0.0.1");
 
+if (app.requestSingleInstanceLock()) {
+    app.quit();
+}
+
 if (process.env.NODE_ENV === "development") {
     electronReload(__dirname, {
         electron: path.resolve(
