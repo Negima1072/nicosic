@@ -1,16 +1,15 @@
 import { BrowserWindow, app } from "electron";
-import electronReload from "electron-reload";
 import path from "node:path";
 
 import expressApp from "./server";
-expressApp.listen(4080, "127.0.0.1");
+const expressServer = expressApp.listen(4080, "127.0.0.1");
 
-if (app.requestSingleInstanceLock()) {
+if (!app.requestSingleInstanceLock()) {
     app.quit();
 }
 
 if (process.env.NODE_ENV === "development") {
-    electronReload(__dirname, {
+    require("electron-reload")(__dirname, {
         electron: path.resolve(
             __dirname,
             process.platform === "win32"
@@ -33,5 +32,6 @@ app.whenReady().then(() => {
 });
 
 app.once("window-all-closed", () => {
+    expressServer.close();
     app.quit();
 });

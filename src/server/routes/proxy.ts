@@ -45,22 +45,24 @@ router.get("/", (req, res) => {
         headers: reqHeaders,
         agent: ({ protocol }) => protocol === 'https:' ? global.httpsAgent : global.httpAgent
     }).then(async (response) => {
-        res.status(response.status);
-        for (const [key, value] of response.headers) {
-            res.setHeader(key, value);
-        }
         if (response.body) {
-            if (response.headers.get('content-type')?.startsWith('application/vnd.apple.mpegurl')) {
+            for (const [key, value] of response.headers) {
+                if (key === 'content-type') {
+                    res.setHeader(key, value);
+                }
+            }
+            if (response.headers.get('content-type')?.includes('application/vnd.apple.mpegurl')) {
+                res.status(response.status);
                 const body = await response.text();
                 const nextText = body.replace(/(https?:\/\/[\w!?/+\-_~=;.,*&@#$%()'[\]]+)/g, (p0, p1) => {
                     return "/proxy?url="+encodeURIComponent(p1);
                 });
-                res.end(nextText);
+                res.send(nextText);
             } else {
                 response.body.pipe(res);
             }
         } else {
-            res.end();
+            res.status(response.status).end();
         }
     }
     ).catch((error) => {
