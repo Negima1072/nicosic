@@ -12,8 +12,8 @@
         "start": "cross-env NODE_ENV=\"production\" electron .",
         "package:win": "electron-builder --win --x64",
         "package:mac": "electron-builder --mac --x64",
-        "lint": "eslint ./src/**",
-        "lint:fix": "eslint ./src/** --fix",
+        "lint": "eslint ./src/**/*.{ts,tsx}",
+        "lint:fix": "eslint ./src/**/*.{ts,tsx} --fix",
         "format": "prettier --write \"src/**/*.{ts,tsx}\""
     },
     "author": "Negima1072",
