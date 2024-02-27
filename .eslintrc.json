@@ -1,7 +1,5 @@
 {
     "env": {
-        "browser": true,
-        "es2021": true,
         "node": true
     },
     "extends": [
@@ -32,13 +30,17 @@
         {
             "files": ["src/client/**/*.{ts,tsx}"],
             "env": {
-                "node": false
+                "node": false,
+                "browser": true,
+                "es2021": true
             }
         },
         {
-            "files": ["src/server/**/*.{ts,tsx}"],
+            "files": ["src/*.ts", "src/server/**/*.ts"],
             "env": {
-                "browser": false
+                "node": true,
+                "browser": false,
+                "commonjs": true
             }
         }
     ]
