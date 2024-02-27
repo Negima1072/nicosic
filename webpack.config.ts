@@ -2,6 +2,7 @@ import { Configuration } from 'webpack';
 
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import nodeExternals from 'webpack-node-externals';
 
 const isDev = process.env.NODE_ENV === 'development';
 
@@ -41,6 +42,7 @@ const main: Configuration = {
   entry: {
     main: './src/main.ts',
   },
+  externals: [nodeExternals()],
 };
 
 const preload: Configuration = {
