@@ -37,12 +37,15 @@ if (user_session && globalVal.cookieJar) {
 
 app.whenReady().then(() => {
     const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1100,
+        height: 800,
+        minWidth: 800,
+        minHeight: 600,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
             devTools: process.env.NODE_ENV === "development",
         },
+        autoHideMenuBar: true,
     });
 
     ipcMain.on("request-login", () => {
@@ -52,6 +55,7 @@ app.whenReady().then(() => {
             webPreferences: {
                 devTools: process.env.NODE_ENV === "development",
             },
+            autoHideMenuBar: true,
         });
 
         loginWindow.loadURL("https://account.nicovideo.jp/login?site=niconico").then(() => {
