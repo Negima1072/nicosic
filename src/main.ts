@@ -1,4 +1,4 @@
-import { BrowserWindow, app } from "electron";
+import globalVal from "./global";
 import path from "node:path";
 
 import expressApp from "./server";
@@ -24,6 +24,9 @@ if (process.env.NODE_ENV === "development") {
 if (process.env.NODE_ENV !== "development" || app.isPackaged) {
     app.disableHardwareAcceleration();
 }
+
+const expressServer = expressApp.listen(4080, "127.0.0.1");
+
 
 app.whenReady().then(() => {
     const mainWindow = new BrowserWindow({

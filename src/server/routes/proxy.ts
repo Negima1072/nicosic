@@ -1,26 +1,6 @@
 import express from "express";
-import { Agent as HttpAgent } from "http";
-import { CookieAgent, HttpCookieAgent, HttpsCookieAgent } from "http-cookie-agent/http";
-import { Agent as HttpsAgent } from "https";
 import fetch, { Headers } from "node-fetch";
-import { CookieJar } from "tough-cookie";
-
-type globalThis = typeof globalThis & {
-    cookieJar: CookieJar;
-    httpAgent: CookieAgent<HttpAgent>;
-    httpsAgent: CookieAgent<HttpsAgent>;
-};
-declare const global: globalThis;
-
-if (typeof global.cookieJar === "undefined") {
-    global.cookieJar = new CookieJar();
-}
-if (typeof global.httpAgent === "undefined") {
-    global.httpAgent = new HttpCookieAgent({ cookies: { jar: global.cookieJar } });
-}
-if (typeof global.httpsAgent === "undefined") {
-    global.httpsAgent = new HttpsCookieAgent({ cookies: { jar: global.cookieJar } });
-}
+import globalVal from "../../global";
 
 const router = express.Router();
 
@@ -43,7 +23,7 @@ router.get("/", (req, res) => {
     fetch(url, {
         method: "GET",
         headers: reqHeaders,
-        agent: ({ protocol }) => (protocol === "https:" ? global.httpsAgent : global.httpAgent),
+        agent: ({ protocol }) => (protocol === "https:" ? globalVal.httpsAgent : globalVal.httpAgent),
     })
         .then(async (response) => {
             if (response.body) {
@@ -91,7 +71,7 @@ router.post("/", (req, res) => {
         method: "POST",
         headers: reqHeaders,
         body: req.body,
-        agent: ({ protocol }) => (protocol === "https:" ? global.httpsAgent : global.httpAgent),
+        agent: ({ protocol }) => (protocol === "https:" ? globalVal.httpsAgent : globalVal.httpAgent),
     })
         .then(async (response) => {
             // proxy the response
