@@ -1,0 +1,142 @@
+.controller {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .songMeta {
+        display: flex;
+        flex-direction: row;
+        padding: 12px;
+        gap: 5px;
+        flex: 0 0 auto;
+
+        .songInfo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            h3, p {
+                margin: 0;
+            }
+        }
+    }
+
+    .songControls {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-width: 500px;
+        gap: 5px;
+
+        .songCtrlButtons {
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+
+            button {
+                color: #a1a1a1;
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+                font-size: 1.5em;
+                border-radius: 50%;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            button:disabled {
+                color: #666;
+            }
+
+            button:hover {
+                color: #f6f6f6;
+            }
+
+            button:disabled:hover {
+                color: #666;
+            }
+
+            button.playButton {
+                font-size: 2.5em;
+                color: #f6f6f6;
+                width: 50px;
+                height: 50px;
+            }
+
+            button.playButton:hover {
+                font-size: 2.7em;
+            }
+
+            button.active {
+                color: #00d400;
+            }
+        }
+
+        .songCtrlRange {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 5px;
+            width: 100%;
+
+            span {
+                flex: 0 0 auto;
+                width: 40px;
+                text-align: center;
+                font-size: 0.8em;
+            }
+
+            input[type="range"] {
+                flex: 1;
+            }
+        }
+    }
+
+    .songExtButtons {
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        padding: 12px;
+
+        button {
+            color: #fff;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5em;
+            border-radius: 50%;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button:disabled {
+            color: #666;
+        }
+
+        button:hover {
+            color: #f6f6f6;
+        }
+
+        button:disabled:hover {
+            color: #666;
+        }
+
+        button.active {
+            color: #00d400;
+        }
+
+    }
+}

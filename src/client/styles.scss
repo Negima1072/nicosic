@@ -4,6 +4,12 @@ body {
     padding: 0;
     background-color: #252525;
     color: #eee;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+img {
+    pointer-events: none;
 }
 
 div#container {

@@ -1,3 +1,4 @@
+import { Controller } from "./components/Controller/Controller";
 import { MainFrame } from "./components/MainFrame/MainFrame";
 import { SideMenu } from "./components/SideMenu/SideMenu";
 
@@ -8,7 +9,9 @@ export const App = () => {
                 <SideMenu />
                 <MainFrame />
             </div>
-            <div id="controller">Controller</div>
+            <div id="controller">
+                <Controller />
+            </div>
         </div>
     );
 };
