@@ -48,6 +48,11 @@ app.whenReady().then(() => {
         autoHideMenuBar: true,
     });
 
+    if (process.env.NODE_ENV === "development") {
+        mainWindow.setSize(1600, 800);
+        mainWindow.webContents.openDevTools();
+    }
+
     ipcMain.on("request-login", () => {
         const loginWindow = new BrowserWindow({
             width: 800,
