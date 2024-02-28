@@ -1,16 +1,14 @@
 import { MainFrame } from "./components/MainFrame/MainFrame";
-import { SideBar } from "./components/SideBar/SideBar";
+import { SideMenu } from "./components/SideMenu/SideMenu";
 
 export const App = () => {
     return (
         <div id="container">
             <div id="main">
-                <SideBar />
+                <SideMenu />
                 <MainFrame />
             </div>
-            <div id="controller">
-                Controller
-            </div>
+            <div id="controller">Controller</div>
         </div>
     );
 };

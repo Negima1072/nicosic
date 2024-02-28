@@ -1,0 +1,33 @@
+.sideMenu {
+    display: flex;
+    flex-direction: column;
+    width: 220px;
+    height: 100%;
+    border-right: #151515 2px solid;
+}
+
+.menuItem {
+    height: 30px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: bold;
+    user-select: none;
+    color: #a1a1a1;
+    cursor: pointer;
+    text-decoration: none;
+    svg{
+        width: 25px;
+        height: 25px;
+        margin-bottom: 3px;
+    }
+}
+
+.menuItem:hover{
+    color: #f6f6f6;
+}
+
+.menuItem.active{
+    color: #f6f6f6;
+}
