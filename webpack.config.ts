@@ -24,7 +24,7 @@ const common: Configuration = {
       },
       {
         test: /\.css$/,
-        use: ['css-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
         test: /\.(ico|png|svg|eot|woff?2?)$/,
