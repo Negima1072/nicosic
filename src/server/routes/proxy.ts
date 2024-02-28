@@ -15,7 +15,8 @@ router.get("/", (req, res) => {
         reqHeaders.set(key, value as string);
     }
     reqHeaders.set("host", new URL(url).host);
-    reqHeaders.set("referer", url);
+    reqHeaders.set("origin", "https://www.nicovideo.jp");
+    reqHeaders.set("referer", "https://www.nicovideo.jp/");
     reqHeaders.delete("x-forwarded-for");
     reqHeaders.delete("x-forwarded-host");
     reqHeaders.delete("x-forwarded-proto");
@@ -62,7 +63,8 @@ router.post("/", (req, res) => {
         reqHeaders.set(key, value as string);
     }
     reqHeaders.set("host", new URL(url).host);
-    reqHeaders.set("referer", url);
+    reqHeaders.set("origin", "https://www.nicovideo.jp");
+    reqHeaders.set("referer", "https://www.nicovideo.jp/");
     reqHeaders.delete("x-forwarded-for");
     reqHeaders.delete("x-forwarded-host");
     reqHeaders.delete("x-forwarded-proto");
@@ -70,19 +72,19 @@ router.post("/", (req, res) => {
     fetch(url, {
         method: "POST",
         headers: reqHeaders,
-        body: req.body,
+        body: JSON.stringify(req.body),
         agent: ({ protocol }) => (protocol === "https:" ? globalVal.httpsAgent : globalVal.httpAgent),
     })
         .then(async (response) => {
-            // proxy the response
-            res.status(response.status);
-            for (const [key, value] of response.headers) {
-                res.setHeader(key, value);
-            }
             if (response.body) {
+                for (const [key, value] of response.headers) {
+                    if (key === "content-type") {
+                        res.setHeader(key, value);
+                    }
+                }
                 response.body.pipe(res);
             } else {
-                res.end();
+                res.status(response.status).end();
             }
         })
         .catch((error) => {
