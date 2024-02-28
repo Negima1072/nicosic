@@ -1,5 +1,5 @@
-const { contextBridge, ipcRenderer } = require('electron')
+import { contextBridge, ipcRenderer } from "electron";
 
-contextBridge.exposeInMainWorld('electronAPI', {
-  requestLogin: () => ipcRenderer.send('request-login')
+contextBridge.exposeInMainWorld("electronAPI", {
+    requestLogin: () => ipcRenderer.send("request-login"),
 });

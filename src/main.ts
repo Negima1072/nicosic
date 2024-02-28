@@ -1,7 +1,7 @@
 import { BrowserWindow, app, ipcMain } from "electron";
 import Store from "electron-store";
-import globalVal from "./global";
 import path from "node:path";
+import globalVal from "./global";
 import expressApp from "./server";
 
 if (!app.requestSingleInstanceLock()) {
@@ -9,6 +9,7 @@ if (!app.requestSingleInstanceLock()) {
 }
 
 if (process.env.NODE_ENV === "development") {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
     require("electron-reload")(__dirname, {
         electron: path.resolve(
             __dirname,
@@ -36,16 +37,18 @@ if (user_session && globalVal.cookieJar) {
 
 app.whenReady().then(() => {
     const mainWindow = new BrowserWindow({
-        width: 800, height: 600,
+        width: 800,
+        height: 600,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
             devTools: process.env.NODE_ENV === "development",
         },
     });
 
-    ipcMain.on("request-login", (event: Electron.IpcMainEvent) => {
+    ipcMain.on("request-login", () => {
         const loginWindow = new BrowserWindow({
-            width: 800, height: 600,
+            width: 800,
+            height: 600,
             webPreferences: {
                 devTools: process.env.NODE_ENV === "development",
             },
@@ -60,7 +63,8 @@ app.whenReady().then(() => {
                 const cookie = await loginWindow.webContents.session.cookies.get({ name: "user_session" });
                 if (cookie.length !== 0) {
                     store.set("user_session", cookie[0].value);
-                    if (globalVal.cookieJar) globalVal.cookieJar.setCookie(`user_session=${cookie[0].value}`, "https://www.nicovideo.jp");
+                    if (globalVal.cookieJar)
+                        globalVal.cookieJar.setCookie(`user_session=${cookie[0].value}`, "https://www.nicovideo.jp");
                 }
                 loginWindow.close();
             }
@@ -71,7 +75,6 @@ app.whenReady().then(() => {
 });
 
 app.once("window-all-closed", () => {
-    console.log(globalVal.cookieJar?.toJSON())
     expressServer.close();
     app.quit();
 });
