@@ -2,5 +2,45 @@
     display: flex;
     height: 100%;
     flex: 1;
-    overflow-y: auto;
+    flex-direction: column;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        height: 50px;
+        
+        button {
+            color: #a1a1a1;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            border-radius: 50%;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button:disabled {
+            color: #666;
+            cursor: inherit;
+        }
+
+        button:hover {
+            color: #f6f6f6;
+        }
+
+        button:disabled:hover {
+            color: #666;
+        }
+    }
+
+    .content {
+        flex: 1;
+        overflow-y: auto;
+        padding: 5px 15px;
+    }
 }
