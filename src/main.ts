@@ -1,4 +1,4 @@
-import { BrowserWindow, app, ipcMain } from "electron";
+import { BrowserWindow, app, ipcMain, shell } from "electron";
 import Store from "electron-store";
 import path from "node:path";
 import globalVal from "./global";
@@ -78,6 +78,10 @@ app.whenReady().then(() => {
                 loginWindow.close();
             }
         });
+    });
+
+    ipcMain.on("open-external", (event, url) => {
+        shell.openExternal(url);
     });
 
     mainWindow.loadURL("http://127.0.0.1:4080");

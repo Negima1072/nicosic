@@ -6,6 +6,7 @@ declare global {
 
 interface ElectronAPI {
     requestLogin: () => void;
+    openExternal: (url: string) => void;
 }
 
 export {};
