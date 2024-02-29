@@ -5,10 +5,12 @@ import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { isLoginAtom, loginUserDataAtom } from "../../atoms";
 import { getOwnUserData } from "../../nico/user";
+import { Item, Menu, useContextMenu } from "react-contexify";
 
 export const SideMenu = () => {
     const [isLogin, setIsLogin] = useAtom(isLoginAtom);
     const [loginUserData, setLoginUserData] = useAtom(loginUserDataAtom);
+    const { show: showUserContext } = useContextMenu({id: "user-context"});
     useEffect(() => {
         window.electronAPI.checkLogin();
         window.electronAPI.onLoginSuccess(async () => {
@@ -30,6 +32,9 @@ export const SideMenu = () => {
             window.electronAPI.onLogoutSuccess(() => {});
         }
     }, []);
+    const displayUserContext = (e: React.MouseEvent) => {
+        showUserContext({event: e});
+    };
     return (
         <div className={styled.sideMenu}>
             <NavLink to="/" className={({ isActive }) => `${styled.menuItem} ${isActive ? styled.active : ""}`}>
@@ -49,9 +54,14 @@ export const SideMenu = () => {
                 <span>マイリスト</span>
             </NavLink>
             {isLogin && loginUserData ? (
-                <div className={`${styled.menuItem} ${styled.userMenu}`}>
+                <div className={`${styled.menuItem} ${styled.userMenu}`} onContextMenu={displayUserContext}>
                     <img src={loginUserData.icons.small} alt="icon" className={styled.icon} />
                     <span>{loginUserData.nickname}</span>
+                    <Menu id="user-context" theme="dark" animation={false}>
+                        <Item onClick={() => window.electronAPI.requestLogout()}>
+                            ログアウト
+                        </Item>
+                    </Menu>
                 </div>
             ) : (
                 <div className={`${styled.menuItem} ${styled.userMenu}`} onClick={() => window.electronAPI.requestLogin()}>
