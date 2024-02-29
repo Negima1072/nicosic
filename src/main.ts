@@ -32,7 +32,7 @@ const store = new Store<AppConfig>();
 
 const user_session = store.get("user_session");
 if (user_session && globalVal.cookieJar) {
-    globalVal.cookieJar.setCookie(`user_session=${user_session}`, "https://www.nicovideo.jp");
+    globalVal.cookieJar.setCookie(`user_session=${user_session};Domain=.nicovideo.jp;Path=/`, "https://www.nicovideo.jp");
 }
 
 app.whenReady().then(() => {
@@ -53,7 +53,7 @@ app.whenReady().then(() => {
         mainWindow.webContents.openDevTools();
     }
 
-    ipcMain.on("request-login", () => {
+    ipcMain.on("request-login", (event: Electron.IpcMainInvokeEvent) => {
         const loginWindow = new BrowserWindow({
             width: 800,
             height: 600,
@@ -61,27 +61,55 @@ app.whenReady().then(() => {
                 devTools: process.env.NODE_ENV === "development",
             },
             autoHideMenuBar: true,
+            parent: mainWindow,
         });
+
+        mainWindow.setEnabled(false);
 
         loginWindow.loadURL("https://account.nicovideo.jp/login?site=niconico").then(() => {
             loginWindow.focus();
         });
 
-        loginWindow.webContents.on("did-navigate", async (event, url) => {
+        loginWindow.webContents.on("did-navigate", async (_event, url) => {
             if (url.startsWith("https://www.nicovideo.jp")) {
                 const cookie = await loginWindow.webContents.session.cookies.get({ name: "user_session" });
                 if (cookie.length !== 0) {
-                    store.set("user_session", cookie[0].value);
-                    if (globalVal.cookieJar)
-                        globalVal.cookieJar.setCookie(`user_session=${cookie[0].value}`, "https://www.nicovideo.jp");
+                    if (globalVal.cookieJar) {
+                        store.set("user_session", cookie[0].value);
+                        globalVal.cookieJar.setCookie(`user_session=${cookie[0].value};Domain=.nicovideo.jp;Path=/`, "https://www.nicovideo.jp");
+                        event.sender.send("login-success");
+                    }
                 }
                 loginWindow.close();
             }
         });
+
+        loginWindow.on("closed", () => {
+            mainWindow.setEnabled(true);
+            mainWindow.focus();
+        });
+    });
+
+    ipcMain.on("request-logout", (event: Electron.IpcMainInvokeEvent) => {
+        if (globalVal.cookieJar) {
+            store.delete("user_session");
+            globalVal.cookieJar.setCookie("user_session=;Domain=.nicovideo.jp;Path=/", "https://www.nicovideo.jp");
+        }
+
+        event.sender.send("logout-success");
     });
 
     ipcMain.on("open-external", (event, url) => {
         shell.openExternal(url);
+    });
+
+    ipcMain.on("check-login", (event: Electron.IpcMainInvokeEvent) => {
+        if (globalVal.cookieJar) {
+            const cookie = globalVal.cookieJar.getCookieStringSync("https://www.nicovideo.jp");
+            if (cookie.includes("user_session")) {
+                event.sender.send("login-success");
+            }
+        }
     });
 
     mainWindow.loadURL("http://127.0.0.1:4080");

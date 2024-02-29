@@ -1,8 +1,30 @@
-import { RiBarChartHorizontalFill, RiHome2Fill, RiSearchLine, RiVipCrownFill } from "react-icons/ri";
+import { RiBarChartHorizontalFill, RiHome2Fill, RiSearchLine, RiUser3Fill, RiVipCrownFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
 import styled from "./SideMenu.module.scss";
+import { useEffect } from "react";
+import { useAtom } from "jotai";
+import { isLoginAtom, loginUserDataAtom } from "../../atoms";
+import { getOwnUserData } from "../../nico/user";
 
 export const SideMenu = () => {
+    const [isLogin, setIsLogin] = useAtom(isLoginAtom);
+    const [loginUserData, setLoginUserData] = useAtom(loginUserDataAtom);
+    useEffect(() => {
+        window.electronAPI.checkLogin();
+        window.electronAPI.onLoginSuccess(async () => {
+            const user = await getOwnUserData();
+            setIsLogin(true);
+            setLoginUserData(user);
+        });
+        window.electronAPI.onLogoutSuccess(() => {
+            setIsLogin(false);
+            setLoginUserData(null);
+        });
+        return () => {
+            window.electronAPI.onLoginSuccess(() => {});
+            window.electronAPI.onLogoutSuccess(() => {});
+        }
+    }, []);
     return (
         <div className={styled.sideMenu}>
             <NavLink to="/" className={({ isActive }) => `${styled.menuItem} ${isActive ? styled.active : ""}`}>
@@ -21,6 +43,17 @@ export const SideMenu = () => {
                 <RiBarChartHorizontalFill />
                 <span>マイリスト</span>
             </NavLink>
+            {isLogin && loginUserData ? (
+                <div className={`${styled.menuItem} ${styled.userMenu}`}>
+                    <img src={loginUserData.icons.small} alt="icon" className={styled.icon} />
+                    <span>{loginUserData.nickname}</span>
+                </div>
+            ) : (
+                <div className={`${styled.menuItem} ${styled.userMenu}`} onClick={() => window.electronAPI.requestLogin()}>
+                    <RiUser3Fill />
+                    <span>ログイン</span>
+                </div>
+            )}
         </div>
     );
 };

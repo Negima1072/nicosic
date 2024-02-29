@@ -23,7 +23,7 @@ export async function getAccessRight(
     actionTrackId: string,
 ): Promise<AccessRight> {
     const url = `https://nvapi.nicovideo.jp/v1/watch/${videoId}/access-rights/hls?actionTrackId=${actionTrackId}`;
-    const res = await post<WatchAPIResponse<AccessRight>>(url, {
+    const res = await post<NvAPIResponse<AccessRight>>(url, {
         outputs: outputs,
     }, {
         "X-Access-Right-Key": accessRightKey,

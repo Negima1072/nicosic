@@ -44,6 +44,7 @@ export const Controller = () => {
                 hls.destroy();
             }
         }
+        return () => {}
     }, [isSupportedBrowser, sourceUrl]);
     const onLoadedmetadata = () => {
         if (audioRef.current) {

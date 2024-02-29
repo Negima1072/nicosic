@@ -26,8 +26,19 @@
 
 .menuItem:hover{
     color: #f6f6f6;
+    background-color: #151515;
 }
 
 .menuItem.active{
     color: #f6f6f6;
+}
+
+.userMenu {
+    margin-top: auto;
+
+    img.icon {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+    }
 }
