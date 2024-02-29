@@ -1,16 +1,16 @@
+import { useAtom } from "jotai";
+import { useEffect } from "react";
+import { Item, Menu, useContextMenu } from "react-contexify";
 import { RiBarChartHorizontalFill, RiHome2Fill, RiSearchLine, RiUser3Fill, RiVipCrownFill } from "react-icons/ri";
 import { NavLink } from "react-router-dom";
-import styled from "./SideMenu.module.scss";
-import { useEffect } from "react";
-import { useAtom } from "jotai";
 import { isLoginAtom, loginUserDataAtom } from "../../atoms";
 import { getOwnUserData } from "../../nico/user";
-import { Item, Menu, useContextMenu } from "react-contexify";
+import styled from "./SideMenu.module.scss";
 
 export const SideMenu = () => {
     const [isLogin, setIsLogin] = useAtom(isLoginAtom);
     const [loginUserData, setLoginUserData] = useAtom(loginUserDataAtom);
-    const { show: showUserContext } = useContextMenu({id: "user-context"});
+    const { show: showUserContext } = useContextMenu({ id: "user-context" });
     useEffect(() => {
         window.electronAPI.checkLogin();
         window.electronAPI.onLoginSuccess(async () => {
@@ -30,10 +30,10 @@ export const SideMenu = () => {
         return () => {
             window.electronAPI.onLoginSuccess(() => {});
             window.electronAPI.onLogoutSuccess(() => {});
-        }
+        };
     }, []);
     const displayUserContext = (e: React.MouseEvent) => {
-        showUserContext({event: e});
+        showUserContext({ event: e });
     };
     return (
         <div className={styled.sideMenu}>
@@ -53,7 +53,11 @@ export const SideMenu = () => {
                 <RiBarChartHorizontalFill />
                 <span>マイリスト</span>
             </NavLink>
-            <div className={`${styled.menuItem} ${styled.userMenu}`} onClick={() => window.electronAPI.requestLogin()} onContextMenu={displayUserContext}>
+            <div
+                className={`${styled.menuItem} ${styled.userMenu}`}
+                onClick={() => window.electronAPI.requestLogin()}
+                onContextMenu={displayUserContext}
+            >
                 {isLogin && loginUserData ? (
                     <>
                         <img src={loginUserData.icons.small} alt="icon" className={styled.icon} />
@@ -72,9 +76,7 @@ export const SideMenu = () => {
                         </NavLink>
                     </Item>
                     {isLogin && loginUserData && (
-                        <Item onClick={() => window.electronAPI.requestLogout()}>
-                            ログアウト
-                        </Item>
+                        <Item onClick={() => window.electronAPI.requestLogout()}>ログアウト</Item>
                     )}
                 </Menu>
             </div>

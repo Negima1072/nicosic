@@ -32,7 +32,10 @@ const store = new Store<AppConfig>();
 
 const user_session = store.get("user_session");
 if (user_session && globalVal.cookieJar) {
-    globalVal.cookieJar.setCookie(`user_session=${user_session};Domain=.nicovideo.jp;Path=/`, "https://www.nicovideo.jp");
+    globalVal.cookieJar.setCookie(
+        `user_session=${user_session};Domain=.nicovideo.jp;Path=/`,
+        "https://www.nicovideo.jp",
+    );
 }
 
 app.whenReady().then(() => {
@@ -76,7 +79,10 @@ app.whenReady().then(() => {
                 if (cookie.length !== 0) {
                     if (globalVal.cookieJar) {
                         store.set("user_session", cookie[0].value);
-                        globalVal.cookieJar.setCookie(`user_session=${cookie[0].value};Domain=.nicovideo.jp;Path=/`, "https://www.nicovideo.jp");
+                        globalVal.cookieJar.setCookie(
+                            `user_session=${cookie[0].value};Domain=.nicovideo.jp;Path=/`,
+                            "https://www.nicovideo.jp",
+                        );
                         event.sender.send("login-success");
                     }
                 }

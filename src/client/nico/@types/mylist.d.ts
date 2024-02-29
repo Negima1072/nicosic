@@ -2,7 +2,17 @@ interface MylistData {
     mylists: MylistData[];
 }
 
-type SortKey = "addedAt" | "title" | "mylistComment" | "registeredAt" | "viewCount" | "lastCommentTime" | "commentCount" | "likeCount" | "mylistCount" | "duration";
+type SortKey =
+    | "addedAt"
+    | "title"
+    | "mylistComment"
+    | "registeredAt"
+    | "viewCount"
+    | "lastCommentTime"
+    | "commentCount"
+    | "likeCount"
+    | "mylistCount"
+    | "duration";
 type SortOrder = "asc" | "desc";
 
 interface MylistData {

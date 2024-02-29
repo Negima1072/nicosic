@@ -1,6 +1,6 @@
 interface IPlayingData {
     id?: string;
-    watch?: WatchData
+    watch?: WatchData;
 }
 
 interface IPlaylistData {
@@ -8,4 +8,4 @@ interface IPlaylistData {
     id: string;
 }
 
-type RepeatMode = 'none' | 'one' | 'all';
+type RepeatMode = "none" | "one" | "all";

@@ -62,7 +62,7 @@ interface OwnUserData {
 interface UserRelationships {
     sessionUser: {
         isFollowing: boolean;
-    }
+    };
     isMe: boolean;
 }
 

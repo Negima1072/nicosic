@@ -1,9 +1,9 @@
 import { useAtomValue } from "jotai";
-import { isLoginAtom } from "../../../atoms";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { isLoginAtom } from "../../../atoms";
 import { getOwnMylists } from "../../../nico/mylist";
 import styled from "./MylistPage.module.scss";
-import { NavLink } from "react-router-dom";
 
 export const MylistPage = () => {
     const isLogin = useAtomValue(isLoginAtom);
@@ -15,11 +15,11 @@ export const MylistPage = () => {
             setOwnMylists(mylists);
         }
         fetchMylists();
-        return () => {}
-    }, [isLogin])
+        return () => {};
+    }, [isLogin]);
     return (
         <div className={styled.mylistPage}>
-            {ownMylists.map(mylist => (
+            {ownMylists.map((mylist) => (
                 <NavLink key={mylist.id} className={styled.mylistCard} to={`/mylist/${mylist.id}`}>
                     <div className={styled.mylistImage}>
                         {mylist.sampleItems.length > 0 && (
@@ -31,7 +31,9 @@ export const MylistPage = () => {
                         <span className={styled.mylistTitle}>{mylist.name}</span>
                         <div className={styled.mylistDescription}>
                             <span className={styled.mylistOwner}>{mylist.owner.name}</span>
-                            <span className={styled.mylistDetail}>{mylist.sampleItems.map((item) => item.video.title).join("/")}</span>
+                            <span className={styled.mylistDetail}>
+                                {mylist.sampleItems.map((item) => item.video.title).join("/")}
+                            </span>
                         </div>
                     </div>
                 </NavLink>
