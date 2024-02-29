@@ -4,8 +4,8 @@ interface IPlayingData {
 }
 
 interface IPlaylistData {
-    originalIndex: number;
-    id: string;
+    index: number;
+    id?: string;
 }
 
 type RepeatMode = "none" | "one" | "all";

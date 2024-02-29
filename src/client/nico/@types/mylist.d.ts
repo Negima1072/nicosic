@@ -1,5 +1,9 @@
+interface MylistsData {
+    mylists: MylistInfoData[];
+}
+
 interface MylistData {
-    mylists: MylistData[];
+    mylist: MylistDetailData;
 }
 
 type SortKey =
@@ -15,7 +19,7 @@ type SortKey =
     | "duration";
 type SortOrder = "asc" | "desc";
 
-interface MylistData {
+interface MylistInfoData {
     createdAt: string;
     decoratedDescriptionHtml: string;
     defaultSortKey: SortKey;
@@ -37,6 +41,22 @@ interface MylistItem {
     description: string;
     itemId: string;
     status: string;
-    video: EssentialVideo;
+    video?: EssentialVideo;
     watchId: string;
+}
+
+interface MylistDetailData {
+    decoratedDescriptionHtml: string;
+    defaultSortKey: SortKey;
+    defaultSortOrder: SortOrder;
+    description: string;
+    followerCount?: number;
+    id: number;
+    isFollowing: boolean;
+    isPublic: boolean;
+    name: string;
+    owner: User;
+    totalItemCount: number;
+    hasNext: boolean;
+    items: MylistItem[];
 }

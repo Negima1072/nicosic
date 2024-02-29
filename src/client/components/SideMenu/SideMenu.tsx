@@ -35,6 +35,11 @@ export const SideMenu = () => {
     const displayUserContext = (e: React.MouseEvent) => {
         showUserContext({ event: e });
     };
+    const userClickHandler = () => {
+        if (!isLogin) {
+            window.electronAPI.requestLogin();
+        }
+    }
     return (
         <div className={styled.sideMenu}>
             <NavLink to="/" className={({ isActive }) => `${styled.menuItem} ${isActive ? styled.active : ""}`}>
@@ -55,7 +60,7 @@ export const SideMenu = () => {
             </NavLink>
             <div
                 className={`${styled.menuItem} ${styled.userMenu}`}
-                onClick={() => window.electronAPI.requestLogin()}
+                onClick={userClickHandler}
                 onContextMenu={displayUserContext}
             >
                 {isLogin && loginUserData ? (

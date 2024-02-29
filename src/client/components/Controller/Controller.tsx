@@ -5,12 +5,13 @@ import {
     MdPauseCircleFilled,
     MdPlayCircleFilled,
     MdRepeat,
+    MdRepeatOne,
     MdShuffle,
     MdSkipNext,
     MdSkipPrevious,
 } from "react-icons/md";
 import { RiHeartFill, RiHeartLine, RiInformationLine, RiMovieFill, RiShareBoxLine } from "react-icons/ri";
-import { isLoginAtom, isPlayingAtom, playingDataAtom, volumeAtom } from "../../atoms";
+import { isLoginAtom, isPlayingAtom, isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom, repeatModeAtom, volumeAtom } from "../../atoms";
 import { getAccessRight, getWatchData, getWatchDataGuest, makeActionTrackId } from "../../nico/video";
 import styled from "./Controller.module.scss";
 
@@ -18,18 +19,28 @@ export const Controller = () => {
     const isSupportedBrowser = useMemo(() => Hls.isSupported(), []);
     const audioRef = useRef<HTMLAudioElement>(null);
     const [sourceUrl, setSourceUrl] = useState<string | null>(null);
-    const [truePeak, setTruePeak] = useState(0);
+    //const [truePeak, setTruePeak] = useState(0);
 
     const isLogin = useAtomValue(isLoginAtom);
     const [playingData, setPlayingData] = useAtom(playingDataAtom);
     const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
     const [volume, setVolume] = useAtom(volumeAtom);
 
+    const [isShuffle, setIsShuffle] = useAtom(isShuffleAtom);
+    const [repeatMode, setRepeatMode] = useAtom(repeatModeAtom);
+
+    const [playingList, setPlayingList] = useAtom(playingListAtom);
+    const [playlistData, setPlaylistData] = useAtom(playlistDataAtom);
+    const [playlistIndex, setPlaylistIndex] = useAtom(playlistIndexAtom);
+
     const [audioDuration, setAudioDuration] = useState(0);
     const [audioCurrentTime, setAudioCurrentTime] = useState(0);
     useEffect(() => {
         const getVideo = async () => {
-            if (!playingData.id) return;
+            if (!playingData.id) {
+                setPlayingData({});
+                return;
+            }
             const actionTrackId = await makeActionTrackId();
             const data = isLogin
                 ? await getWatchData(playingData.id, actionTrackId)
@@ -47,7 +58,7 @@ export const Controller = () => {
                         actionTrackId,
                     );
                     setPlayingData((prev) => ({ ...prev, watch: data }));
-                    setTruePeak(output.truePeak);
+                    //setTruePeak(output.truePeak);
                     setSourceUrl("/proxy?url=" + encodeURIComponent(right.contentUrl));
                 }
             }
@@ -72,9 +83,10 @@ export const Controller = () => {
     }, [isSupportedBrowser, sourceUrl]);
     useEffect(() => {
         if (audioRef.current) {
-            audioRef.current.volume = volume * (1.0 - truePeak / 10);
+            audioRef.current.volume = Math.max(Math.min(volume, 1), 0);
+            //audioRef.current.volume = Math.max(Math.min(volume - (truePeak / 10), 1), 0)
         }
-    }, [volume, truePeak]);
+    }, [volume]);
     useEffect(() => {
         if (audioRef.current) {
             if (isPlaying) {
@@ -96,9 +108,42 @@ export const Controller = () => {
     };
     const onEnded = () => {
         if (audioRef.current) {
-            audioRef.current.currentTime = 0;
-            audioRef.current.pause();
-            setIsPlaying(false);
+            if (playingList === null) {
+                if (repeatMode !== "none") {
+                    audioRef.current.currentTime = 0;
+                    setIsPlaying(true);
+                }
+            } else {
+                if (repeatMode === "one") {
+                    audioRef.current.currentTime = 0;
+                    setIsPlaying(true);
+                } else {
+                    let newIndex = playlistIndex;
+                    while (true) {
+                        newIndex++;
+                        if (newIndex < playingList.length) {
+                            if (playingList[newIndex].id){
+                                break;
+                            }
+                        } else {
+                            if (repeatMode === "all") {
+                                newIndex = 0;
+                            } else if (repeatMode === "none") {
+                                newIndex = -1;
+                            }
+                            break;
+                        }
+                    }
+                    if (newIndex === -1) {
+                        setPlayingData({});
+                        setPlayingList(null);
+                        setIsPlaying(false);
+                    } else {
+                        setPlaylistIndex(newIndex);
+                        setPlayingData((prev) => ({ ...prev, id: playingList[newIndex].id }));
+                    }
+                }
+            }
         }
     };
     const secondsToTime = (seconds: number) => {
@@ -122,6 +167,103 @@ export const Controller = () => {
             setIsPlaying(!isPlaying);
         }
     };
+    const skipPrevious = () => {
+        if (audioRef.current) {
+            if (audioCurrentTime > 5) {
+                audioRef.current.currentTime = 0;
+            } else {
+                if (repeatMode === "one" || playingList === null) {
+                    audioRef.current.currentTime = 0;
+                    setIsPlaying(false);
+                } else {
+                    let newIndex = playlistIndex;
+                    while (true) {
+                        newIndex--;
+                        if (newIndex >= 0) {
+                            if (playingList[newIndex].id){
+                                break;
+                            }
+                        } else {
+                            if (repeatMode === "all") {
+                                newIndex = playingList.length - 1;
+                            } else if (repeatMode === "none") {
+                                newIndex = -1;
+                            }
+                            break;
+                        }
+                    }
+                    if (newIndex === -1) {
+                        setPlayingData({});
+                        setPlayingList(null);
+                        setIsPlaying(false);
+                    } else {
+                        setPlaylistIndex(newIndex);
+                        setPlayingData((prev) => ({ ...prev, id: playingList[newIndex].id }));
+                    }
+                }
+            }
+        }
+    }
+    const skipNext = () => {
+        if (audioRef.current) {
+            if (repeatMode === "one" || playingList === null) {
+                audioRef.current.currentTime = 0;
+                setIsPlaying(true);
+            } else {
+                let newIndex = playlistIndex;
+                while (true) {
+                    newIndex++;
+                    if (newIndex < playingList.length) {
+                        if (playingList[newIndex].id){
+                            break;
+                        }
+                    } else {
+                        if (repeatMode === "all") {
+                            newIndex = 0;
+                        } else if (repeatMode === "none") {
+                            newIndex = -1;
+                        }
+                        break;
+                    }
+                }
+                if (newIndex === -1) {
+                    setPlayingData({});
+                    setPlayingList(null);
+                    setIsPlaying(false);
+                } else {
+                    setPlaylistIndex(newIndex);
+                    setPlayingData((prev) => ({ ...prev, id: playingList[newIndex].id }));
+                }
+            }
+        }
+    }
+    const onLoadedData = () => {
+        if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+            setIsPlaying(true);
+        }
+    }
+    const toggleShuffle = () => {
+        setIsShuffle(!isShuffle);
+        if (playingList && playingList.length > 0) {
+            let list = playlistData.map((item, index) => ({index, id: item?.id}));
+            if (isShuffle) {
+                list = list.sort(() => Math.random() - 0.5);
+                console.log(list);
+            }
+            setPlayingList(list);
+            setPlaylistIndex(list.findIndex((item) => item.id === playingData.id));
+        }
+    }
+    const toggleRepeatMode = () => {
+        if (repeatMode === "none") {
+            setRepeatMode("all");
+        } else if (repeatMode === "all") {
+            setRepeatMode("one");
+        } else if (repeatMode === "one") {
+            setRepeatMode("none");
+        }
+    }
     const movieBtnHandler = () => {
         if (playingData.watch) {
             window.electronAPI.openExternal(`https://www.nicovideo.jp/watch/${playingData.watch.video.id}`);
@@ -134,8 +276,11 @@ export const Controller = () => {
                 controls
                 className={styled.player}
                 onTimeUpdate={onTimeupdate}
+                onLoadedData={onLoadedData}
                 onLoadedMetadata={onLoadedmetadata}
                 onEnded={onEnded}
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
             ></audio>
             <div className={styled.songMeta}>
                 {playingData.watch && (
@@ -156,20 +301,24 @@ export const Controller = () => {
             </div>
             <div className={styled.songControls}>
                 <div className={styled.songCtrlButtons}>
-                    <button>
+                    <button onClick={toggleShuffle} className={isShuffle ? styled.active : ""}>
                         <MdShuffle />
                     </button>
-                    <button>
+                    <button onClick={skipPrevious}>
                         <MdSkipPrevious />
                     </button>
                     <button className={styled.playButton} onClick={togglePlay}>
                         {isPlaying ? <MdPauseCircleFilled /> : <MdPlayCircleFilled />}
                     </button>
-                    <button>
+                    <button onClick={skipNext}>
                         <MdSkipNext />
                     </button>
-                    <button>
-                        <MdRepeat />
+                    <button onClick={toggleRepeatMode} className={repeatMode !== "none" ? styled.active : ""}>
+                        {repeatMode === "one" ? (
+                            <MdRepeatOne />
+                        ) : (
+                            <MdRepeat />
+                        )}
                     </button>
                 </div>
                 <div className={styled.songCtrlRange}>
@@ -185,14 +334,24 @@ export const Controller = () => {
                 </div>
             </div>
             <div className={styled.songExtButtons}>
-                <button disabled={!playingData.watch}>{false ? <RiHeartFill /> : <RiHeartLine />}</button>
-                <button disabled={!playingData.watch}>
+                {playingData.watch && isLogin && playingData.watch.video.viewer ? (
+                    <>
+                        {playingData.watch.video.viewer.like ? (
+                            <button className={styled.heart}><RiHeartFill /></button>
+                        ) : (
+                            <button><RiHeartLine /></button>
+                        )}
+                    </>
+                ) : (
+                    <button disabled><RiHeartLine /></button>
+                )}
+                <button disabled={!playingData.watch} title="曲の情報">
                     <RiInformationLine />
                 </button>
-                <button disabled={!playingData.watch} onClick={movieBtnHandler}>
+                <button disabled={!playingData.watch} onClick={movieBtnHandler} title="動画ページ">
                     <RiMovieFill />
                 </button>
-                <button disabled={!playingData.watch}>
+                <button disabled={!playingData.watch} title="共有">
                     <RiShareBoxLine />
                 </button>
             </div>

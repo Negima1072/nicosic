@@ -1,0 +1,106 @@
+.mylistDetailPage {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .mylistDetail {
+        display: flex;
+        flex-direction: column;
+
+        .mylistTitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .mylistOwner {
+            font-size: 1.5rem;
+            display: flex;
+            flex-direction: row;
+            height: 20px;
+            align-items: center;
+            gap: 2px;
+            color: #c5c5c5;
+
+            img {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+            }
+            span {
+                font-size: 0.8rem;
+            }
+        }
+        .mylistMeta {
+            display: flex;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #c5c5c5;
+        }
+    }
+    .mylistItems {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .mylistItem {
+            height: 80px;
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+            color: #f6f6f6;
+            text-decoration: none;
+            cursor: pointer;
+
+            .videoImage {
+                height: 100%;
+                aspect-ratio: 1 / 1;
+                background-color: #353535;
+                position: relative;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+            .mylistItemInfo {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 2px;
+
+                .mylistItemTitle {
+                    font-size: 1rem;
+                    font-weight: 600;
+                }
+
+                .mylistItemDetail {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2px;
+
+                    .mylistItemMeta1 {
+                        display: flex;
+                        gap: 2px;
+                        font-size: 0.7rem;
+                    }
+                    .mylistItemMeta2 {
+                        display: flex;
+                        font-size: 0.6rem;
+                        gap: 7px;
+
+                        .mylistItemMetaItem {
+                            display: flex;
+                            gap: 2px;
+                            align-items: center;
+                        }
+                    }
+                }
+            }
+        }
+
+        .mylistItem:hover {
+            background-color: #151515;
+        }
+    }
+}
