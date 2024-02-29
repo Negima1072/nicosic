@@ -10,8 +10,8 @@
         "dev:electron": "wait-on ./dist/index.html ./dist/main.js && cross-env NODE_ENV=\"development\" electron .",
         "build": "rimraf dist && cross-env NODE_ENV=\"production\" webpack --progress",
         "start": "cross-env NODE_ENV=\"production\" electron .",
-        "package:win": "electron-builder --win --x64",
-        "package:mac": "electron-builder --mac --x64",
+        "package:win": "npm run build && electron-builder --win --x64",
+        "package:mac": "npm run build && electron-builder --mac --x64",
         "lint": "eslint ./src/**/*.{ts,tsx}",
         "lint:fix": "eslint ./src/**/*.{ts,tsx} --fix",
         "format": "prettier --write \"src/**/*.{ts,tsx}\""
