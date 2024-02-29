@@ -7,6 +7,7 @@ export async function get<T>(url: string, headers: HeadersInit = {}): Promise<T>
             "X-Request-With": "https://www.nicovideo.jp/",
             ...headers,
         },
+        cache: "force-cache",
     });
     const data = (await response.json()) as T;
     return data;

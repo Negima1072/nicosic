@@ -47,6 +47,7 @@ app.whenReady().then(() => {
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
             devTools: process.env.NODE_ENV === "development",
+            nodeIntegration: true,
         },
         autoHideMenuBar: true,
     });
@@ -120,6 +121,10 @@ app.whenReady().then(() => {
 
     mainWindow.loadURL("http://127.0.0.1:4080");
 });
+
+app.on("quit", () => {
+    expressServer.close();
+})
 
 app.once("window-all-closed", () => {
     expressServer.close();
