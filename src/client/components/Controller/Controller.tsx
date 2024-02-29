@@ -86,7 +86,12 @@ export const Controller = () => {
         if (audioRef.current) {
             audioRef.current.volume = Math.max(Math.min(volume * loudness, 1), 0);
         }
-    }, [volume]);
+    }, [volume, loudness]);
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.muted = isMute;
+        }
+    }, [isMute]);
     useEffect(() => {
         if (audioRef.current) {
             if (isPlaying) {
