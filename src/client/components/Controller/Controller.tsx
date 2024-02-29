@@ -141,7 +141,6 @@ export const Controller = () => {
                     } else {
                         setPlaylistIndex(newIndex);
                         setPlayingData((prev) => ({ ...prev, id: playingList[newIndex].id }));
-                        setIsPlaying(false);
                     }
                 }
             }
@@ -200,7 +199,6 @@ export const Controller = () => {
                     } else {
                         setPlaylistIndex(newIndex);
                         setPlayingData((prev) => ({ ...prev, id: playingList[newIndex].id }));
-                        setIsPlaying(false);
                     }
                 }
             }
@@ -235,7 +233,6 @@ export const Controller = () => {
                 } else {
                     setPlaylistIndex(newIndex);
                     setPlayingData((prev) => ({ ...prev, id: playingList[newIndex].id }));
-                    setIsPlaying(false);
                 }
             }
         }
@@ -281,6 +278,7 @@ export const Controller = () => {
         <div className={styled.controller}>
             <audio
                 ref={audioRef}
+                autoPlay
                 controls
                 className={styled.player}
                 onTimeUpdate={onTimeupdate}
