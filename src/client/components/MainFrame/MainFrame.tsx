@@ -6,6 +6,7 @@ import { RankingPage } from "../pages/RankingPage/RankingPage";
 import { SearchPage } from "../pages/SearchPage/SearchPage";
 import { UserPage } from "../pages/UserPage/UserPage";
 import styled from "./MainFrame.module.scss";
+import { ConfigPage } from "../pages/ConfigPage/ConfigPage";
 
 export const MainFrame = () => {
     return (
@@ -17,6 +18,7 @@ export const MainFrame = () => {
                 <Route path="/mylist" element={<MylistPage />} />
                 <Route path="/mylist/:mylistId" element={<MylistDetailPage />} />
                 <Route path="/user/:userId" element={<UserPage />} />
+                <Route path="/config" element={<ConfigPage />} />
             </Routes>
         </div>
     );

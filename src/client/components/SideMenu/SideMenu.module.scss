@@ -35,10 +35,21 @@
 
 .userMenu {
     margin-top: auto;
+    height: 40px;
+    padding: 5px 15px;
+    gap: 5px;
 
     img.icon {
-        width: 25px;
-        height: 25px;
+        width: 34px;
+        height: 34px;
         border-radius: 50%;
+        margin: 3px;
     }
+}
+
+.navLink {
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    color: inherit;
 }

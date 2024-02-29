@@ -53,22 +53,31 @@ export const SideMenu = () => {
                 <RiBarChartHorizontalFill />
                 <span>マイリスト</span>
             </NavLink>
-            {isLogin && loginUserData ? (
-                <div className={`${styled.menuItem} ${styled.userMenu}`} onContextMenu={displayUserContext}>
-                    <img src={loginUserData.icons.small} alt="icon" className={styled.icon} />
-                    <span>{loginUserData.nickname}</span>
-                    <Menu id="user-context" theme="dark" animation={false}>
+            <div className={`${styled.menuItem} ${styled.userMenu}`} onClick={() => window.electronAPI.requestLogin()} onContextMenu={displayUserContext}>
+                {isLogin && loginUserData ? (
+                    <>
+                        <img src={loginUserData.icons.small} alt="icon" className={styled.icon} />
+                        <span>{loginUserData.nickname}</span>
+                    </>
+                ) : (
+                    <>
+                        <RiUser3Fill />
+                        <span>ログイン</span>
+                    </>
+                )}
+                <Menu id="user-context" theme="dark" animation={false}>
+                    <Item>
+                        <NavLink to="/config" className={styled.navLink}>
+                            設定
+                        </NavLink>
+                    </Item>
+                    {isLogin && loginUserData && (
                         <Item onClick={() => window.electronAPI.requestLogout()}>
                             ログアウト
                         </Item>
-                    </Menu>
-                </div>
-            ) : (
-                <div className={`${styled.menuItem} ${styled.userMenu}`} onClick={() => window.electronAPI.requestLogin()}>
-                    <RiUser3Fill />
-                    <span>ログイン</span>
-                </div>
-            )}
+                    )}
+                </Menu>
+            </div>
         </div>
     );
 };
