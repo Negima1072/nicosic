@@ -10,8 +10,8 @@ import {
     MdSkipNext,
     MdSkipPrevious,
 } from "react-icons/md";
-import { RiHeartFill, RiHeartLine, RiInformationLine, RiMovieFill, RiShareBoxLine } from "react-icons/ri";
-import { isLoginAtom, isPlayingAtom, isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom, repeatModeAtom, volumeAtom } from "../../atoms";
+import { RiHeartFill, RiHeartLine, RiInformationLine, RiMovieFill, RiShareBoxLine, RiVolumeDownFill, RiVolumeMuteFill, RiVolumeUpFill } from "react-icons/ri";
+import { isLoginAtom, isMuteAtom, isPlayingAtom, isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom, repeatModeAtom, volumeAtom } from "../../atoms";
 import { getAccessRight, getWatchData, getWatchDataGuest, makeActionTrackId } from "../../nico/video";
 import styled from "./Controller.module.scss";
 
@@ -24,6 +24,7 @@ export const Controller = () => {
     const isLogin = useAtomValue(isLoginAtom);
     const [playingData, setPlayingData] = useAtom(playingDataAtom);
     const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
+    const [isMute, setIsMute] = useAtom(isMuteAtom);
     const [volume, setVolume] = useAtom(volumeAtom);
 
     const [isShuffle, setIsShuffle] = useAtom(isShuffleAtom);
@@ -264,6 +265,9 @@ export const Controller = () => {
             setRepeatMode("none");
         }
     }
+    const toggleMute = () => {
+        setIsMute(!isMute);
+    }
     const movieBtnHandler = () => {
         if (playingData.watch) {
             window.electronAPI.openExternal(`https://www.nicovideo.jp/watch/${playingData.watch.video.id}`);
@@ -274,6 +278,12 @@ export const Controller = () => {
             window.electronAPI.openExternal("https://twitter.com/intent/tweet?text=" + encodeURIComponent(`${playingData.watch.video.title}\nhttps://www.nicovideo.jp/watch/${playingData.watch.video.id} #${playingData.watch.video.id} #nowplaying`));
         }
     }
+    const changeVolumeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (isMute) {
+            setIsMute(false);
+        }
+        setVolume(Number(e.target.value));
+    }
     return (
         <div className={styled.controller}>
             <audio
@@ -281,6 +291,7 @@ export const Controller = () => {
                 autoPlay
                 controls
                 className={styled.player}
+                muted={isMute}
                 onTimeUpdate={onTimeupdate}
                 onLoadedData={onLoadedData}
                 onLoadedMetadata={onLoadedmetadata}
@@ -347,27 +358,41 @@ export const Controller = () => {
                     <span>{durationTime}</span>
                 </div>
             </div>
-            <div className={styled.songExtButtons}>
-                {playingData.watch && isLogin && playingData.watch.video.viewer ? (
-                    <>
-                        {playingData.watch.video.viewer.like ? (
-                            <button className={styled.heart}><RiHeartFill /></button>
+            <div className={styled.songButtons}>
+                <div className={styled.volumeCtrl}>
+                    <button onClick={toggleMute} title={isMute ? "ミュート解除" : "ミュート"}>
+                        {isMute || volume === 0.0 ? (
+                            <RiVolumeMuteFill />
+                        ) : volume > 0.5 ? (
+                            <RiVolumeUpFill />
                         ) : (
-                            <button><RiHeartLine /></button>
+                            <RiVolumeDownFill />
                         )}
-                    </>
-                ) : (
-                    <button disabled><RiHeartLine /></button>
-                )}
-                <button disabled={!playingData.watch} title="曲の情報">
-                    <RiInformationLine />
-                </button>
-                <button disabled={!playingData.watch} onClick={movieBtnHandler} title="動画ページ">
-                    <RiMovieFill />
-                </button>
-                <button disabled={!playingData.watch} onClick={shareBtnHandler} title="共有">
-                    <RiShareBoxLine />
-                </button>
+                    </button>
+                    <input type="range" min={0} max={1} step={0.01} value={isMute ? 0 : volume} onChange={changeVolumeHandler} />
+                </div>
+                <div className={styled.songExtButtons}>
+                    {playingData.watch && isLogin && playingData.watch.video.viewer ? (
+                        <>
+                            {playingData.watch.video.viewer.like ? (
+                                <button className={styled.heart}><RiHeartFill /></button>
+                            ) : (
+                                <button><RiHeartLine /></button>
+                            )}
+                        </>
+                    ) : (
+                        <button disabled><RiHeartLine /></button>
+                    )}
+                    <button disabled={!playingData.watch} title="曲の情報">
+                        <RiInformationLine />
+                    </button>
+                    <button disabled={!playingData.watch} onClick={movieBtnHandler} title="動画ページ">
+                        <RiMovieFill />
+                    </button>
+                    <button disabled={!playingData.watch} onClick={shareBtnHandler} title="共有">
+                        <RiShareBoxLine />
+                    </button>
+                </div>
             </div>
         </div>
     );

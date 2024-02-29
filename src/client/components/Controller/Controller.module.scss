@@ -133,16 +133,16 @@
         }
     }
 
-    .songExtButtons {
+    .songButtons{
         flex: 0 0 auto;
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: right;
-        gap: 15px;
+        flex-direction: column;
+        align-items: end;
+        justify-content: center;
         padding: 12px;
         max-width: 30%;
         width: 30%;
+        gap: 10px;
 
         button {
             color: #fff;
@@ -178,5 +178,32 @@
             color: #e672b2;
         }
 
+        .volumeCtrl {
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            gap: 5px;
+            width: 100%;
+            justify-content: end;
+
+            span {
+                flex: 0 0 auto;
+                width: 40px;
+                text-align: center;
+                font-size: 0.8em;
+            }
+
+            input[type="range"] {
+                flex: 1;
+                max-width: 100px;
+                transform:scale(-1,1);
+            }
+        }
+
+        .songExtButtons {
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+        }
     }
 }
