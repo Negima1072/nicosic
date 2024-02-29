@@ -67,6 +67,14 @@ interface User {
     iconUrl: string;
 }
 
+interface Channel {
+    type: "channel";
+    visibility: "visible" | "hidden";
+    id: string;
+    name: string;
+    iconUrl: string;
+}
+
 interface DoLike {
     thanksMessage: string | null;
 }

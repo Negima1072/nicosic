@@ -31,7 +31,7 @@ interface MylistInfoData {
     isPublic: boolean;
     itemsCount: number;
     name: string;
-    owner: User;
+    owner: User | Channel;
     sampleItems: MylistItem[];
 }
 
@@ -55,7 +55,7 @@ interface MylistDetailData {
     isFollowing: boolean;
     isPublic: boolean;
     name: string;
-    owner: User;
+    owner: User | Channel;
     totalItemCount: number;
     hasNext: boolean;
     items: MylistItem[];

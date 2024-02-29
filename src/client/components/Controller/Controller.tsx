@@ -141,6 +141,7 @@ export const Controller = () => {
                     } else {
                         setPlaylistIndex(newIndex);
                         setPlayingData((prev) => ({ ...prev, id: playingList[newIndex].id }));
+                        setIsPlaying(false);
                     }
                 }
             }
@@ -199,6 +200,7 @@ export const Controller = () => {
                     } else {
                         setPlaylistIndex(newIndex);
                         setPlayingData((prev) => ({ ...prev, id: playingList[newIndex].id }));
+                        setIsPlaying(false);
                     }
                 }
             }
@@ -233,6 +235,7 @@ export const Controller = () => {
                 } else {
                     setPlaylistIndex(newIndex);
                     setPlayingData((prev) => ({ ...prev, id: playingList[newIndex].id }));
+                    setIsPlaying(false);
                 }
             }
         }
@@ -244,16 +247,16 @@ export const Controller = () => {
         }
     }
     const toggleShuffle = () => {
-        setIsShuffle(!isShuffle);
         if (playingList && playingList.length > 0) {
             let list = playlistData.map((item, index) => ({index, id: item?.id}));
-            if (isShuffle) {
+            if (!isShuffle) {
                 list = list.sort(() => Math.random() - 0.5);
                 console.log(list);
             }
             setPlayingList(list);
             setPlaylistIndex(list.findIndex((item) => item.id === playingData.id));
         }
+        setIsShuffle(!isShuffle);
     }
     const toggleRepeatMode = () => {
         if (repeatMode === "none") {
@@ -271,7 +274,7 @@ export const Controller = () => {
     };
     const shareBtnHandler = () => {
         if (playingData.watch) {
-            window.electronAPI.openExternal(`https://twitter.com/intent/tweet?text=${playingData.watch.video.title}\nhttps://www.nicovideo.jp/watch/${playingData.watch.video.id} #${playingData.watch.video.id} #nowplaying`);
+            window.electronAPI.openExternal("https://twitter.com/intent/tweet?text=" + encodeURIComponent(`${playingData.watch.video.title}\nhttps://www.nicovideo.jp/watch/${playingData.watch.video.id} #${playingData.watch.video.id} #nowplaying`));
         }
     }
     return (
@@ -295,10 +298,18 @@ export const Controller = () => {
                             <span className={styled.title} title={playingData.watch.video.title}>
                                 {playingData.watch.video.title}
                             </span>
-                            {playingData.watch.owner && (
+                            {playingData.watch.owner ? (
                                 <span className={styled.artist} title={playingData.watch.owner.nickname}>
                                     {playingData.watch.owner.nickname}
                                 </span>
+                            ) : (
+                                <>
+                                    {playingData.watch.channel && (
+                                        <span className={styled.artist} title={playingData.watch.channel.name}>
+                                            {playingData.watch.channel.name}
+                                        </span>
+                                    )}
+                                </>
                             )}
                         </div>
                     </>
@@ -306,19 +317,19 @@ export const Controller = () => {
             </div>
             <div className={styled.songControls}>
                 <div className={styled.songCtrlButtons}>
-                    <button onClick={toggleShuffle} className={isShuffle ? styled.active : ""}>
+                    <button onClick={toggleShuffle} className={isShuffle ? styled.active : ""} title="シャッフル">
                         <MdShuffle />
                     </button>
-                    <button onClick={skipPrevious}>
+                    <button onClick={skipPrevious} title="前の曲">
                         <MdSkipPrevious />
                     </button>
-                    <button className={styled.playButton} onClick={togglePlay}>
+                    <button className={styled.playButton} onClick={togglePlay} title={isPlaying ? "一時停止" : "再生"}>
                         {isPlaying ? <MdPauseCircleFilled /> : <MdPlayCircleFilled />}
                     </button>
-                    <button onClick={skipNext}>
+                    <button onClick={skipNext} title="次の曲">
                         <MdSkipNext />
                     </button>
-                    <button onClick={toggleRepeatMode} className={repeatMode !== "none" ? styled.active : ""}>
+                    <button onClick={toggleRepeatMode} className={repeatMode !== "none" ? styled.active : ""} title="リピート">
                         {repeatMode === "one" ? (
                             <MdRepeatOne />
                         ) : (
