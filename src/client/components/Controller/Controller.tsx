@@ -269,6 +269,11 @@ export const Controller = () => {
             window.electronAPI.openExternal(`https://www.nicovideo.jp/watch/${playingData.watch.video.id}`);
         }
     };
+    const shareBtnHandler = () => {
+        if (playingData.watch) {
+            window.electronAPI.openExternal(`https://twitter.com/intent/tweet?text=${playingData.watch.video.title}\nhttps://www.nicovideo.jp/watch/${playingData.watch.video.id} #${playingData.watch.video.id} #nowplaying`);
+        }
+    }
     return (
         <div className={styled.controller}>
             <audio
@@ -351,7 +356,7 @@ export const Controller = () => {
                 <button disabled={!playingData.watch} onClick={movieBtnHandler} title="動画ページ">
                     <RiMovieFill />
                 </button>
-                <button disabled={!playingData.watch} title="共有">
+                <button disabled={!playingData.watch} onClick={shareBtnHandler} title="共有">
                     <RiShareBoxLine />
                 </button>
             </div>
