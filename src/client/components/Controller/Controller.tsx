@@ -4,15 +4,17 @@ import { RiHeartFill, RiHeartLine, RiInformationLine, RiMovieFill, RiShareBoxLin
 import styled from "./Controller.module.scss";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAtom } from "jotai";
-import { playingDataAtom } from "../../atoms";
+import { isPlayingAtom, playingDataAtom } from "../../atoms";
 import { getAccessRight, getWatchData, makeActionTrackId } from "../../nico/video";
 
 export const Controller = () => {
     const isSupportedBrowser = useMemo(() => Hls.isSupported(), []);
     const audioRef = useRef<HTMLAudioElement>(null);
     const [sourceUrl, setSourceUrl] = useState<string | null>(null);
+
     const [playingData, setPlayingData] = useAtom(playingDataAtom);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
+
     const [audioDuration, setAudioDuration] = useState(0);
     const [audioCurrentTime, setAudioCurrentTime] = useState(0);
     useEffect(() => {
@@ -86,6 +88,11 @@ export const Controller = () => {
             setIsPlaying(!isPlaying);
         }
     }
+    const movieBtnHandler = () => {
+        if (playingData.watch) {
+            window.electronAPI.openExternal(`https://www.nicovideo.jp/watch/${playingData.watch.video.id}`);
+        }
+    }
     return (
         <div className={styled.controller}>
             <audio
@@ -140,14 +147,16 @@ export const Controller = () => {
                 </div>
             </div>
             <div className={styled.songExtButtons}>
-                <button disabled>{false ? <RiHeartFill /> : <RiHeartLine />}</button>
-                <button disabled>
+                <button disabled={!playingData.watch}>
+                    {false ? <RiHeartFill /> : <RiHeartLine />}
+                </button>
+                <button disabled={!playingData.watch}>
                     <RiInformationLine />
                 </button>
-                <button disabled>
+                <button disabled={!playingData.watch} onClick={movieBtnHandler}>
                     <RiMovieFill />
                 </button>
-                <button disabled>
+                <button disabled={!playingData.watch}>
                     <RiShareBoxLine />
                 </button>
             </div>
