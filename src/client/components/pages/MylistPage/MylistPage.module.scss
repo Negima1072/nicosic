@@ -1,0 +1,82 @@
+.mylistPage {
+    padding: 5px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .mylistCard {
+        height: 80px;
+        display: flex;
+        gap: 5px;
+        padding: 10px;
+        color: #f6f6f6;
+        text-decoration: none;
+
+        .mylistImage {
+            height: 100%;
+            aspect-ratio: 1 / 1;
+            background-color: #353535;
+            position: relative;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .itemsCount {
+                position: absolute;
+                bottom: 2px;
+                right: 0;
+                left: 0;
+                margin: 0 auto;
+                background-color: #000000bb;
+                color: #ffffff;
+                padding: 2px 5px;
+                font-size: 0.6rem;
+                font-weight: 600;
+                border-radius: 9px;
+                width: max-content;
+            }
+        }
+
+        .mylistInfo {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2px;
+
+            .mylistTitle {
+                font-size: 1rem;
+                font-weight: 600;
+            }
+
+            .mylistDescription {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+
+                .mylistOwner {
+                    font-size: 0.7rem;
+                    font-weight: 600;
+                }
+
+                .mylistDetail {
+                    font-size: 0.6rem;
+                    font-weight: 400;
+                    color: #8e8e8e;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    display: -webkit-box;
+                }
+            }
+        }
+    }
+
+    .mylistCard:hover {
+        background-color: #151515;
+    }
+}
