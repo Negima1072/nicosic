@@ -19,7 +19,7 @@ export const Controller = () => {
     const isSupportedBrowser = useMemo(() => Hls.isSupported(), []);
     const audioRef = useRef<HTMLAudioElement>(null);
     const [sourceUrl, setSourceUrl] = useState<string | null>(null);
-    //const [truePeak, setTruePeak] = useState(0);
+    const [loudness, setLoudness] = useState(0);
 
     const isLogin = useAtomValue(isLoginAtom);
     const [playingData, setPlayingData] = useAtom(playingDataAtom);
@@ -59,7 +59,7 @@ export const Controller = () => {
                         actionTrackId,
                     );
                     setPlayingData((prev) => ({ ...prev, watch: data }));
-                    //setTruePeak(output.truePeak);
+                    setLoudness(output.loudnessCollection[0].value);
                     setSourceUrl("/proxy?url=" + encodeURIComponent(right.contentUrl));
                 }
             }
@@ -84,8 +84,7 @@ export const Controller = () => {
     }, [isSupportedBrowser, sourceUrl]);
     useEffect(() => {
         if (audioRef.current) {
-            audioRef.current.volume = Math.max(Math.min(volume, 1), 0);
-            //audioRef.current.volume = Math.max(Math.min(volume - (truePeak / 10), 1), 0)
+            audioRef.current.volume = Math.max(Math.min(volume * loudness, 1), 0);
         }
     }, [volume]);
     useEffect(() => {
