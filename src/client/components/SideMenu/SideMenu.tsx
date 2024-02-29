@@ -12,9 +12,14 @@ export const SideMenu = () => {
     useEffect(() => {
         window.electronAPI.checkLogin();
         window.electronAPI.onLoginSuccess(async () => {
-            const user = await getOwnUserData();
-            setIsLogin(true);
-            setLoginUserData(user);
+            try {
+                const user = await getOwnUserData();
+                setIsLogin(true);
+                setLoginUserData(user);
+            } catch (e) {
+                setIsLogin(false);
+                setLoginUserData(null);
+            }
         });
         window.electronAPI.onLogoutSuccess(() => {
             setIsLogin(false);

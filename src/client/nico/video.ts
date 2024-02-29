@@ -7,8 +7,17 @@ export function makeActionTrackId(): string {
     return `${randomStr}_${unixTime}`;
 }
 
-export async function getWatchData(videoId: string, actionTrackId: string): Promise<WatchData> {
+export async function getWatchDataGuest(videoId: string, actionTrackId: string): Promise<WatchData> {
     const url = `https://www.nicovideo.jp/api/watch/v3_guest/${videoId}?actionTrackId=${actionTrackId}`;
+    const res = await get<WatchAPIResponse<WatchData>>(url);
+    if (res.meta.status !== 200 || res.data === undefined) {
+        throw new NicoError(res.meta.errorCode!);
+    }
+    return res.data;
+}
+
+export async function getWatchData(videoId: string, actionTrackId: string): Promise<WatchData> {
+    const url = `https://www.nicovideo.jp/api/watch/v3/${videoId}?actionTrackId=${actionTrackId}`;
     const res = await get<WatchAPIResponse<WatchData>>(url);
     if (res.meta.status !== 200 || res.data === undefined) {
         throw new NicoError(res.meta.errorCode!);

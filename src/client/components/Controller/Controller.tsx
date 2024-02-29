@@ -3,17 +3,20 @@ import { MdPauseCircleFilled, MdPlayCircleFilled, MdRepeat, MdShuffle, MdSkipNex
 import { RiHeartFill, RiHeartLine, RiInformationLine, RiMovieFill, RiShareBoxLine } from "react-icons/ri";
 import styled from "./Controller.module.scss";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useAtom } from "jotai";
-import { isPlayingAtom, playingDataAtom } from "../../atoms";
-import { getAccessRight, getWatchData, makeActionTrackId } from "../../nico/video";
+import { useAtom, useAtomValue } from "jotai";
+import { isLoginAtom, isPlayingAtom, playingDataAtom, volumeAtom } from "../../atoms";
+import { getAccessRight, getWatchData, getWatchDataGuest, makeActionTrackId } from "../../nico/video";
 
 export const Controller = () => {
     const isSupportedBrowser = useMemo(() => Hls.isSupported(), []);
     const audioRef = useRef<HTMLAudioElement>(null);
     const [sourceUrl, setSourceUrl] = useState<string | null>(null);
+    const [truePeak, setTruePeak] = useState(0);
 
+    const isLogin = useAtomValue(isLoginAtom);
     const [playingData, setPlayingData] = useAtom(playingDataAtom);
     const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
+    const [volume, setVolume] = useAtom(volumeAtom);
 
     const [audioDuration, setAudioDuration] = useState(0);
     const [audioCurrentTime, setAudioCurrentTime] = useState(0);
@@ -21,11 +24,18 @@ export const Controller = () => {
         const getVideo = async () => {
             if (!playingData.id) return;
             const actionTrackId = await makeActionTrackId();
-            const data = await getWatchData(playingData.id, actionTrackId);
-            setPlayingData((prev) => ({ ...prev, watch: data }));
+            const data = isLogin ? await getWatchData(playingData.id, actionTrackId) : await getWatchDataGuest(playingData.id, actionTrackId);
             if (data.media.domand) {
-                const right = await getAccessRight(data.video.id, [["audio-aac-64kbps"]], data.media.domand.accessRightKey, actionTrackId);
-                setSourceUrl("/proxy?url=" + encodeURIComponent(right.contentUrl));
+                const outputs = data.media.domand.audios.filter((audio) => audio.isAvailable);
+                if (outputs.length > 0) {
+                    const output = outputs.reduce((prev, current) => {
+                        return prev.qualityLevel > current.qualityLevel ? prev : current;
+                    });
+                    const right = await getAccessRight(data.video.id, [[output.id]], data.media.domand.accessRightKey, actionTrackId);
+                    setPlayingData((prev) => ({ ...prev, watch: data }));
+                    setTruePeak(output.truePeak);
+                    setSourceUrl("/proxy?url=" + encodeURIComponent(right.contentUrl));
+                }
             }
         }
         getVideo();
@@ -46,6 +56,20 @@ export const Controller = () => {
         }
         return () => {}
     }, [isSupportedBrowser, sourceUrl]);
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.volume = volume * (1.0 - (truePeak / 10));
+        }
+    }, [volume, truePeak]);
+    useEffect(() => {
+        if (audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.play();
+            } else {
+                audioRef.current.pause();
+            }
+        }
+    }, [isPlaying]);
     const onLoadedmetadata = () => {
         if (audioRef.current) {
             setAudioDuration(audioRef.current.duration);
@@ -80,12 +104,7 @@ export const Controller = () => {
         }
     }
     const togglePlay = () => {
-        if (audioRef.current && playingData.watch) {
-            if (isPlaying) {
-                audioRef.current.pause();
-            } else {
-                audioRef.current.play();
-            }
+        if (playingData.watch) {
             setIsPlaying(!isPlaying);
         }
     }
