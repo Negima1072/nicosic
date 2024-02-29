@@ -5,7 +5,9 @@ declare global {
 }
 
 interface ElectronAPI {
-    checkLogin: () => void;
+    checkLogin: () => Promise<boolean>;
+    getPlayerConfig: () => Promise<PlayerConfig>;
+    savePlayerConfig: (config: PlayerConfig) => void;
     requestLogin: () => void;
     requestLogout: () => void;
     openExternal: (url: string) => void;

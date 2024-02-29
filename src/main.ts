@@ -110,13 +110,28 @@ app.whenReady().then(() => {
         shell.openExternal(url);
     });
 
-    ipcMain.on("check-login", (event: Electron.IpcMainInvokeEvent) => {
+    ipcMain.handle("check-login", (event: Electron.IpcMainInvokeEvent) => {
         if (globalVal.cookieJar) {
             const cookie = globalVal.cookieJar.getCookieStringSync("https://www.nicovideo.jp");
             if (cookie.includes("user_session")) {
-                event.sender.send("login-success");
+                return true;
             }
         }
+        return false;
+    });
+
+    ipcMain.handle("get-player-config", async () => {
+        const playerConfig = store.get("player_config", JSON.stringify({
+            volume: 1,
+            mute: false,
+            shuffle: false,
+            repeat: "none",
+        }));
+        return JSON.parse(playerConfig) as PlayerConfig;
+    });
+
+    ipcMain.on("save-player-config", (event, config: PlayerConfig) => {
+        store.set("player_config", JSON.stringify(config));
     });
 
     mainWindow.loadURL("http://127.0.0.1:4080");

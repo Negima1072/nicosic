@@ -1,5 +1,7 @@
 import { atom } from "jotai";
 
+export const isLoadingAtom = atom(true);
+
 export const isLoginAtom = atom<boolean>(false);
 export const loginUserDataAtom = atom<ExpandUser | null>(null);
 

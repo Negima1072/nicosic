@@ -1,43 +1,23 @@
-import { useAtom } from "jotai";
-import { useEffect } from "react";
+import { useAtomValue } from "jotai";
 import { Item, Menu, useContextMenu } from "react-contexify";
 import { RiBarChartHorizontalFill, RiHome2Fill, RiSearchLine, RiUser3Fill, RiVipCrownFill } from "react-icons/ri";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { isLoginAtom, loginUserDataAtom } from "../../atoms";
-import { getOwnUserData } from "../../nico/user";
 import styled from "./SideMenu.module.scss";
 
 export const SideMenu = () => {
-    const [isLogin, setIsLogin] = useAtom(isLoginAtom);
-    const [loginUserData, setLoginUserData] = useAtom(loginUserDataAtom);
+    const isLogin = useAtomValue(isLoginAtom);
+    const loginUserData = useAtomValue(loginUserDataAtom);
     const { show: showUserContext } = useContextMenu({ id: "user-context" });
-    useEffect(() => {
-        window.electronAPI.checkLogin();
-        window.electronAPI.onLoginSuccess(async () => {
-            try {
-                const user = await getOwnUserData();
-                setIsLogin(true);
-                setLoginUserData(user);
-            } catch (e) {
-                setIsLogin(false);
-                setLoginUserData(null);
-            }
-        });
-        window.electronAPI.onLogoutSuccess(() => {
-            setIsLogin(false);
-            setLoginUserData(null);
-        });
-        return () => {
-            window.electronAPI.onLoginSuccess(() => {});
-            window.electronAPI.onLogoutSuccess(() => {});
-        };
-    }, []);
+    const navigate = useNavigate();
     const displayUserContext = (e: React.MouseEvent) => {
         showUserContext({ event: e });
     };
     const userClickHandler = () => {
-        if (!isLogin) {
+        if (!isLogin || !loginUserData) {
             window.electronAPI.requestLogin();
+        } else {
+            navigate(`/user/${loginUserData.id}`)
         }
     }
     return (
