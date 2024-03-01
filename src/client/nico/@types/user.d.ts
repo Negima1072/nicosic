@@ -1,3 +1,22 @@
+interface RelationshipUser {
+    description: string;
+    icons: {
+        large: string;
+        small: string;
+    }
+    id: string;
+    isPremium: boolean;
+    nickname: string;
+    relationships: {
+        sessionUser: {
+            isFollowing: boolean;
+        }
+    }
+    shortDescription: string;
+    strippedDescription: string;
+    type: "relationship"
+}
+
 interface NicoUser {
     description: string;
     decoratedDescriptionHtml: string;
