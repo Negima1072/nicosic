@@ -38,7 +38,7 @@ export async function getRankingProcessedSettings(settings: RankingSettings): Pr
 }
 
 export async function getRankingItems(
-    rankingId: string,
+    rankingId: number,
     pageSize?: number,
     page?: number,
 ): Promise<RankingDetailData> {
@@ -53,4 +53,12 @@ export async function getRankingItems(
         throw new NicoError(res.meta.errorCode!);
     }
     return res.data.ranking;
+}
+
+export function rankingTerm2String(term: RankingTerm): string {
+    if (term === "24h") return "24時間";
+    if (term === "month") return "月間";
+    if (term === "total") return "全期間";
+    if (term === "week") return "週間";
+    return term;
 }

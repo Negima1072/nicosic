@@ -1,0 +1,82 @@
+.rankingViewer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: auto;
+
+    .rankingItems {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .rankingItem {
+            height: 80px;
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+            color: #f6f6f6;
+            text-decoration: none;
+            cursor: pointer;
+
+            .rankingItemIndex {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 35px;
+                font-size: 0.9rem;
+            }
+
+            .videoImage {
+                height: 100%;
+                aspect-ratio: 1 / 1;
+                background-color: #353535;
+                position: relative;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+            .rankingItemInfo {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 2px;
+
+                .rankingItemTitle {
+                    font-size: 1rem;
+                    font-weight: 600;
+                }
+
+                .rankingItemDetail {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2px;
+
+                    .rankingItemMeta1 {
+                        display: flex;
+                        gap: 2px;
+                        font-size: 0.7rem;
+                    }
+                    .rankingItemMeta2 {
+                        display: flex;
+                        font-size: 0.6rem;
+                        gap: 7px;
+
+                        .rankingItemMetaItem {
+                            display: flex;
+                            gap: 2px;
+                            align-items: center;
+                        }
+                    }
+                }
+            }
+        }
+
+        .rankingItem:hover {
+            background-color: #151515;
+        }
+    }
+}

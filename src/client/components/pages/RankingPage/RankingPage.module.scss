@@ -1,0 +1,72 @@
+.rankingPage {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    height: 100%;
+
+    .rankingSettings {
+        display: flex;
+        flex-direction: column;
+        height: 80px;
+
+        .rankingSelector {
+            display: flex;
+            flex-direction: row;
+            overflow-x: auto;
+            height: 40px;
+            border-bottom: 2px solid #151515;
+            padding-inline: 5px;
+
+            div {
+                display: flex;
+                align-items: center;
+                padding: 10px 15px;
+                cursor: pointer;
+                color: #a1a1a1;
+                white-space: nowrap;
+            }
+
+            div.selected {
+                color: #f6f6f6;
+                background-color: #151515;
+                font-weight: 600;
+                border-bottom: 3px solid #a1a1a1;
+            }
+
+            div:hover {
+                color: #f6f6f6;
+                background-color: #151515;
+            }
+        }
+
+        .rankingSelector::-webkit-scrollbar {
+            display: none;
+        }
+
+        .termSelector {
+            display: flex;
+            flex-direction: row-reverse;
+            height: 40px;
+
+            select {
+                background-color: #252525;
+                color: white;
+                border: 0;
+                border-bottom: 1px solid #151515;
+                padding: 5px;
+                margin: 7px 10px;
+                cursor: pointer;
+                width: 80px;
+
+                option {
+                    background-color: #252525;
+                    color: white;
+                }
+
+                option:hover {
+                    background-color: #151515;
+                }
+            }
+        }
+    }
+}
