@@ -6,7 +6,7 @@ interface MylistData {
     mylist: MylistDetailData;
 }
 
-type SortKey =
+type MylistSortKey =
     | "addedAt"
     | "title"
     | "mylistComment"
@@ -22,7 +22,7 @@ type SortOrder = "asc" | "desc";
 interface MylistInfoData {
     createdAt: string;
     decoratedDescriptionHtml: string;
-    defaultSortKey: SortKey;
+    defaultSortKey: MylistSortKey;
     defaultSortOrder: SortOrder;
     description: string;
     followerCount: number;
@@ -47,7 +47,7 @@ interface MylistItem {
 
 interface MylistDetailData {
     decoratedDescriptionHtml: string;
-    defaultSortKey: SortKey;
+    defaultSortKey: MylistSortKey;
     defaultSortOrder: SortOrder;
     description: string;
     followerCount?: number;
