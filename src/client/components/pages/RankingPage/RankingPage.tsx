@@ -28,6 +28,11 @@ export const RankingPage = () => {
             document.addEventListener("mouseup", onMouseUp);
         }
     };
+    const onRankingSelectorWheel = (e: React.WheelEvent) => {
+        if (rankingSelectorRef.current) {
+            rankingSelectorRef.current.scrollLeft += e.deltaY * 0.5;
+        }
+    }
     useEffect(() => {
         async function fetchRankingSettings() {
             const settings = await getRankingSettings();
@@ -40,7 +45,7 @@ export const RankingPage = () => {
     return (
         <div className={styled.rankingPage}>
             <div className={styled.rankingSettings}>
-                <div className={styled.rankingSelector} onMouseDown={onRankingSelectorMoveDown} ref={rankingSelectorRef}>
+                <div className={styled.rankingSelector} onMouseDown={onRankingSelectorMoveDown} onWheel={onRankingSelectorWheel} ref={rankingSelectorRef}>
                     {rankingSettings.map((setting, i) => (
                         <div key={i} onClick={() => setRankingIndex(i)} className={i === rankingIndex ? styled.selected : ""}>
                             {setting.title}
