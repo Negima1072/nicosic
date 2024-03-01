@@ -1,40 +1,40 @@
-interface RecommendData<T=RecommendItem> {
-    recipe: RecommendRecipe
-    recommendId: string
-    items: T[]
+interface RecommendData<T = RecommendItem> {
+    recipe: RecommendRecipe;
+    recommendId: string;
+    items: T[];
 }
 
 interface RecommendRecipe {
-    id: string
-    meta: null
+    id: string;
+    meta: null;
 }
 
-type RecommendItem = RecommendVideoItem | RecommendTagItem | RecommendMylistItem | RecommendUserItem
+type RecommendItem = RecommendVideoItem | RecommendTagItem | RecommendMylistItem | RecommendUserItem;
 
-type RecommendContentType = "video" | "tag" | "mylist" | "user"
+type RecommendContentType = "video" | "tag" | "mylist" | "user";
 
 interface RecommendItemBase {
-    id: string
-    contentType: RecommendContentType
-    recommendType: "recommend"
+    id: string;
+    contentType: RecommendContentType;
+    recommendType: "recommend";
 }
 
 interface RecommendVideoItem extends RecommendItemBase {
-    contentType: "video"
-    content: EssentialVideo
+    contentType: "video";
+    content: EssentialVideo;
 }
 
 interface RecommendTagItem extends RecommendItemBase {
-    contentType: "tag"
-    content: string
+    contentType: "tag";
+    content: string;
 }
 
 interface RecommendMylistItem extends RecommendItemBase {
-    contentType: "mylist"
-    content: MylistInfoData
+    contentType: "mylist";
+    content: MylistInfoData;
 }
 
 interface RecommendUserItem extends RecommendItemBase {
-    contentType: "user"
-    content: RelationshipUser
+    contentType: "user";
+    content: RelationshipUser;
 }

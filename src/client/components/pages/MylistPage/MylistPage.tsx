@@ -34,7 +34,9 @@ export const MylistPage = () => {
                                 <div className={styled.mylistDescription}>
                                     <span className={styled.mylistOwner}>{mylist.owner.name}</span>
                                     <span className={styled.mylistDetail}>
-                                        {mylist.sampleItems.map((item) => item.video ? item.video.title : "").join("/")}
+                                        {mylist.sampleItems
+                                            .map((item) => (item.video ? item.video.title : ""))
+                                            .join("/")}
                                     </span>
                                 </div>
                             </div>

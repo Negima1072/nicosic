@@ -1,9 +1,15 @@
-import { useEffect, useState } from "react";
-import { getNicoboxTrendVideos } from "../../../../nico/recommend";
-import { getRankingItems } from "../../../../nico/ranking";
 import { useAtomValue, useSetAtom } from "jotai";
-import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../../atoms";
+import { useEffect, useState } from "react";
 import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
+import {
+    isShuffleAtom,
+    playingDataAtom,
+    playingListAtom,
+    playlistDataAtom,
+    playlistIndexAtom,
+} from "../../../../atoms";
+import { getRankingItems } from "../../../../nico/ranking";
+import { getNicoboxTrendVideos } from "../../../../nico/recommend";
 import styled from "./RankingViewer.module.scss";
 
 interface RankingViewerProps {
@@ -31,7 +37,7 @@ export const RankingViewer = ({ rankingId, isTrend }: RankingViewerProps) => {
             setPlayingListAtom(list);
             setPlaylistIndexAtom(newIndex);
         }
-    }
+    };
     const secondsToTime = (seconds: number) => {
         const min = Math.floor(seconds / 60);
         const sec = Math.floor(seconds % 60);
@@ -45,7 +51,7 @@ export const RankingViewer = ({ rankingId, isTrend }: RankingViewerProps) => {
             }
             if (isTrend) {
                 const trend = await getNicoboxTrendVideos();
-                setRankingVideos(trend.items.map(item => item.content));
+                setRankingVideos(trend.items.map((item) => item.content));
             } else {
                 const ranking = await getRankingItems(rankingId);
                 setRankingVideos(ranking.videos);
@@ -53,21 +59,23 @@ export const RankingViewer = ({ rankingId, isTrend }: RankingViewerProps) => {
         }
         fetchRankingVideos();
         return () => {};
-    }, [isTrend, rankingId])
+    }, [isTrend, rankingId]);
     return (
         <div className={styled.rankingViewer}>
             {rankingVideos && (
                 <>
                     <div className={styled.rankingItems}>
                         {rankingVideos.map((item, index) => (
-                            <div key={index} className={styled.rankingItem} onClick={() => changePlayingId(index, item)}>
+                            <div
+                                key={index}
+                                className={styled.rankingItem}
+                                onClick={() => changePlayingId(index, item)}
+                            >
                                 <div className={styled.rankingItemIndex}>
                                     <span>{index + 1}</span>
                                 </div>
                                 <div className={styled.videoImage}>
-                                    {item && (
-                                        <img src={item.thumbnail.listingUrl} alt="thumbnail" />
-                                    )}
+                                    {item && <img src={item.thumbnail.listingUrl} alt="thumbnail" />}
                                 </div>
                                 <div className={styled.rankingItemInfo}>
                                     {item ? (
@@ -109,4 +117,4 @@ export const RankingViewer = ({ rankingId, isTrend }: RankingViewerProps) => {
             )}
         </div>
     );
-}
+};

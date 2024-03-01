@@ -11,9 +11,9 @@ export async function getRankingSettings(): Promise<RankingSettings> {
 
 export async function getRankingProcessedSettings(settings: RankingSettings): Promise<ProcessedRankingSetting[]> {
     const processed: ProcessedRankingSetting[] = [];
-    settings.settings.forEach(setting => {
+    settings.settings.forEach((setting) => {
         const title = setting.tag ?? setting.genre.label;
-        const existingIndex = processed.findIndex(p => p.title === title && p.priority === setting.priority);
+        const existingIndex = processed.findIndex((p) => p.title === title && p.priority === setting.priority);
         if (existingIndex === -1) {
             const terms: ProcessedRankingTerm[] = [];
             terms.push({ id: setting.id, term: setting.term });
@@ -22,9 +22,9 @@ export async function getRankingProcessedSettings(settings: RankingSettings): Pr
             processed[existingIndex].terms.push({ id: setting.id, term: setting.term });
         }
     });
-    settings.trendSettings.forEach(setting => {
+    settings.trendSettings.forEach((setting) => {
         const title = "トレンド";
-        const existingIndex = processed.findIndex(p => p.title === title && p.priority === setting.priority);
+        const existingIndex = processed.findIndex((p) => p.title === title && p.priority === setting.priority);
         if (existingIndex === -1) {
             const terms: ProcessedRankingTerm[] = [];
             terms.push({ id: setting.id, term: setting.term });
@@ -37,11 +37,7 @@ export async function getRankingProcessedSettings(settings: RankingSettings): Pr
     return processed;
 }
 
-export async function getRankingItems(
-    rankingId: number,
-    pageSize?: number,
-    page?: number,
-): Promise<RankingDetailData> {
+export async function getRankingItems(rankingId: number, pageSize?: number, page?: number): Promise<RankingDetailData> {
     let url = `https://nvapi.nicovideo.jp/v1/ranking/nicobox/${rankingId}`;
     const params = new URLSearchParams();
     params.append("_language", "ja-jp");

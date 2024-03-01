@@ -4,7 +4,7 @@ export async function getRecommendItems<T = RecommendItem>(
     recipeId: string,
     recipeVersion: number = 1,
     site: string = "nicobox",
-    contentTypeFilter: RecommendContentType = "video"
+    contentTypeFilter: RecommendContentType = "video",
 ): Promise<RecommendData<T>> {
     const url = `https://nvapi.nicovideo.jp/v1/recommend`;
     const params = new URLSearchParams();

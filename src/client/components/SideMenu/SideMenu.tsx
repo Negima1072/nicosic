@@ -17,9 +17,9 @@ export const SideMenu = () => {
         if (!isLogin || !loginUserData) {
             window.electronAPI.requestLogin();
         } else {
-            navigate(`/user/${loginUserData.id}`)
+            navigate(`/user/${loginUserData.id}`);
         }
-    }
+    };
     return (
         <div className={styled.sideMenu}>
             <NavLink to="/" className={({ isActive }) => `${styled.menuItem} ${isActive ? styled.active : ""}`}>

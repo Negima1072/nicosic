@@ -3,18 +3,18 @@ interface RelationshipUser {
     icons: {
         large: string;
         small: string;
-    }
+    };
     id: string;
     isPremium: boolean;
     nickname: string;
     relationships: {
         sessionUser: {
             isFollowing: boolean;
-        }
-    }
+        };
+    };
     shortDescription: string;
     strippedDescription: string;
-    type: "relationship"
+    type: "relationship";
 }
 
 interface NicoUser {

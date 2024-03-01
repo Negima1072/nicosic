@@ -14,7 +14,7 @@ export async function getMylistItems(
     pageSize?: number,
     page?: number,
     sortKey?: SortKey,
-    sortOrder?: SortOrder
+    sortOrder?: SortOrder,
 ): Promise<MylistDetailData> {
     let url = `https://nvapi.nicovideo.jp/v1/mylists/${mylistId}`;
     const params = new URLSearchParams();

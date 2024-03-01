@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { getRankingProcessedSettings, getRankingSettings, rankingTerm2String } from "../../../nico/ranking";
-import { RankingViewer } from "./RankingViewer/RankingViewer";
-import styled from "./RankingPage.module.scss";
 import { useSearchParams } from "react-router-dom";
+import { getRankingProcessedSettings, getRankingSettings, rankingTerm2String } from "../../../nico/ranking";
+import styled from "./RankingPage.module.scss";
+import { RankingViewer } from "./RankingViewer/RankingViewer";
 
 export const RankingPage = () => {
     const [rankingSettings, setRankingSettings] = useState<ProcessedRankingSetting[]>([]);
@@ -37,7 +37,7 @@ export const RankingPage = () => {
         if (rankingSelectorRef.current) {
             rankingSelectorRef.current.scrollLeft += e.deltaY * 0.5;
         }
-    }
+    };
     const setRankingIndex = (index: number) => {
         setSearchParams({ rankingIndex: index.toString(), termIndex: "0" });
     };
@@ -56,15 +56,27 @@ export const RankingPage = () => {
     return (
         <div className={styled.rankingPage}>
             <div className={styled.rankingSettings}>
-                <div className={styled.rankingSelector} onMouseDown={onRankingSelectorMoveDown} onWheel={onRankingSelectorWheel} ref={rankingSelectorRef}>
+                <div
+                    className={styled.rankingSelector}
+                    onMouseDown={onRankingSelectorMoveDown}
+                    onWheel={onRankingSelectorWheel}
+                    ref={rankingSelectorRef}
+                >
                     {rankingSettings.map((setting, i) => (
-                        <div key={i} onClick={() => setRankingIndex(i)} className={i === rankingIndex ? styled.selected : ""}>
+                        <div
+                            key={i}
+                            onClick={() => setRankingIndex(i)}
+                            className={i === rankingIndex ? styled.selected : ""}
+                        >
                             {setting.title}
                         </div>
                     ))}
                 </div>
                 <div className={styled.termSelector}>
-                    <select value={rankingSettings[rankingIndex]?.terms[termIndex]?.id} onChange={(e) => setTermIndex(e.target.selectedIndex)}>
+                    <select
+                        value={rankingSettings[rankingIndex]?.terms[termIndex]?.id}
+                        onChange={(e) => setTermIndex(e.target.selectedIndex)}
+                    >
                         {rankingSettings[rankingIndex]?.terms.map((term, i) => (
                             <option key={i} value={term.id}>
                                 {rankingTerm2String(term.term)}
@@ -73,9 +85,7 @@ export const RankingPage = () => {
                     </select>
                 </div>
             </div>
-            {rankingId && (
-                <RankingViewer isTrend={isTrend} rankingId={rankingId} />
-            )}
+            {rankingId && <RankingViewer isTrend={isTrend} rankingId={rankingId} />}
         </div>
     );
 };

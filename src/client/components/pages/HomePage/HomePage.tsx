@@ -6,10 +6,14 @@ export const HomePage = () => {
     const setPlayingListAtom = useSetAtom(playingListAtom);
     return (
         <div>
-            <div onClick={() => {
-                setPlayingData({ id: "sm9" });
-                setPlayingListAtom(null);
-            }}>sm9</div>
+            <div
+                onClick={() => {
+                    setPlayingData({ id: "sm9" });
+                    setPlayingListAtom(null);
+                }}
+            >
+                sm9
+            </div>
         </div>
     );
 };

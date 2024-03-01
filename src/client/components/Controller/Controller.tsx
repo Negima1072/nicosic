@@ -10,8 +10,28 @@ import {
     MdSkipNext,
     MdSkipPrevious,
 } from "react-icons/md";
-import { RiHeartFill, RiHeartLine, RiInformationLine, RiMovieFill, RiShareBoxLine, RiVolumeDownFill, RiVolumeMuteFill, RiVolumeUpFill } from "react-icons/ri";
-import { isLoginAtom, isMuteAtom, isPlayingAtom, isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom, repeatModeAtom, volumeAtom } from "../../atoms";
+import {
+    RiHeartFill,
+    RiHeartLine,
+    RiInformationLine,
+    RiMovieFill,
+    RiShareBoxLine,
+    RiVolumeDownFill,
+    RiVolumeMuteFill,
+    RiVolumeUpFill,
+} from "react-icons/ri";
+import {
+    isLoginAtom,
+    isMuteAtom,
+    isPlayingAtom,
+    isShuffleAtom,
+    playingDataAtom,
+    playingListAtom,
+    playlistDataAtom,
+    playlistIndexAtom,
+    repeatModeAtom,
+    volumeAtom,
+} from "../../atoms";
 import { getAccessRight, getWatchData, getWatchDataGuest, makeActionTrackId } from "../../nico/video";
 import styled from "./Controller.module.scss";
 
@@ -31,7 +51,7 @@ export const Controller = () => {
     const [repeatMode, setRepeatMode] = useAtom(repeatModeAtom);
 
     const [playingList, setPlayingList] = useAtom(playingListAtom);
-    const [playlistData, setPlaylistData] = useAtom(playlistDataAtom);
+    const [playlistData] = useAtom(playlistDataAtom);
     const [playlistIndex, setPlaylistIndex] = useAtom(playlistIndexAtom);
 
     const [audioDuration, setAudioDuration] = useState(0);
@@ -127,7 +147,7 @@ export const Controller = () => {
                     while (true) {
                         newIndex++;
                         if (newIndex < playingList.length) {
-                            if (playingList[newIndex].id){
+                            if (playingList[newIndex].id) {
                                 break;
                             }
                         } else {
@@ -185,7 +205,7 @@ export const Controller = () => {
                     while (true) {
                         newIndex--;
                         if (newIndex >= 0) {
-                            if (playingList[newIndex].id){
+                            if (playingList[newIndex].id) {
                                 break;
                             }
                         } else {
@@ -208,7 +228,7 @@ export const Controller = () => {
                 }
             }
         }
-    }
+    };
     const skipNext = () => {
         if (audioRef.current) {
             if (repeatMode === "one" || playingList === null) {
@@ -219,7 +239,7 @@ export const Controller = () => {
                 while (true) {
                     newIndex++;
                     if (newIndex < playingList.length) {
-                        if (playingList[newIndex].id){
+                        if (playingList[newIndex].id) {
                             break;
                         }
                     } else {
@@ -241,16 +261,16 @@ export const Controller = () => {
                 }
             }
         }
-    }
+    };
     const onLoadedData = () => {
         if (audioRef.current) {
             audioRef.current.currentTime = 0;
             setIsPlaying(true);
         }
-    }
+    };
     const toggleShuffle = () => {
         if (playingList && playingList.length > 0) {
-            let list = playlistData.map((item, index) => ({index, id: item?.id}));
+            let list = playlistData.map((item, index) => ({ index, id: item?.id }));
             if (!isShuffle) {
                 list = list.sort(() => Math.random() - 0.5);
                 console.log(list);
@@ -259,7 +279,7 @@ export const Controller = () => {
             setPlaylistIndex(list.findIndex((item) => item.id === playingData.id));
         }
         setIsShuffle(!isShuffle);
-    }
+    };
     const toggleRepeatMode = () => {
         if (repeatMode === "none") {
             setRepeatMode("all");
@@ -268,10 +288,10 @@ export const Controller = () => {
         } else if (repeatMode === "one") {
             setRepeatMode("none");
         }
-    }
+    };
     const toggleMute = () => {
         setIsMute(!isMute);
-    }
+    };
     const movieBtnHandler = () => {
         if (playingData.watch) {
             window.electronAPI.openExternal(`https://www.nicovideo.jp/watch/${playingData.watch.video.id}`);
@@ -279,15 +299,20 @@ export const Controller = () => {
     };
     const shareBtnHandler = () => {
         if (playingData.watch) {
-            window.electronAPI.openExternal("https://twitter.com/intent/tweet?text=" + encodeURIComponent(`${playingData.watch.video.title}\nhttps://www.nicovideo.jp/watch/${playingData.watch.video.id} #${playingData.watch.video.id} #nowplaying`));
+            window.electronAPI.openExternal(
+                "https://twitter.com/intent/tweet?text=" +
+                    encodeURIComponent(
+                        `${playingData.watch.video.title}\nhttps://www.nicovideo.jp/watch/${playingData.watch.video.id} #${playingData.watch.video.id} #nowplaying`,
+                    ),
+            );
         }
-    }
+    };
     const changeVolumeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (isMute) {
             setIsMute(false);
         }
         setVolume(Number(e.target.value));
-    }
+    };
     return (
         <div className={styled.controller}>
             <audio
@@ -342,12 +367,12 @@ export const Controller = () => {
                     <button onClick={skipNext} title="次の曲">
                         <MdSkipNext />
                     </button>
-                    <button onClick={toggleRepeatMode} className={repeatMode !== "none" ? styled.active : ""} title="リピート">
-                        {repeatMode === "one" ? (
-                            <MdRepeatOne />
-                        ) : (
-                            <MdRepeat />
-                        )}
+                    <button
+                        onClick={toggleRepeatMode}
+                        className={repeatMode !== "none" ? styled.active : ""}
+                        title="リピート"
+                    >
+                        {repeatMode === "one" ? <MdRepeatOne /> : <MdRepeat />}
                     </button>
                 </div>
                 <div className={styled.songCtrlRange}>
@@ -373,19 +398,32 @@ export const Controller = () => {
                             <RiVolumeDownFill />
                         )}
                     </button>
-                    <input type="range" min={0} max={1} step={0.01} value={isMute ? 0 : volume} onChange={changeVolumeHandler} />
+                    <input
+                        type="range"
+                        min={0}
+                        max={1}
+                        step={0.01}
+                        value={isMute ? 0 : volume}
+                        onChange={changeVolumeHandler}
+                    />
                 </div>
                 <div className={styled.songExtButtons}>
                     {playingData.watch && isLogin && playingData.watch.video.viewer ? (
                         <>
                             {playingData.watch.video.viewer.like ? (
-                                <button className={styled.heart}><RiHeartFill /></button>
+                                <button className={styled.heart}>
+                                    <RiHeartFill />
+                                </button>
                             ) : (
-                                <button><RiHeartLine /></button>
+                                <button>
+                                    <RiHeartLine />
+                                </button>
                             )}
                         </>
                     ) : (
-                        <button disabled><RiHeartLine /></button>
+                        <button disabled>
+                            <RiHeartLine />
+                        </button>
                     )}
                     <button disabled={!playingData.watch} title="曲の情報">
                         <RiInformationLine />

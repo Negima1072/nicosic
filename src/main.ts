@@ -109,7 +109,7 @@ app.whenReady().then(() => {
         shell.openExternal(url);
     });
 
-    ipcMain.handle("check-login", (event: Electron.IpcMainInvokeEvent) => {
+    ipcMain.handle("check-login", () => {
         if (globalVal.cookieJar) {
             const cookie = globalVal.cookieJar.getCookieStringSync("https://www.nicovideo.jp");
             if (cookie.includes("user_session")) {
@@ -120,12 +120,15 @@ app.whenReady().then(() => {
     });
 
     ipcMain.handle("get-player-config", async () => {
-        const playerConfig = store.get("player_config", JSON.stringify({
-            volume: 1,
-            mute: false,
-            shuffle: false,
-            repeat: "none",
-        }));
+        const playerConfig = store.get(
+            "player_config",
+            JSON.stringify({
+                volume: 1,
+                mute: false,
+                shuffle: false,
+                repeat: "none",
+            }),
+        );
         return JSON.parse(playerConfig) as PlayerConfig;
     });
 
@@ -138,7 +141,7 @@ app.whenReady().then(() => {
 
 app.on("quit", () => {
     expressServer.close();
-})
+});
 
 app.once("window-all-closed", () => {
     expressServer.close();

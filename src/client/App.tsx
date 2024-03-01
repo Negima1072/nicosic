@@ -1,10 +1,18 @@
 import { useAtom, useSetAtom } from "jotai";
+import { useEffect } from "react";
+import ScaleLoader from "react-spinners/ScaleLoader";
+import {
+    isLoadingAtom,
+    isLoginAtom,
+    isMuteAtom,
+    isShuffleAtom,
+    loginUserDataAtom,
+    repeatModeAtom,
+    volumeAtom,
+} from "./atoms";
 import { Controller } from "./components/Controller/Controller";
 import { MainFrame } from "./components/MainFrame/MainFrame";
 import { SideMenu } from "./components/SideMenu/SideMenu";
-import ScaleLoader from "react-spinners/ScaleLoader";
-import { isLoadingAtom, isLoginAtom, isMuteAtom, isShuffleAtom, loginUserDataAtom, repeatModeAtom, volumeAtom } from "./atoms";
-import { useEffect } from "react";
 import { getOwnUserData } from "./nico/user";
 
 export const App = () => {
