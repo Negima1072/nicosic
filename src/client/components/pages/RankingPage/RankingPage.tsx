@@ -2,12 +2,17 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { getRankingProcessedSettings, getRankingSettings, rankingTerm2String } from "../../../nico/ranking";
 import { RankingViewer } from "./RankingViewer/RankingViewer";
 import styled from "./RankingPage.module.scss";
+import { useSearchParams } from "react-router-dom";
 
 export const RankingPage = () => {
-    const [rankingIndex, setRankingIndex] = useState(0);
-    const [termIndex, setTermIndex] = useState(0);
     const [rankingSettings, setRankingSettings] = useState<ProcessedRankingSetting[]>([]);
     const rankingSelectorRef = useRef<HTMLDivElement>(null);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [rankingIndex, termIndex] = useMemo(() => {
+        const rankingIndex = parseInt(searchParams.get("rankingIndex") ?? "0");
+        const termIndex = parseInt(searchParams.get("termIndex") ?? "0");
+        return [rankingIndex, termIndex];
+    }, [searchParams]);
     const [isTrend, rankingId] = useMemo(() => {
         const ranking = rankingSettings[rankingIndex];
         if (ranking === undefined) return [false, null];
@@ -33,6 +38,12 @@ export const RankingPage = () => {
             rankingSelectorRef.current.scrollLeft += e.deltaY * 0.5;
         }
     }
+    const setRankingIndex = (index: number) => {
+        setSearchParams({ rankingIndex: index.toString(), termIndex: "0" });
+    };
+    const setTermIndex = (index: number) => {
+        setSearchParams({ termIndex: index.toString(), rankingIndex: rankingIndex.toString() });
+    };
     useEffect(() => {
         async function fetchRankingSettings() {
             const settings = await getRankingSettings();
