@@ -47,7 +47,7 @@ type SearchVideoSortKeyOd =
     | "duration";
 type SearchVideoSortKey = SearchVideoSortKeySp | SearchVideoSortKeyOd;
 
-type SearchOrder = "desc" | "asc" | "none";
+type SearchSortOrder = "desc" | "asc" | "none";
 
 type SearchListSortKey = "_hotTotalScore" | "videoCount" | "startTime";
 type SearchUserSortKey = "_personalized" | "followerCount" | "videoCount" | "liveCount";

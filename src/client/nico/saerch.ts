@@ -3,6 +3,8 @@ import { NicoError, get } from "./common";
 export async function searchVideos(
     query: string,
     queryType: SearchQueryType,
+    sortKey: SearchVideoSortKey,
+    sortOrder: SearchSortOrder,
     page?: number,
     pageSize?: number,
     minDuration?: number,
@@ -10,8 +12,6 @@ export async function searchVideos(
     minRegisteredAt?: string,
     maxRegisteredAt?: string,
     channelVideoListingStatus?: ChannelVideoListingStatus,
-    sortKey?: SearchVideoSortKey,
-    sortOrder?: SearchOrder,
     genres?: string[],
     searchByUser?: boolean,
     allowFutureContents: boolean = false,
@@ -19,10 +19,10 @@ export async function searchVideos(
     const url = `https://nvapi.nicovideo.jp/v2/search/video`;
     const params = new URLSearchParams();
     params.append(queryType, query);
+    params.append("sortKey", sortKey);
+    params.append("sortOrder", sortOrder);
     if (page !== undefined) params.append("page", page.toString());
     if (pageSize !== undefined) params.append("pageSize", pageSize.toString());
-    if (sortKey !== undefined) params.append("sortKey", sortKey);
-    if (sortOrder !== undefined) params.append("sortOrder", sortOrder);
     if (genres !== undefined) params.append("genres", genres.join(","));
     if (searchByUser !== undefined) params.append("searchByUser", searchByUser.toString());
     if (minDuration !== undefined) params.append("minDuration", minDuration.toString());
@@ -65,7 +65,7 @@ export async function searchMylists(
     page?: number,
     pageSize?: number,
     sortKey?: SearchListSortKey,
-    sortOrder?: SearchOrder,
+    sortOrder?: SearchSortOrder,
     searchByUser?: boolean,
 ): Promise<SearchListData> {
     const url = `https://nvapi.nicovideo.jp/v1/search/list`;

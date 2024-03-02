@@ -17,13 +17,13 @@ type MylistSortKey =
     | "likeCount"
     | "mylistCount"
     | "duration";
-type SortOrder = "asc" | "desc";
+type MylistSortOrder = "asc" | "desc";
 
 interface MylistInfoData {
     createdAt: string;
     decoratedDescriptionHtml: string;
     defaultSortKey: MylistSortKey;
-    defaultSortOrder: SortOrder;
+    defaultSortOrder: MylistSortOrder;
     description: string;
     followerCount: number;
     id: number;
@@ -48,7 +48,7 @@ interface MylistItem {
 interface MylistDetailData {
     decoratedDescriptionHtml: string;
     defaultSortKey: MylistSortKey;
-    defaultSortOrder: SortOrder;
+    defaultSortOrder: MylistSortOrder;
     description: string;
     followerCount?: number;
     id: number;
