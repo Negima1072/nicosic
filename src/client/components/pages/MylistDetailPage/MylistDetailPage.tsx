@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
 import { useParams } from "react-router-dom";
 import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
-import { getMylistItems } from "../../../nico/mylist";
+import { getMylistItems } from "../../../nico/list";
 import styled from "./MylistDetailPage.module.scss";
 
 export const MylistDetailPage = () => {
@@ -17,8 +17,8 @@ export const MylistDetailPage = () => {
     useEffect(() => {
         async function fetchMylistDetail() {
             if (mylistId) {
-                const mylist = await getMylistItems(mylistId);
-                setMylist(mylist);
+                const _mylist = await getMylistItems(mylistId);
+                setMylist(_mylist);
             }
         }
         fetchMylistDetail();

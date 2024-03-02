@@ -2,7 +2,7 @@ import { useAtomValue } from "jotai";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { isLoginAtom } from "../../../atoms";
-import { getOwnMylists } from "../../../nico/mylist";
+import { getOwnMylists } from "../../../nico/list";
 import styled from "./MylistPage.module.scss";
 
 export const MylistPage = () => {

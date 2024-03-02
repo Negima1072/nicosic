@@ -17,6 +17,20 @@ interface RelationshipUser {
     type: "relationship";
 }
 
+interface EssentialUser {
+    type: "essential";
+    isPremium: boolean;
+    description: string;
+    strippedDescription: string;
+    shortDescription: string;
+    id: number
+    nickname: string;
+    icons: {
+        small: string;
+        large: string;
+    };
+}
+
 interface NicoUser {
     description: string;
     decoratedDescriptionHtml: string;

@@ -29,3 +29,20 @@ export async function getMylistItems(
     }
     return res.data.mylist;
 }
+
+export async function getSeriesItems(
+    seriesId: string,
+    pageSize?: number,
+    page?: number,
+): Promise<SeriesData> {
+    let url = `https://nvapi.nicovideo.jp/v2/series/${seriesId}`;
+    const params = new URLSearchParams();
+    if (pageSize !== undefined) params.append("pageSize", pageSize.toString());
+    if (page !== undefined) params.append("page", page.toString());
+    if (params.toString() !== "") url += "?" + params.toString();
+    const res = await get<NvAPIResponse<SeriesData>>(url);
+    if (res.meta.status !== 200 || res.data === undefined) {
+        throw new NicoError(res.meta.errorCode!);
+    }
+    return res.data;
+}

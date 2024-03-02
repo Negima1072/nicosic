@@ -60,3 +60,37 @@ interface MylistDetailData {
     hasNext: boolean;
     items: MylistItem[];
 }
+
+interface SeriesData {
+    detail: SeriesDetailData;
+    totalCount: number;
+    items: SeriesItem[];
+}
+
+interface SeriesDetailData {
+    id: number;
+    owner: {
+        type: "user"
+        id: string;
+        user: EssentialUser
+    }
+    title: string;
+    description: string;
+    decoratedDescriptionHtml: string;
+    thumbnailUrl: string;
+    isListed: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+interface SeriesItem {
+    meta: SeriesMeta
+    video: EssentialVideo;
+}
+
+interface SeriesMeta {
+    id: string
+    order: number
+    createdAt: string
+    updatedAt: string
+}
