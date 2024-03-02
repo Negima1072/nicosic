@@ -1,0 +1,74 @@
+.listSearchViewer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    overflow-y: auto;
+
+    .listSearchItems {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .listSearchItem {
+            height: 65px;
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+            padding: 5px 15px;
+            color: #f6f6f6;
+            text-decoration: none;
+            cursor: pointer;
+
+            .listSearchItemThumbnail {
+                height: 100%;
+                aspect-ratio: 1 / 1;
+                background-color: #353535;
+                position: relative;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .listSearchItemInfo {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 2px;
+
+                .listSearchItemTitle {
+                    font-size: 1rem;
+                    font-weight: 600;
+                }
+
+                .listSearchItemOwner {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 5px;
+                    height: 20px;
+                    align-items: center;
+
+                    img.listSearchItemOwnerIcon {
+                        width: 20px;
+                        height: 20px;
+                        object-fit: cover;
+                        border-radius: 50%;
+                    }
+
+                    span.listSearchItemOwnerName {
+                        font-size: 0.8rem;
+                        flex: 1;
+                    }
+                }
+            }
+        }
+
+        .listSearchItem:hover {
+            background-color: #151515;
+        }
+    }
+}

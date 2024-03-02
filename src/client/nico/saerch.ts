@@ -59,7 +59,7 @@ export async function searchUsers(
     return res.data;
 }
 
-export async function searchMylists(
+export async function searchLists(
     keyword: string,
     listType: SearchListType,
     page?: number,
