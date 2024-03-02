@@ -10,18 +10,28 @@ export function makeActionTrackId(): string {
     return `${randomStr}_${unixTime}`;
 }
 
-export async function getWatchDataGuest(videoId: string, actionTrackId: string): Promise<WatchData> {
-    const url = `https://www.nicovideo.jp/api/watch/v3_guest/${videoId}?actionTrackId=${actionTrackId}`;
-    const res = await get<WatchAPIResponse<WatchData>>(url);
+export async function getWatchDataGuest(videoId: string, actionTrackId: string, prevIntegratedLoudness?: number): Promise<WatchData> {
+    const url = `https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`;
+    const params = new URLSearchParams();
+    params.append("actionTrackId", actionTrackId);
+    if (prevIntegratedLoudness !== undefined) {
+        params.append("prevIntegratedLoudness", prevIntegratedLoudness.toString());
+    }
+    const res = await get<WatchAPIResponse<WatchData>>(url + "?" + params.toString());
     if (res.meta.status !== 200 || res.data === undefined) {
         throw new NicoError(res.meta.errorCode!);
     }
     return res.data;
 }
 
-export async function getWatchData(videoId: string, actionTrackId: string): Promise<WatchData> {
-    const url = `https://www.nicovideo.jp/api/watch/v3/${videoId}?actionTrackId=${actionTrackId}`;
-    const res = await get<WatchAPIResponse<WatchData>>(url);
+export async function getWatchData(videoId: string, actionTrackId: string, prevIntegratedLoudness?: number): Promise<WatchData> {
+    const url = `https://www.nicovideo.jp/api/watch/v3/${videoId}`;
+    const params = new URLSearchParams();
+    params.append("actionTrackId", actionTrackId);
+    if (prevIntegratedLoudness !== undefined) {
+        params.append("prevIntegratedLoudness", prevIntegratedLoudness.toString());
+    }
+    const res = await get<WatchAPIResponse<WatchData>>(url + "?" + params.toString());
     if (res.meta.status !== 200 || res.data === undefined) {
         throw new NicoError(res.meta.errorCode!);
     }

@@ -39,7 +39,7 @@ export const Controller = () => {
     const isSupportedBrowser = useMemo(() => Hls.isSupported(), []);
     const audioRef = useRef<HTMLAudioElement>(null);
     const [sourceUrl, setSourceUrl] = useState<string | null>(null);
-    const [loudness, setLoudness] = useState(0);
+    const [loudness, setLoudness] = useState<number | undefined>(undefined);
 
     const isLogin = useAtomValue(isLoginAtom);
     const [playingData, setPlayingData] = useAtom(playingDataAtom);
@@ -60,12 +60,14 @@ export const Controller = () => {
         const getVideo = async () => {
             if (!playingData.id) {
                 setPlayingData({});
+                setLoudness(undefined);
+                setSourceUrl(null);
                 return;
             }
             const actionTrackId = await makeActionTrackId();
             const data = isLogin
-                ? await getWatchData(playingData.id, actionTrackId)
-                : await getWatchDataGuest(playingData.id, actionTrackId);
+                ? await getWatchData(playingData.id, actionTrackId, loudness)
+                : await getWatchDataGuest(playingData.id, actionTrackId, loudness);
             if (data.media.domand) {
                 const outputs = data.media.domand.audios.filter((audio) => audio.isAvailable);
                 if (outputs.length > 0) {
@@ -104,7 +106,11 @@ export const Controller = () => {
     }, [isSupportedBrowser, sourceUrl]);
     useEffect(() => {
         if (audioRef.current) {
-            audioRef.current.volume = Math.max(Math.min(volume * loudness, 1), 0);
+            if (loudness) {
+                audioRef.current.volume = Math.max(Math.min(volume * loudness, 1), 0);
+            } else {
+                audioRef.current.volume = Math.max(Math.min(volume, 1), 0);
+            }
         }
     }, [volume, loudness]);
     useEffect(() => {
