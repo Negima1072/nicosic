@@ -29,7 +29,7 @@ interface SearchTag {
 
 interface SearchAdditional {
     tags: SearchTag[];
-    waku: {};
+    waku: object;
 }
 
 type SearchType = "video" | "list" | "user";

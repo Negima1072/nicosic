@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { searchUsers } from "../../../../nico/saerch";
 import styled from "./UserSearchViewer.module.scss";
-import { NavLink } from "react-router-dom";
 
 interface UserSearchViewerProps {
     searchQuery: string;
@@ -39,11 +39,15 @@ export const UserSearchViewer = ({ searchQuery, sortKey }: UserSearchViewerProps
                                 <div className={styled.userSearchItemStats}>
                                     <div className={styled.userSearchItemStatsItem}>
                                         <span className={styled.userSearchItemStatsLabel}>投稿数</span>
-                                        <span className={styled.userSearchItemStatsValue}>{item.videoCount.toLocaleString()}</span>
+                                        <span className={styled.userSearchItemStatsValue}>
+                                            {item.videoCount.toLocaleString()}
+                                        </span>
                                     </div>
                                     <div className={styled.userSearchItemStatsItem}>
                                         <span className={styled.userSearchItemStatsLabel}>フォロワー数</span>
-                                        <span className={styled.userSearchItemStatsValue}>{item.followerCount.toLocaleString()}</span>
+                                        <span className={styled.userSearchItemStatsValue}>
+                                            {item.followerCount.toLocaleString()}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -52,5 +56,5 @@ export const UserSearchViewer = ({ searchQuery, sortKey }: UserSearchViewerProps
                 </div>
             )}
         </div>
-    )
-}
+    );
+};

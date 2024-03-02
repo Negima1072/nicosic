@@ -70,10 +70,10 @@ interface SeriesData {
 interface SeriesDetailData {
     id: number;
     owner: {
-        type: "user"
+        type: "user";
         id: string;
-        user: EssentialUser
-    }
+        user: EssentialUser;
+    };
     title: string;
     description: string;
     decoratedDescriptionHtml: string;
@@ -84,13 +84,13 @@ interface SeriesDetailData {
 }
 
 interface SeriesItem {
-    meta: SeriesMeta
+    meta: SeriesMeta;
     video: EssentialVideo;
 }
 
 interface SeriesMeta {
-    id: string
-    order: number
-    createdAt: string
-    updatedAt: string
+    id: string;
+    order: number;
+    createdAt: string;
+    updatedAt: string;
 }

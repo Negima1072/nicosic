@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import styled from "./PopularTagsViewer.module.scss";
+import { NavLink } from "react-router-dom";
 import { getNicoboxPopularTags } from "../../../../nico/recommend";
 import { searchVideos } from "../../../../nico/saerch";
-import { NavLink } from "react-router-dom";
+import styled from "./PopularTagsViewer.module.scss";
 
 interface PopularTag {
     content: string;
@@ -21,7 +21,7 @@ export const PopularTagsViewer = () => {
                     popularTags.push({
                         content: tag.content,
                         image: search.items[0].thumbnail.listingUrl,
-                    })
+                    });
                 }
             }
             setPopularTags(popularTags);
@@ -42,5 +42,5 @@ export const PopularTagsViewer = () => {
                 ))}
             </div>
         </div>
-    )
-}
+    );
+};

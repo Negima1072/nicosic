@@ -6,9 +6,9 @@ import { MylistDetailPage } from "../pages/MylistDetailPage/MylistDetailPage";
 import { MylistPage } from "../pages/MylistPage/MylistPage";
 import { RankingPage } from "../pages/RankingPage/RankingPage";
 import { SearchPage } from "../pages/SearchPage/SearchPage";
+import { SeriesDetailPage } from "../pages/SeriesDetailPage/SeriesDetailPage";
 import { UserPage } from "../pages/UserPage/UserPage";
 import styled from "./MainFrame.module.scss";
-import { SeriesDetailPage } from "../pages/SeriesDetailPage/SeriesDetailPage";
 
 export const MainFrame = () => {
     const navigate = useNavigate();

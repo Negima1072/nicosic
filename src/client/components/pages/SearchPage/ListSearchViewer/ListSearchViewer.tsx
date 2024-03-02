@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { searchLists } from "../../../../nico/saerch";
 import styled from "./ListSearchViewer.module.scss";
-import { NavLink } from "react-router-dom";
 
 interface ListSearchViewerProps {
     searchQuery: string;
-    listType: SearchListType
+    listType: SearchListType;
     sortKey: SearchListSortKey;
     sortOrder: SearchSortOrder;
 }
@@ -40,7 +40,11 @@ export const ListSearchViewer = ({ searchQuery, listType, sortKey, sortOrder }: 
                             <div className={styled.listSearchItemInfo}>
                                 <span className={styled.listSearchItemTitle}>{item.title}</span>
                                 <div className={styled.listSearchItemOwner}>
-                                    <img src={item.owner.iconUrl} alt="icon" className={styled.listSearchItemOwnerIcon} />
+                                    <img
+                                        src={item.owner.iconUrl}
+                                        alt="icon"
+                                        className={styled.listSearchItemOwnerIcon}
+                                    />
                                     <span className={styled.listSearchItemOwnerName}>{item.owner.name}</span>
                                 </div>
                             </div>
@@ -49,5 +53,5 @@ export const ListSearchViewer = ({ searchQuery, listType, sortKey, sortOrder }: 
                 </div>
             )}
         </div>
-    )
-}
+    );
+};

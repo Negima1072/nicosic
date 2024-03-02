@@ -23,7 +23,7 @@ interface EssentialUser {
     description: string;
     strippedDescription: string;
     shortDescription: string;
-    id: number
+    id: number;
     nickname: string;
     icons: {
         small: string;

@@ -8,8 +8,8 @@ import {
     playlistDataAtom,
     playlistIndexAtom,
 } from "../../../../atoms";
-import styled from "./VideoSearchViewer.module.scss";
 import { searchVideos } from "../../../../nico/saerch";
+import styled from "./VideoSearchViewer.module.scss";
 
 interface VideoSearchViewerProps {
     searchQuery: string;
