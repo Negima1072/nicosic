@@ -8,6 +8,7 @@ import { RankingPage } from "../pages/RankingPage/RankingPage";
 import { SearchPage } from "../pages/SearchPage/SearchPage";
 import { UserPage } from "../pages/UserPage/UserPage";
 import styled from "./MainFrame.module.scss";
+import { SeriesDetailPage } from "../pages/SeriesDetailPage/SeriesDetailPage";
 
 export const MainFrame = () => {
     const navigate = useNavigate();
@@ -28,6 +29,7 @@ export const MainFrame = () => {
                     <Route path="/search" element={<SearchPage />} />
                     <Route path="/mylist" element={<MylistPage />} />
                     <Route path="/mylist/:mylistId" element={<MylistDetailPage />} />
+                    <Route path="/series/:seriesId" element={<SeriesDetailPage />} />
                     <Route path="/user/:userId" element={<UserPage />} />
                     <Route path="/config" element={<ConfigPage />} />
                 </Routes>

@@ -1,0 +1,107 @@
+.seriesDetailPage {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .seriesDetail {
+        display: flex;
+        flex-direction: column;
+        padding-inline: 10px;
+
+        .seriesTitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        .seriesOwner {
+            font-size: 1.5rem;
+            display: flex;
+            flex-direction: row;
+            height: 20px;
+            align-items: center;
+            gap: 2px;
+            color: #c5c5c5;
+
+            img {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+            }
+            span {
+                font-size: 0.8rem;
+            }
+        }
+        .seriesMeta {
+            display: flex;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #c5c5c5;
+        }
+    }
+    .seriesItems {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .seriesItem {
+            height: 80px;
+            display: flex;
+            gap: 5px;
+            padding: 10px;
+            color: #f6f6f6;
+            text-decoration: none;
+            cursor: pointer;
+
+            .videoImage {
+                height: 100%;
+                aspect-ratio: 1 / 1;
+                background-color: #353535;
+                position: relative;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+            .seriesItemInfo {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 2px;
+
+                .seriesItemTitle {
+                    font-size: 1rem;
+                    font-weight: 600;
+                }
+
+                .seriesItemDetail {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2px;
+
+                    .seriesItemMeta1 {
+                        display: flex;
+                        gap: 2px;
+                        font-size: 0.7rem;
+                    }
+                    .seriesItemMeta2 {
+                        display: flex;
+                        font-size: 0.6rem;
+                        gap: 7px;
+
+                        .seriesItemMetaItem {
+                            display: flex;
+                            gap: 2px;
+                            align-items: center;
+                        }
+                    }
+                }
+            }
+        }
+
+        .seriesItem:hover {
+            background-color: #151515;
+        }
+    }
+}
