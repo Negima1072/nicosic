@@ -8,9 +8,9 @@ import { RankingPage } from "../pages/RankingPage/RankingPage";
 import { SearchPage } from "../pages/SearchPage/SearchPage";
 import { SeriesDetailPage } from "../pages/SeriesDetailPage/SeriesDetailPage";
 import { UserPage } from "../pages/UserPage/UserPage";
-import styled from "./MainFrame.module.scss";
 import { UserVideosPage } from "../pages/UserVideosPage/UserVideosPage";
 import { VideoDetailPage } from "../pages/VideoDetailPage/VideoDetailPage";
+import styled from "./MainFrame.module.scss";
 
 export const MainFrame = () => {
     const navigate = useNavigate();

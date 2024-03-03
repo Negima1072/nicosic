@@ -121,7 +121,7 @@ interface UserVideosData {
 }
 
 interface UserVideoItem {
-    series: UserVideoItemSeries | null
+    series: UserVideoItemSeries | null;
     essential: EssentialVideo;
 }
 

@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
 import { useParams } from "react-router-dom";
 import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
-import styled from "./UserVideosPage.module.scss";
 import { getUserVideos } from "../../../nico/user";
+import styled from "./UserVideosPage.module.scss";
 
 export const UserVideosPage = () => {
     const { userId } = useParams();
@@ -63,7 +63,9 @@ export const UserVideosPage = () => {
                                 onClick={() => changePlayingId(index, item.essential)}
                             >
                                 <div className={styled.videoImage}>
-                                    {item.essential && <img src={item.essential.thumbnail.listingUrl} alt="thumbnail" />}
+                                    {item.essential && (
+                                        <img src={item.essential.thumbnail.listingUrl} alt="thumbnail" />
+                                    )}
                                 </div>
                                 <div className={styled.userVideosItemInfo}>
                                     {item.essential ? (
@@ -107,4 +109,4 @@ export const UserVideosPage = () => {
             )}
         </div>
     );
-}
+};

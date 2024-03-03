@@ -10,7 +10,11 @@ export function makeActionTrackId(): string {
     return `${randomStr}_${unixTime}`;
 }
 
-export async function getWatchDataGuest(videoId: string, actionTrackId: string, prevIntegratedLoudness?: number): Promise<WatchData> {
+export async function getWatchDataGuest(
+    videoId: string,
+    actionTrackId: string,
+    prevIntegratedLoudness?: number,
+): Promise<WatchData> {
     const url = `https://www.nicovideo.jp/api/watch/v3_guest/${videoId}`;
     const params = new URLSearchParams();
     params.append("actionTrackId", actionTrackId);
@@ -24,7 +28,11 @@ export async function getWatchDataGuest(videoId: string, actionTrackId: string, 
     return res.data;
 }
 
-export async function getWatchData(videoId: string, actionTrackId: string, prevIntegratedLoudness?: number): Promise<WatchData> {
+export async function getWatchData(
+    videoId: string,
+    actionTrackId: string,
+    prevIntegratedLoudness?: number,
+): Promise<WatchData> {
     const url = `https://www.nicovideo.jp/api/watch/v3/${videoId}`;
     const params = new URLSearchParams();
     params.append("actionTrackId", actionTrackId);

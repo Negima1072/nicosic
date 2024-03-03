@@ -1,10 +1,10 @@
-import { NavLink, useParams } from "react-router-dom";
-import styled from "./UserPage.module.scss";
-import { useEffect, useState } from "react";
-import { getUserData, getUserMylists, getUserVideos } from "../../../nico/user";
-import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
 import { useAtomValue, useSetAtom } from "jotai";
+import { useEffect, useState } from "react";
+import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
+import { NavLink, useParams } from "react-router-dom";
 import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
+import { getUserData, getUserMylists, getUserVideos } from "../../../nico/user";
+import styled from "./UserPage.module.scss";
 
 export const UserPage = () => {
     const { userId } = useParams();
@@ -36,7 +36,7 @@ export const UserPage = () => {
             }
         }
         fetchUserData();
-        return () => {}
+        return () => {};
     }, [userId]);
     const changePlayingId = (video?: EssentialVideo) => {
         if (video && userData) {
@@ -57,21 +57,37 @@ export const UserPage = () => {
                 <>
                     <div className={styled.userInfo}>
                         {userData.user.coverImage && (
-                            <img src={userData.user.coverImage.smartphoneUrl} alt="cover" className={styled.userInfoCover} />
+                            <img
+                                src={userData.user.coverImage.smartphoneUrl}
+                                alt="cover"
+                                className={styled.userInfoCover}
+                            />
                         )}
                         <div className={styled.userInfoInner}>
-                            <img src={userData.user.icons.large} alt="icon" className={`${styled.userInfoIcon} ${userData.user.coverImage ? styled.userInfoIconWithCover : ""}`} />
+                            <img
+                                src={userData.user.icons.large}
+                                alt="icon"
+                                className={`${styled.userInfoIcon} ${userData.user.coverImage ? styled.userInfoIconWithCover : ""}`}
+                            />
                             <div className={styled.userInfoMeta}>
                                 <span className={styled.userInfoName}>{userData.user.nickname}</span>
                                 <div className={styled.userInfoButtons}>
                                     {!userData.relationships.isMe && (
-                                        <button className={`${styled.userInfoFollowButton} ${userData.relationships.sessionUser.isFollowing ? styled.userInfoButtonFollowing : ""}`}>
-                                            {userData.relationships.sessionUser.isFollowing ? "フォロー中" : "フォローする"}
+                                        <button
+                                            className={`${styled.userInfoFollowButton} ${userData.relationships.sessionUser.isFollowing ? styled.userInfoButtonFollowing : ""}`}
+                                        >
+                                            {userData.relationships.sessionUser.isFollowing
+                                                ? "フォロー中"
+                                                : "フォローする"}
                                         </button>
                                     )}
                                     <div className={styled.userInfoSns}>
                                         {userData.user.sns.map((sns) => (
-                                            <div key={sns.type} className={styled.userInfoSnsItem} onClick={() => window.electronAPI.openExternal(sns.url)}>
+                                            <div
+                                                key={sns.type}
+                                                className={styled.userInfoSnsItem}
+                                                onClick={() => window.electronAPI.openExternal(sns.url)}
+                                            >
                                                 <img src={sns.iconUrl} alt="" />
                                             </div>
                                         ))}
@@ -79,11 +95,15 @@ export const UserPage = () => {
                                 </div>
                                 <div className={styled.userInfoCounts}>
                                     <div className={styled.userInfoCountsItem}>
-                                        <span className={styled.userInfoCountsItemValue}>{userData.user.followeeCount.toLocaleString()}</span>
+                                        <span className={styled.userInfoCountsItemValue}>
+                                            {userData.user.followeeCount.toLocaleString()}
+                                        </span>
                                         <span>フォロー中</span>
                                     </div>
                                     <div className={styled.userInfoCountsItem}>
-                                        <span className={styled.userInfoCountsItemValue}>{userData.user.followerCount.toLocaleString()}</span>
+                                        <span className={styled.userInfoCountsItemValue}>
+                                            {userData.user.followerCount.toLocaleString()}
+                                        </span>
                                         <span>フォロワー</span>
                                     </div>
                                 </div>
@@ -97,18 +117,24 @@ export const UserPage = () => {
                         <h3>人気の作品</h3>
                         <div className={styled.popularWorksList}>
                             {popularWorks.map((item, index) => (
-                                <div key={item.essential.id} className={styled.popularWorksItem} onClick={() => changePlayingId(item.essential)}>
+                                <div
+                                    key={item.essential.id}
+                                    className={styled.popularWorksItem}
+                                    onClick={() => changePlayingId(item.essential)}
+                                >
                                     <span className={styled.popularWorksItemRank}>{index + 1}</span>
                                     <img src={item.essential.thumbnail.listingUrl} alt="thumbnail" />
                                     <div className={styled.popularWorksItemMeta}>
                                         <div className={styled.popularWorksItemTitle}>{item.essential.title}</div>
-                                        <span className={styled.popularWorksItemViewCount}>{item.essential.count.view.toLocaleString()}</span>
+                                        <span className={styled.popularWorksItemViewCount}>
+                                            {item.essential.count.view.toLocaleString()}
+                                        </span>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
-                    <div　className={styled.newWorks}>
+                    <div className={styled.newWorks}>
                         <div className={styled.newWorksHeader}>
                             <h3>新着の作品</h3>
                             <NavLink to={`/user/${userId}/videos`} className={styled.newWorksLink}>
@@ -117,7 +143,11 @@ export const UserPage = () => {
                         </div>
                         <div className={styled.newWorksList}>
                             {newWorks.map((item) => (
-                                <div key={item.essential.id} className={styled.newWorksItem} onClick={() => changePlayingId(item.essential)}>
+                                <div
+                                    key={item.essential.id}
+                                    className={styled.newWorksItem}
+                                    onClick={() => changePlayingId(item.essential)}
+                                >
                                     <div className={styled.videoImage}>
                                         <img src={item.essential.thumbnail.listingUrl} alt="thumbnail" />
                                     </div>
@@ -154,7 +184,7 @@ export const UserPage = () => {
                             ))}
                         </div>
                     </div>
-                    <div　className={styled.userMylists}>
+                    <div className={styled.userMylists}>
                         <h3>公開マイリスト</h3>
                         <div className={styled.userMylistsList}>
                             {mylists.map((item) => (
@@ -176,5 +206,5 @@ export const UserPage = () => {
                 </>
             )}
         </div>
-    )
+    );
 };

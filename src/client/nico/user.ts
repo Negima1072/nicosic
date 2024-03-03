@@ -18,7 +18,13 @@ export async function getUserData(userId: string): Promise<UserData> {
     return res.data;
 }
 
-export async function getUserVideos(userId: string, sortKey?: SearchVideoSortKeyOd, sortOrder?: SearchSortOrder, page?: number, pageSize?: number): Promise<UserVideosData> {
+export async function getUserVideos(
+    userId: string,
+    sortKey?: SearchVideoSortKeyOd,
+    sortOrder?: SearchSortOrder,
+    page?: number,
+    pageSize?: number,
+): Promise<UserVideosData> {
     const url = `https://nvapi.nicovideo.jp/v3/users/${userId}/videos`;
     const params = new URLSearchParams();
     params.append("_language", "ja-jp");
