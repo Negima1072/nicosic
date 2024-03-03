@@ -64,9 +64,11 @@ export const UserPage = () => {
                             <div className={styled.userInfoMeta}>
                                 <span className={styled.userInfoName}>{userData.user.nickname}</span>
                                 <div className={styled.userInfoButtons}>
-                                    <button className={`${styled.userInfoFollowButton} ${userData.relationships.sessionUser.isFollowing ? styled.userInfoButtonFollowing : ""}`}>
-                                        {userData.relationships.sessionUser.isFollowing ? "フォロー中" : "フォローする"}
-                                    </button>
+                                    {!userData.relationships.isMe && (
+                                        <button className={`${styled.userInfoFollowButton} ${userData.relationships.sessionUser.isFollowing ? styled.userInfoButtonFollowing : ""}`}>
+                                            {userData.relationships.sessionUser.isFollowing ? "フォロー中" : "フォローする"}
+                                        </button>
+                                    )}
                                     <div className={styled.userInfoSns}>
                                         {userData.user.sns.map((sns) => (
                                             <div key={sns.type} className={styled.userInfoSnsItem} onClick={() => window.electronAPI.openExternal(sns.url)}>
