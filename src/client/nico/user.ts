@@ -1,4 +1,4 @@
-import { NicoError, get } from "./common";
+import { NicoError, get, post, reqDelete } from "./common";
 
 export async function getOwnUserData(): Promise<ExpandUser> {
     const url = `https://nvapi.nicovideo.jp/v1/users/me`;
@@ -49,4 +49,20 @@ export async function getUserMylists(userId: string, sampleItemCount?: number): 
         throw new NicoError(res.meta.errorCode!);
     }
     return res.data;
+}
+
+export async function followUser(userId: string): Promise<void> {
+    const url = `https://user-follow-api.nicovideo.jp/v1/user/followees/niconico-users/${userId}.json`;
+    const res = await post<NvAPIResponse<undefined>>(url);
+    if (res.meta.status !== 200) {
+        throw new NicoError(res.meta.errorCode!);
+    }
+}
+
+export async function unfollowUser(userId: string): Promise<void> {
+    const url = `https://user-follow-api.nicovideo.jp/v1/user/followees/niconico-users/${userId}.json`;
+    const res = await reqDelete<NvAPIResponse<undefined>>(url);
+    if (res.meta.status !== 200) {
+        throw new NicoError(res.meta.errorCode!);
+    }
 }

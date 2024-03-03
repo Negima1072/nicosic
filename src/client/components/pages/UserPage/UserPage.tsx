@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
 import { NavLink, useParams } from "react-router-dom";
 import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
-import { getUserData, getUserMylists, getUserVideos } from "../../../nico/user";
+import { followUser, getUserData, getUserMylists, getUserVideos, unfollowUser } from "../../../nico/user";
 import styled from "./UserPage.module.scss";
 
 export const UserPage = () => {
@@ -51,6 +51,30 @@ export const UserPage = () => {
         const sec = Math.floor(seconds % 60);
         return `${min}:${sec.toString().padStart(2, "0")}`;
     };
+    const userFollowHandler = async (follow: boolean) => {
+        if (userData) {
+            if (follow) {
+                await followUser(userData.user.id);
+            } else {
+                await unfollowUser(userData.user.id);
+            }
+            setUserData((prev) => {
+                if (prev) {
+                    return {
+                        ...prev,
+                        relationships: {
+                            ...prev.relationships,
+                            sessionUser: {
+                                ...prev.relationships.sessionUser,
+                                isFollowing: follow,
+                            },
+                        },
+                    };
+                }
+                return prev;
+            });
+        }
+    }
     return (
         <div className={styled.userPage}>
             {userData && (
@@ -75,6 +99,7 @@ export const UserPage = () => {
                                     {!userData.relationships.isMe && (
                                         <button
                                             className={`${styled.userInfoFollowButton} ${userData.relationships.sessionUser.isFollowing ? styled.userInfoButtonFollowing : ""}`}
+                                            onClick={() => userFollowHandler(!userData.relationships.sessionUser.isFollowing)}
                                         >
                                             {userData.relationships.sessionUser.isFollowing
                                                 ? "フォロー中"
