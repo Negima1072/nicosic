@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { searchLists } from "../../../../nico/saerch";
+import { searchLists } from "../../../../nico/search";
 import styled from "./ListSearchViewer.module.scss";
 
 interface ListSearchViewerProps {

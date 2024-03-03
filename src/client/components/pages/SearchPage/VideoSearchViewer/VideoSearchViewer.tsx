@@ -8,7 +8,7 @@ import {
     playlistDataAtom,
     playlistIndexAtom,
 } from "../../../../atoms";
-import { searchVideos } from "../../../../nico/saerch";
+import { searchVideos } from "../../../../nico/search";
 import styled from "./VideoSearchViewer.module.scss";
 
 interface VideoSearchViewerProps {

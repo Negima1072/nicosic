@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { searchUsers } from "../../../../nico/saerch";
+import { searchUsers } from "../../../../nico/search";
 import styled from "./UserSearchViewer.module.scss";
 
 interface UserSearchViewerProps {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { getNicoboxPopularTags } from "../../../../nico/recommend";
-import { searchVideos } from "../../../../nico/saerch";
+import { searchVideos } from "../../../../nico/search";
 import styled from "./PopularTagsViewer.module.scss";
 
 interface PopularTag {
