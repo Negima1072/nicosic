@@ -1,4 +1,4 @@
-import { NicoError, get, post } from "./common";
+import { NicoError, get, post, reqDelete } from "./common";
 
 export function makeActionTrackId(): string {
     const randomStrBase = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -66,4 +66,25 @@ export async function getAccessRight(
         throw new NicoError(res.meta.errorCode!);
     }
     return res.data;
+}
+
+export async function likeVideo(videoId: string): Promise<string | null> {
+    const url = `https://nvapi.nicovideo.jp/v1/users/me/likes/items`;
+    const params = new URLSearchParams();
+    params.append("videoId", videoId);
+    const res = await post<NvAPIResponse<DoLike>>(url + "?" + params.toString());
+    if (res.meta.status !== 201 || res.data === undefined) {
+        throw new NicoError(res.meta.errorCode!);
+    }
+    return res.data.thanksMessage;
+}
+
+export async function dislikeVideo(videoId: string): Promise<void> {
+    const url = `https://nvapi.nicovideo.jp/v1/users/me/likes/items`;
+    const params = new URLSearchParams();
+    params.append("videoId", videoId);
+    const res = await reqDelete<NvAPIResponse<undefined>>(url + "?" + params.toString());
+    if (res.meta.status !== 200) {
+        throw new NicoError(res.meta.errorCode!);
+    }
 }

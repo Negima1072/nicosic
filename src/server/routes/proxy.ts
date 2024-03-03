@@ -92,4 +92,43 @@ router.post("/", (req, res) => {
         });
 });
 
+router.delete("/", (req, res) => {
+    const url = req.query.url as string;
+    if (!url) {
+        res.status(400).send({ error: "url is required" });
+        return;
+    }
+    const reqHeaders = new Headers();
+    for (const [key, value] of Object.entries(req.headers)) {
+        reqHeaders.set(key, value as string);
+    }
+    reqHeaders.set("host", new URL(url).host);
+    reqHeaders.set("origin", "https://www.nicovideo.jp");
+    reqHeaders.set("referer", "https://www.nicovideo.jp/");
+    reqHeaders.delete("x-forwarded-for");
+    reqHeaders.delete("x-forwarded-host");
+    reqHeaders.delete("x-forwarded-proto");
+    reqHeaders.delete("x-forwarded-port");
+    fetch(url, {
+        method: "DELETE",
+        headers: reqHeaders,
+        agent: ({ protocol }) => (protocol === "https:" ? globalVal.httpsAgent : globalVal.httpAgent),
+    })
+        .then(async (response) => {
+            if (response.body) {
+                for (const [key, value] of response.headers) {
+                    if (key === "content-type") {
+                        res.setHeader(key, value);
+                    }
+                }
+                response.body.pipe(res);
+            } else {
+                res.status(response.status).end();
+            }
+        })
+        .catch((error) => {
+            res.status(500).send({ error: error.message });
+        });
+});
+
 export default router;

@@ -32,7 +32,7 @@ import {
     repeatModeAtom,
     volumeAtom,
 } from "../../atoms";
-import { getAccessRight, getWatchData, getWatchDataGuest, makeActionTrackId } from "../../nico/video";
+import { dislikeVideo, getAccessRight, getWatchData, getWatchDataGuest, likeVideo, makeActionTrackId } from "../../nico/video";
 import styled from "./Controller.module.scss";
 
 export const Controller = () => {
@@ -319,6 +319,20 @@ export const Controller = () => {
         }
         setVolume(Number(e.target.value));
     };
+    const likeButtonHandler = async (like: boolean) => {
+        if (playingData.watch && playingData.watch && playingData.watch.video.viewer !== null) {
+            if (like) {
+                await likeVideo(playingData.watch.video.id);
+            } else {
+                await dislikeVideo(playingData.watch.video.id);
+            }
+            const newWatchData = { ...playingData.watch };
+            if (newWatchData.video.viewer) {
+                newWatchData.video.viewer.like.isLiked = like;
+            }
+            setPlayingData((prev) => ({ ...prev, watch: newWatchData }));
+        }
+    }
     return (
         <div className={styled.controller}>
             <audio
@@ -416,12 +430,12 @@ export const Controller = () => {
                 <div className={styled.songExtButtons}>
                     {playingData.watch && isLogin && playingData.watch.video.viewer ? (
                         <>
-                            {playingData.watch.video.viewer.like ? (
-                                <button className={styled.heart}>
+                            {playingData.watch.video.viewer.like.isLiked ? (
+                                <button className={styled.heart} onClick={() => likeButtonHandler(false)}>
                                     <RiHeartFill />
                                 </button>
                             ) : (
-                                <button>
+                                <button onClick={() => likeButtonHandler(true)}>
                                     <RiHeartLine />
                                 </button>
                             )}

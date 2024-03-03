@@ -13,7 +13,7 @@ export async function get<T>(url: string, headers: HeadersInit = {}): Promise<T>
     return data;
 }
 
-export async function post<T>(url: string, body: object, headers: HeadersInit = {}): Promise<T> {
+export async function post<T>(url: string, body?: object, headers: HeadersInit = {}): Promise<T> {
     const response = await fetch("/proxy?url=" + encodeURIComponent(url), {
         method: "POST",
         headers: {
@@ -33,4 +33,18 @@ export class NicoError extends Error {
     constructor(public errorCode: string) {
         super(`NicoError: ${errorCode}`);
     }
+}
+
+export async function reqDelete<T>(url: string, headers: HeadersInit = {}): Promise<T> {
+    const response = await fetch("/proxy?url=" + encodeURIComponent(url), {
+        method: "DELETE",
+        headers: {
+            "X-Frontend-Id": "6",
+            "X-Frontend-Version": "0",
+            "X-Request-With": "https://www.nicovideo.jp",
+            ...headers,
+        },
+    });
+    const data = (await response.json()) as T;
+    return data;
 }
