@@ -2,7 +2,7 @@ import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
 import { NavLink, useParams } from "react-router-dom";
-import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
+import { isLoginAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { followUser, getUserData, getUserMylists, getUserVideos, unfollowUser } from "../../../nico/user";
 import styled from "./UserPage.module.scss";
 
@@ -12,7 +12,7 @@ export const UserPage = () => {
     const [popularWorks, setPopularWorks] = useState<UserVideoItem[]>([]);
     const [newWorks, setNewWorks] = useState<UserVideoItem[]>([]);
     const [mylists, setMylists] = useState<MylistInfoData[]>([]);
-    const isShuffle = useAtomValue(isShuffleAtom);
+    const isLogin = useAtomValue(isLoginAtom);
     const setPlayingData = useSetAtom(playingDataAtom);
     const setPlayingListAtom = useSetAtom(playingListAtom);
     const setPlaylistDataAtom = useSetAtom(playlistDataAtom);
@@ -96,7 +96,7 @@ export const UserPage = () => {
                             <div className={styled.userInfoMeta}>
                                 <span className={styled.userInfoName}>{userData.user.nickname}</span>
                                 <div className={styled.userInfoButtons}>
-                                    {!userData.relationships.isMe && (
+                                    {!userData.relationships.isMe && isLogin && (
                                         <button
                                             className={`${styled.userInfoFollowButton} ${userData.relationships.sessionUser.isFollowing ? styled.userInfoButtonFollowing : ""}`}
                                             onClick={() => userFollowHandler(!userData.relationships.sessionUser.isFollowing)}
