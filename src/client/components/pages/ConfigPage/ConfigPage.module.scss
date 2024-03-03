@@ -1,0 +1,21 @@
+.configPage {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .appInfo {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: baseline;
+        padding-inline: 15px;
+
+        h1 {
+            margin: 0;
+        }
+
+        span {
+            margin: 0;
+        }
+    }
+}

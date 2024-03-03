@@ -119,6 +119,8 @@ app.whenReady().then(() => {
         return false;
     });
 
+    ipcMain.handle("get-app-version", () => app.getVersion());
+
     ipcMain.handle("get-player-config", async () => {
         const playerConfig = store.get(
             "player_config",
