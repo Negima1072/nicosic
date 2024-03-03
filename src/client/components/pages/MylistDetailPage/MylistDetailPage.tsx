@@ -1,7 +1,7 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { getMylistItems } from "../../../nico/list";
 import styled from "./MylistDetailPage.module.scss";
@@ -51,10 +51,10 @@ export const MylistDetailPage = () => {
                 <>
                     <div className={styled.mylistDetail}>
                         <div className={styled.mylistTitle}>{mylist.name}</div>
-                        <div className={styled.mylistOwner}>
+                        <NavLink className={styled.mylistOwner} to={`/user/${mylist.owner.id}`}>
                             <img src={mylist.owner.iconUrl} alt="icon" />
                             <span>{mylist.owner.name}</span>
-                        </div>
+                        </NavLink>
                         <div className={styled.mylistMeta}>
                             <span>全{mylist.totalItemCount}件</span>
                             <span>{mylist.isPublic ? "公開" : "非公開"}マイリスト</span>

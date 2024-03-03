@@ -24,6 +24,7 @@
             aspect-ratio: 1 / 1;
             object-fit: cover;
             height: 100%;
+            cursor: pointer;
         }
 
         .songInfo {
@@ -40,6 +41,7 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                cursor: pointer;
             }
 
             span.artist {
@@ -49,6 +51,7 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                cursor: pointer;
             }
         }
     }

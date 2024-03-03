@@ -34,8 +34,11 @@ import {
 } from "../../atoms";
 import { dislikeVideo, getAccessRight, getWatchData, getWatchDataGuest, likeVideo, makeActionTrackId } from "../../nico/video";
 import styled from "./Controller.module.scss";
+import { useNavigate } from "react-router-dom";
 
 export const Controller = () => {
+    const navigate = useNavigate();
+
     const isSupportedBrowser = useMemo(() => Hls.isSupported(), []);
     const audioRef = useRef<HTMLAudioElement>(null);
     const [sourceUrl, setSourceUrl] = useState<string | null>(null);
@@ -333,6 +336,16 @@ export const Controller = () => {
             setPlayingData((prev) => ({ ...prev, watch: newWatchData }));
         }
     }
+    const videoOwnerButtonHandler = () => {
+        if (playingData.watch && playingData.watch.owner) {
+            navigate(`/user/${playingData.watch.owner.id}`);
+        }
+    }
+    const videoInfoButtonHandler = () => {
+        if (playingData.watch) {
+            navigate(`/video/${playingData.watch.video.id}`);
+        }
+    }
     return (
         <div className={styled.controller}>
             <audio
@@ -351,13 +364,13 @@ export const Controller = () => {
             <div className={styled.songMeta}>
                 {playingData.watch && (
                     <>
-                        <img src={playingData.watch.video.thumbnail.url} alt="thumbnail" />
+                        <img src={playingData.watch.video.thumbnail.url} alt="thumbnail" onClick={videoInfoButtonHandler} />
                         <div className={styled.songInfo}>
-                            <span className={styled.title} title={playingData.watch.video.title}>
+                            <span className={styled.title} title={playingData.watch.video.title} onClick={videoInfoButtonHandler}>
                                 {playingData.watch.video.title}
                             </span>
                             {playingData.watch.owner ? (
-                                <span className={styled.artist} title={playingData.watch.owner.nickname}>
+                                <span className={styled.artist} title={playingData.watch.owner.nickname} onClick={videoOwnerButtonHandler}>
                                     {playingData.watch.owner.nickname}
                                 </span>
                             ) : (
@@ -445,7 +458,7 @@ export const Controller = () => {
                             <RiHeartLine />
                         </button>
                     )}
-                    <button disabled={!playingData.watch} title="曲の情報">
+                    <button disabled={!playingData.watch} onClick={videoInfoButtonHandler} title="曲の情報">
                         <RiInformationLine />
                     </button>
                     <button disabled={!playingData.watch} onClick={movieBtnHandler} title="動画ページ">

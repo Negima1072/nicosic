@@ -1,7 +1,7 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { getSeriesItems } from "../../../nico/list";
 import styled from "./SeriesDetailPage.module.scss";
@@ -51,10 +51,10 @@ export const SeriesDetailPage = () => {
                 <>
                     <div className={styled.seriesDetail}>
                         <div className={styled.seriesTitle}>{series.detail.title}</div>
-                        <div className={styled.seriesOwner}>
+                        <NavLink className={styled.seriesOwner} to={`/user/${series.detail.owner.user.id}`}>
                             <img src={series.detail.owner.user.icons.small} alt="icon" />
                             <span>{series.detail.owner.user.nickname}</span>
-                        </div>
+                        </NavLink>
                         <div className={styled.seriesMeta}>
                             <span>全{series.totalCount}件</span>
                             <span>作成日: {new Date(series.detail.createdAt).toLocaleString()}</span>
