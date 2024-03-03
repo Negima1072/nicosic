@@ -9,6 +9,8 @@ import { SearchPage } from "../pages/SearchPage/SearchPage";
 import { SeriesDetailPage } from "../pages/SeriesDetailPage/SeriesDetailPage";
 import { UserPage } from "../pages/UserPage/UserPage";
 import styled from "./MainFrame.module.scss";
+import { UserVideosPage } from "../pages/UserVideosPage/UserVideosPage";
+import { VideoDetailPage } from "../pages/VideoDetailPage/VideoDetailPage";
 
 export const MainFrame = () => {
     const navigate = useNavigate();
@@ -31,6 +33,8 @@ export const MainFrame = () => {
                     <Route path="/mylist/:mylistId" element={<MylistDetailPage />} />
                     <Route path="/series/:seriesId" element={<SeriesDetailPage />} />
                     <Route path="/user/:userId" element={<UserPage />} />
+                    <Route path="/user/:userId/videos" element={<UserVideosPage />} />
+                    <Route path="/video/:videoId" element={<VideoDetailPage />} />
                     <Route path="/config" element={<ConfigPage />} />
                 </Routes>
             </div>
