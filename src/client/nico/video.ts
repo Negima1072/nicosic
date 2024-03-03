@@ -88,3 +88,23 @@ export async function dislikeVideo(videoId: string): Promise<void> {
         throw new NicoError(res.meta.errorCode!);
     }
 }
+
+export async function getVideoData(videoId: string): Promise<EssentialVideo> {
+    const url = `https://nvapi.nicovideo.jp/v1/videos`;
+    const params = new URLSearchParams();
+    params.append("watchIds", videoId);
+    const res = await get<NvAPIResponse<VideoData>>(url + "?" + params.toString());
+    if (res.meta.status !== 200 || res.data === undefined || res.data.items.length === 0) {
+        throw new NicoError(res.meta.errorCode!);
+    }
+    return res.data.items[0].video;
+}
+
+export async function getVideoTags(videoId: string): Promise<Tag[]> {
+    const url = `https://nvapi.nicovideo.jp/v1/videos/${videoId}/tags`;
+    const res = await get<NvAPIResponse<VideoTagData>>(url);
+    if (res.meta.status !== 200 || res.data === undefined) {
+        throw new NicoError(res.meta.errorCode!);
+    }
+    return res.data.tags;
+}

@@ -1,0 +1,153 @@
+.videoDetailPage {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .videoInfo {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        margin-inline: 5px;
+
+        img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .videoDetail {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            span.videoTitle {
+                font-size: 1.5rem;
+                font-weight: 600;
+            }
+
+            .videoOwnerData {
+                display: flex;
+                gap: 10px;
+                height: 30px;
+                align-items: center;
+                text-decoration: none;
+                color: #f6f6f6;
+
+                img {
+                    height: 30px;
+                    width: 30px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                }
+
+                span {
+                    font-size: 1rem;
+                    font-weight: 600;
+                }
+            }
+            .videoStats {
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                align-items: center;
+
+                .videoStatItem {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 5px;
+                    align-items: center;
+                }
+            }
+
+            .videoDate {
+                font-size: 0.9rem;
+            }
+        }
+    }
+
+    .videoDescription {
+        font-size: 0.9rem;
+        color: #c8c8c8;
+        padding-inline: 10px;
+        
+        span {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+        }
+    }
+
+    .videoTags {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        padding-inline: 10px;
+
+        .videoTag {
+            padding: 5px;
+            border-radius: 5px;
+            background-color: #353535;
+            color: #f6f6f6;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+    }
+
+    .relatedMylistContainer {
+        display: flex;
+        flex-direction: column;
+
+        h3 {
+            margin: 5px 10px;
+        }
+
+        .relatedMylists {
+            display: flex;
+            flex-direction: column;
+            gap: 5px 10px;
+
+            .userMylistsItem {
+                display: flex;
+                gap: 5px;
+                height: 60px;
+                padding: 5px 10px;
+                color: #f6f6f6;
+                text-decoration: none;
+                cursor: pointer;
+
+                img {
+                    height: 100%;
+                    aspect-ratio: 1 / 1;
+                    background-color: #353535;
+                    object-fit: cover;
+                }
+
+                .userMylistsItemInfo {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    padding: 2px;
+
+                    .userMylistsItemTitle {
+                        font-size: 1rem;
+                        font-weight: 600;
+                    }
+
+                    .userMylistsItemMeta {
+                        font-size: 0.7rem;
+                        display: flex;
+                        flex-direction: row;
+                        gap: 5px;
+                    }
+                }
+            }
+
+            .userMylistsItem:hover {
+                background-color: #151515;
+            }
+        }
+    }
+}

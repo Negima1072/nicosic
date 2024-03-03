@@ -6,6 +6,7 @@ export async function getRecommendItems<T = RecommendItem>(
     site: string = "nicobox",
     contentTypeFilter: RecommendContentType = "video",
     limit?: number,
+    additionalParams: Record<string, string> = {}
 ): Promise<RecommendData<T>> {
     const url = `https://nvapi.nicovideo.jp/v1/recommend`;
     const params = new URLSearchParams();
@@ -16,6 +17,9 @@ export async function getRecommendItems<T = RecommendItem>(
     if (limit !== undefined) {
         params.set("limit", limit.toString());
     }
+    for (const key in additionalParams) {
+        params.set(key, additionalParams[key]);
+    }
     const res = await get<NvAPIResponse<RecommendData<T>>>(url + "?" + params.toString());
     if (res.meta.status !== 200 || res.data === undefined) {
         throw new NicoError(res.meta.errorCode!);
@@ -24,9 +28,13 @@ export async function getRecommendItems<T = RecommendItem>(
 }
 
 export async function getNicoboxTrendVideos(): Promise<RecommendData<RecommendVideoItem>> {
-    return getRecommendItems("nicobox_ios_trends");
+    return await getRecommendItems("nicobox_ios_trends");
 }
 
 export async function getNicoboxPopularTags(): Promise<RecommendData<RecommendTagItem>> {
-    return getRecommendItems("nicobox_ios_trend_tag", 2, "nicobox", "tag", 10);
+    return await getRecommendItems("nicobox_ios_trend_tag", 2, "nicobox", "tag", 10);
+}
+
+export async function getVideoRelatedMylists(videoId: string): Promise<RecommendData<RecommendMylistItem>> {
+    return await getRecommendItems("nicobox_ios_related_mylist", 1, "nicobox", "mylist", 10, { videoId });
 }

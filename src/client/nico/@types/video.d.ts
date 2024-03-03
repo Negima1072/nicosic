@@ -78,3 +78,26 @@ interface Channel {
 interface DoLike {
     thanksMessage: string | null;
 }
+
+interface VideoData {
+    items: VideoDataItem[];
+}
+
+interface VideoDataItem {
+    watchId: string;
+    video: EssentialVideo;
+}
+
+interface VideoTagData {
+    isLockable: boolean;
+    isEditable: boolean;
+    uneditableReason: string | null;
+    tags: Tag[];
+}
+
+interface Tag {
+    name: string;
+    isLocked: boolean;
+    isLockedBySystem: boolean;
+    isNicodicArticleExists: boolean;
+}
