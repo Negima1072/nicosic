@@ -103,7 +103,7 @@ export const UserPage = () => {
                                         >
                                             {userData.relationships.sessionUser.isFollowing
                                                 ? "フォロー中"
-                                                : "フォローする"}
+                                                : "フォロー"}
                                         </button>
                                     )}
                                     <div className={styled.userInfoSns}>
