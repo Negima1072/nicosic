@@ -114,3 +114,19 @@ interface CreatorSupport {
         };
     };
 }
+
+interface UserVideosData {
+    totalCount: number;
+    items: UserVideoItem[];
+}
+
+interface UserVideoItem {
+    series: UserVideoItemSeries | null
+    essential: EssentialVideo;
+}
+
+interface UserVideoItemSeries {
+    id: number;
+    title: string;
+    order: number;
+}
