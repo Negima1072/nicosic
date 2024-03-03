@@ -19,6 +19,8 @@ export const SeriesDetailPage = () => {
             if (seriesId) {
                 const _series = await getSeriesItems(seriesId);
                 setSeries(_series);
+            } else {
+                setSeries(null);
             }
         }
         fetchSeries();

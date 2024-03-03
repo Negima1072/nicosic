@@ -19,6 +19,8 @@ export const MylistDetailPage = () => {
             if (mylistId) {
                 const _mylist = await getMylistItems(mylistId);
                 setMylist(_mylist);
+            } else {
+                setMylist(null);
             }
         }
         fetchMylistDetail();
