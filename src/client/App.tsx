@@ -2,6 +2,7 @@ import { useAtom, useSetAtom } from "jotai";
 import { useEffect } from "react";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import {
+    configAtom,
     isLoadingAtom,
     isLoginAtom,
     isMuteAtom,
@@ -23,6 +24,7 @@ export const App = () => {
     const [repeatMode, setRepeatMode] = useAtom(repeatModeAtom);
     const [isMute, setIsMute] = useAtom(isMuteAtom);
     const [volume, setVolume] = useAtom(volumeAtom);
+    const [config, setConfig] = useAtom(configAtom);
     useEffect(() => {
         async function initialize() {
             const _isLogin = await window.electronAPI.checkLogin();
@@ -36,6 +38,8 @@ export const App = () => {
                     setLoginUserData(null);
                 }
             }
+            const config = await window.electronAPI.getConfig();
+            setConfig(config);
             const playerConfig = await window.electronAPI.getPlayerConfig();
             setIsShuffle(playerConfig.shuffle);
             setRepeatMode(playerConfig.repeat);
@@ -73,6 +77,11 @@ export const App = () => {
             });
         }
     }, [isMute, isShuffle, repeatMode, volume]);
+    useEffect(() => {
+        if (!isLoading && config) {
+            window.electronAPI.saveConfig(config);
+        }
+    }, [config]);
     return (
         <div id="container">
             {isLoading ? (

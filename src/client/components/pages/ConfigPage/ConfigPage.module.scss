@@ -18,4 +18,22 @@
             margin: 0;
         }
     }
+
+    .configItem {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding-inline: 15px;
+
+        .configItemTitle {
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .equalizerController {
+            max-width: 600px;
+            height: 300px;
+            margin-inline: 10px;
+        }
+    }
 }

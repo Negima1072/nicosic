@@ -138,6 +138,27 @@ app.whenReady().then(() => {
         store.set("player_config", JSON.stringify(config));
     });
 
+    ipcMain.handle("get-config", async () => {
+        const config = store.get(
+            "config",
+            JSON.stringify({
+                equalizer: {
+                    "60Hz": 0,
+                    "150Hz": 0,
+                    "400Hz": 0,
+                    "1kHz": 0,
+                    "2.4kHz": 0,
+                    "15kHz": 0,
+                },
+            }),
+        );
+        return JSON.parse(config) as Config;
+    });
+
+    ipcMain.on("save-config", (event, config: Config) => {
+        store.set("config", JSON.stringify(config));
+    });
+
     mainWindow.loadURL("http://127.0.0.1:4080");
 });
 

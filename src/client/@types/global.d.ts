@@ -6,9 +6,11 @@ declare global {
 
 interface ElectronAPI {
     checkLogin: () => Promise<boolean>;
-    getPlayerConfig: () => Promise<PlayerConfig>;
     getAppVersion: () => Promise<string>;
+    getPlayerConfig: () => Promise<PlayerConfig>;
     savePlayerConfig: (config: PlayerConfig) => void;
+    getConfig: () => Promise<Config>;
+    saveConfig: (config: Config) => void;
     requestLogin: () => void;
     requestLogout: () => void;
     openExternal: (url: string) => void;

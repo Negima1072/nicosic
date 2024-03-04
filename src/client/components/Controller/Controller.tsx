@@ -21,6 +21,7 @@ import {
     RiVolumeUpFill,
 } from "react-icons/ri";
 import {
+    configAtom,
     isLoginAtom,
     isMuteAtom,
     isPlayingAtom,
@@ -36,6 +37,15 @@ import { dislikeVideo, getAccessRight, getWatchData, getWatchDataGuest, likeVide
 import styled from "./Controller.module.scss";
 import { useNavigate } from "react-router-dom";
 
+const EQUALIZER_BANDS = {
+    "60Hz": 60,
+    "150Hz": 150,
+    "400Hz": 400,
+    "1kHz": 1000,
+    "2.4kHz": 2400,
+    "15kHz": 15000,
+}
+
 export const Controller = () => {
     const navigate = useNavigate();
 
@@ -43,6 +53,9 @@ export const Controller = () => {
     const audioRef = useRef<HTMLAudioElement>(null);
     const [sourceUrl, setSourceUrl] = useState<string | null>(null);
     const [loudness, setLoudness] = useState<number | undefined>(undefined);
+
+    const config = useAtomValue(configAtom);
+    const [filters, setFilters] = useState<BiquadFilterNode[]>([]);
 
     const isLogin = useAtomValue(isLoginAtom);
     const [playingData, setPlayingData] = useAtom(playingDataAtom);
@@ -59,6 +72,30 @@ export const Controller = () => {
 
     const [audioDuration, setAudioDuration] = useState(0);
     const [audioCurrentTime, setAudioCurrentTime] = useState(0);
+    useEffect(() => {
+        if (audioRef.current) {
+            const audioCtx = new window.AudioContext();
+            const source = audioCtx.createMediaElementSource(audioRef.current);
+            const filters = Object.values(EQUALIZER_BANDS).map((value) => {
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = "peaking";
+                filter.frequency.value = value;
+                filter.gain.value = 0;
+                filter.Q.value = 1;
+                return filter;
+            });
+            source.connect(filters[0]);
+            filters.reduce((prev, current) => {
+                prev.connect(current);
+                return current;
+            });
+            filters[filters.length - 1].connect(audioCtx.destination);
+            setFilters(filters);
+            return () => {
+                audioCtx.close();
+            };
+        }
+    }, []);
     useEffect(() => {
         const getVideo = async () => {
             if (!playingData.id) {
@@ -130,6 +167,15 @@ export const Controller = () => {
             }
         }
     }, [isPlaying]);
+    useEffect(() => {
+        if (audioRef.current && config && filters.length > 0) {
+            Object.keys(EQUALIZER_BANDS).forEach((key, i) => {
+                if (key in config.equalizer) {
+                    filters[i].gain.value = config.equalizer[key as keyof typeof EQUALIZER_BANDS];
+                }
+            });
+        }
+    }, [config, filters]);
     const onLoadedmetadata = () => {
         if (audioRef.current) {
             setAudioDuration(audioRef.current.duration);
@@ -282,7 +328,6 @@ export const Controller = () => {
             let list = playlistData.map((item, index) => ({ index, id: item?.id }));
             if (!isShuffle) {
                 list = list.sort(() => Math.random() - 0.5);
-                console.log(list);
             }
             setPlayingList(list);
             setPlaylistIndex(list.findIndex((item) => item.id === playingData.id));

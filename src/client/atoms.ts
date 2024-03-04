@@ -5,6 +5,8 @@ export const isLoadingAtom = atom(true);
 export const isLoginAtom = atom<boolean>(false);
 export const loginUserDataAtom = atom<ExpandUser | null>(null);
 
+export const configAtom = atom<Config | null>(null);
+
 export const isPlayingAtom = atom(false);
 export const playingDataAtom = atom<IPlayingData>({});
 export const isShuffleAtom = atom(false);
