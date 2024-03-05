@@ -39,14 +39,14 @@ export async function getVideoRelatedMylists(videoId: string): Promise<Recommend
     return await getRecommendItems("nicobox_ios_related_mylist", 1, "nicobox", "mylist", 10, { videoId });
 }
 
-export async function getPopularWorks(): Promise<RecommendData<RecommendVideoItem>> {
-    return await getRecommendItems("nicobox_ios_trend_works", 1, "nicobox", "video", 10);
+export async function getPopularWorks(): Promise<RecommendData<RecommendVideoWithReasonItem>> {
+    return await getRecommendItems("nicobox_ios_trend_works", 1, "nicobox", "video", 12);
 }
 
-export async function getHomeRecommendVideos(userId: string): Promise<RecommendData<RecommendVideoItem>> {
-    return await getRecommendItems("nicobox_ios_home_recommend", 1, "nicobox", "video", 10, { userId });
+export async function getHomeRecommendVideos(userId: string): Promise<RecommendData<RecommendVideoWithReasonItem>> {
+    return await getRecommendItems("nicobox_ios_home_recommend", 1, "nicobox", "video", 12, { userId });
 }
 
-export async function getTrendMylists(): Promise<RecommendData<RecommendMylistItem>> {
-    return await getRecommendItems("nicobox_ios_trend_user_mylist", 1, "nicobox", "mylist", 10);
+export async function getTrendUserMylists(): Promise<RecommendData<RecommendMylistItem>> {
+    return await getRecommendItems("nicobox_ios_trend_user_mylist", 1, "nicobox", "mylist", 12);
 }

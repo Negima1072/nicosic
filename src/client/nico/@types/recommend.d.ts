@@ -24,6 +24,12 @@ interface RecommendVideoItem extends RecommendItemBase {
     content: EssentialVideo;
 }
 
+interface RecommendVideoWithReasonItem extends RecommendVideoItem {
+    reason: {
+        tag: string;
+    }
+}
+
 interface RecommendTagItem extends RecommendItemBase {
     contentType: "tag";
     content: string;

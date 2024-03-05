@@ -1,0 +1,124 @@
+.homePage {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 15px;
+
+    h1.title {
+        font-size: 2.5em;
+        margin: 0;
+        margin-inline: 10px;
+    }
+
+    .homeTopicItem {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-inline: 10px;
+
+        h3 {
+            margin: 0;
+            font-size: 1.3em;
+        }
+
+        .eventItems, .workItems, .mylistItems, .userItems {
+            display: grid;
+            gap: 15px 2%;
+            margin-inline: 5px;
+
+            .homeItem {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                width: 100%;
+                cursor: pointer;
+                align-items: start;
+
+                img {
+                    width: 100%;
+                    object-fit: cover;
+                }
+
+                .itemLabel {
+                    background-color: #e4e4e4;
+                    padding: 1px 5px;
+                    border-radius: 10px;
+                    text-align: center;
+                    color: #252525;
+                    font-size: 0.7em;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .itemContent {
+                    font-size: 0.9em;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .reasonTag {
+                    font-size: 0.8em;
+                    color: #757575;
+                    margin-top: auto;
+                    display: flex;
+                    align-items: baseline;
+                    gap: 2px;
+                }
+
+                .mylistTweet {
+                    font-size: 0.7em;
+                    color: #757575;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .userContent {
+                    font-size: 0.7em;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+        }
+
+        .eventItems {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+            .homeItem {
+                img {
+                    aspect-ratio: 191 / 130;
+                }
+            }
+        }
+
+        .workItems, .mylistItems {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+
+            .homeItem {
+                img {
+                    aspect-ratio: 1/1;
+                }
+            }
+        }
+
+        .userItems {
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+            .homeItem {
+                align-items: center;
+
+                img {
+                    aspect-ratio: 1/1;
+                    border-radius: 50%;
+                    margin: auto;
+                }
+            }
+        }
+    }
+}
