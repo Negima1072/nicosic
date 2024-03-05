@@ -12,6 +12,7 @@
         "start": "cross-env NODE_ENV=\"production\" electron .",
         "package:win": "npm run build && electron-builder --win --x64",
         "package:mac": "npm run build && electron-builder --mac --x64",
+        "package:linux": "npm run build && electron-builder --linux --x64",
         "lint": "eslint ./src/**/*.{ts,tsx}",
         "lint:fix": "eslint ./src/**/*.{ts,tsx} --fix",
         "format": "prettier --write \"src/**/*.{ts,tsx}\""
@@ -38,6 +39,13 @@
         "win": {
             "target": "zip",
             "icon": "./build/icon.ico",
+            "electronLanguages": [
+                "ja"
+            ]
+        },
+        "linux": {
+            "target": "zip",
+            "icon": "./build/icon.png",
             "electronLanguages": [
                 "ja"
             ]
