@@ -9,18 +9,19 @@ jobs:
   release:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [windows-latest, macos-latest]
     
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
       
       - name: Install
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: 18
+          cache: 'npm'
       
       - name: Build
         uses: samuelmeuli/action-electron-builder@v1
