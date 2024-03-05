@@ -1,8 +1,9 @@
 import { BrowserWindow, app, ipcMain, shell } from "electron";
 import Store from "electron-store";
-import path from "node:path";
-import globalVal from "./global";
-import expressApp from "./server";
+import path from "path";
+
+const globalVal = (await import("./global")).default;
+const expressApp = (await import("./server")).default;
 
 if (!app.requestSingleInstanceLock()) {
     app.quit();

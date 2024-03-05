@@ -1,6 +1,6 @@
 import cookieParser from "cookie-parser";
 import express from "express";
-import path from "node:path";
+import path from "path";
 
 import proxyRouter from "./routes/proxy";
 

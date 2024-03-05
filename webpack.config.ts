@@ -38,6 +38,12 @@ const common: Configuration = {
   },
   watch: isDev,
   devtool: isDev ? 'source-map' : undefined,
+  optimization: {
+    minimize: !isDev,
+  },
+  performance: {
+    hints: false,
+  }
 };
 
 const main: Configuration = {
