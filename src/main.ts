@@ -40,7 +40,7 @@ if (user_session && globalVal.cookieJar) {
 
 app.whenReady().then(() => {
     const mainWindow = new BrowserWindow({
-        width: 1100,
+        width: 1000,
         height: 800,
         minWidth: 800,
         minHeight: 600,
