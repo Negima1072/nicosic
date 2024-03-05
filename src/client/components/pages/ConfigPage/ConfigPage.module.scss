@@ -21,9 +21,11 @@
 
     .configItem {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         gap: 5px;
-        padding-inline: 15px;
+        padding-inline: 30px;
+        justify-content: space-between;
+        flex-wrap: wrap;
 
         .configItemTitle {
             font-size: 1em;
@@ -34,6 +36,14 @@
             max-width: 600px;
             height: 300px;
             margin-inline: 10px;
+            flex: 1;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+            cursor: pointer;
         }
     }
 }

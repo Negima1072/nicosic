@@ -106,8 +106,8 @@ export const Controller = () => {
             }
             const actionTrackId = await makeActionTrackId();
             const data = isLogin
-                ? await getWatchData(playingData.id, actionTrackId, loudness)
-                : await getWatchDataGuest(playingData.id, actionTrackId, loudness);
+                ? await getWatchData(playingData.id, actionTrackId, config?.autoNormalize ? loudness : undefined)
+                : await getWatchDataGuest(playingData.id, actionTrackId, config?.autoNormalize ? loudness : undefined);
             if (data.media.domand) {
                 const outputs = data.media.domand.audios.filter((audio) => audio.isAvailable);
                 if (outputs.length > 0) {
@@ -146,13 +146,13 @@ export const Controller = () => {
     }, [isSupportedBrowser, sourceUrl]);
     useEffect(() => {
         if (audioRef.current) {
-            if (loudness) {
+            if (loudness && config?.autoNormalize) {
                 audioRef.current.volume = Math.max(Math.min(volume * loudness, 1), 0);
             } else {
                 audioRef.current.volume = Math.max(Math.min(volume, 1), 0);
             }
         }
-    }, [volume, loudness]);
+    }, [volume, loudness, config?.autoNormalize]);
     useEffect(() => {
         if (audioRef.current) {
             audioRef.current.muted = isMute;
@@ -175,7 +175,7 @@ export const Controller = () => {
                 }
             });
         }
-    }, [config, filters]);
+    }, [config?.equalizer, filters]);
     const onLoadedmetadata = () => {
         if (audioRef.current) {
             setAudioDuration(audioRef.current.duration);

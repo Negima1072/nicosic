@@ -139,9 +139,10 @@ app.whenReady().then(() => {
     });
 
     ipcMain.handle("get-config", async () => {
-        const config = store.get(
+        const configStr = store.get(
             "config",
             JSON.stringify({
+                autoNormalize: true,
                 equalizer: {
                     "60Hz": 0,
                     "150Hz": 0,
@@ -152,7 +153,22 @@ app.whenReady().then(() => {
                 },
             }),
         );
-        return JSON.parse(config) as Config;
+        const config = JSON.parse(configStr) as Config;
+        if (!config.equalizer) {
+            config.equalizer = {
+                "60Hz": 0,
+                "150Hz": 0,
+                "400Hz": 0,
+                "1kHz": 0,
+                "2.4kHz": 0,
+                "15kHz": 0,
+            };
+        }
+        if (!config.autoNormalize) {
+            config.autoNormalize = true;
+        }
+        store.set("config", JSON.stringify(config));
+        return config;
     });
 
     ipcMain.on("save-config", (event, config: Config) => {

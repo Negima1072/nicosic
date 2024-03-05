@@ -12,12 +12,6 @@ export const ConfigPage = () => {
             setAppVersion(version);
         });
     })
-    const handleEqualizerChange = (value: TEqualizerValue) => {
-        setConfig({
-            ...config,
-            equalizer: value,
-        });
-    }
     return (
         <div className={styled.configPage}>
             <div className={styled.appInfo}>
@@ -25,12 +19,32 @@ export const ConfigPage = () => {
                 <span>version: {appVersion}</span>
             </div>
             {config && (
-                <div className={styled.configItem}>
-                    <span className={styled.configItemTitle}>イコライザ</span>
-                    <div className={styled.equalizerController}>
-                        <EqualizerController defaultEqualizerValue={config.equalizer} onValueChange={handleEqualizerChange}/>
+                <>
+                    <div className={styled.configItem}>
+                        <span className={styled.configItemTitle}>音量の自動調整</span>
+                        <input
+                            type="checkbox"
+                            checked={config.autoNormalize}
+                            onChange={(e) => {
+                                setConfig({
+                                    ...config,
+                                    autoNormalize: e.target.checked,
+                                });
+                            }}
+                        />
                     </div>
-                </div>
+                    <div className={styled.configItem}>
+                        <span className={styled.configItemTitle}>イコライザ</span>
+                        <div className={styled.equalizerController}>
+                            <EqualizerController defaultEqualizerValue={config.equalizer} onValueChange={(value) => {
+                                setConfig({
+                                    ...config,
+                                    equalizer: value,
+                                });
+                            }}/>
+                        </div>
+                    </div>
+                </>
             )}
         </div>
     );
