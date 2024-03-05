@@ -1,0 +1,19 @@
+appId: io.github.nicosic
+productName: nicosic
+directories:
+  buildResources: build
+files:
+  - "./dist/**/*"
+electronLanguages:
+  - ja
+win:
+  target: zip
+  icon: build/icon.ico
+mac:
+  target: zip
+  icon: build/icon.icns
+npmRebuild: false
+publish:
+  provider: github
+  owner: Negima1072
+  repo: nicosic
