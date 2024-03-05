@@ -356,7 +356,7 @@ export const Controller = () => {
             window.electronAPI.openExternal(
                 "https://twitter.com/intent/tweet?text=" +
                     encodeURIComponent(
-                        `${playingData.watch.video.title}\nhttps://www.nicovideo.jp/watch/${playingData.watch.video.id} #${playingData.watch.video.id} #nowplaying`,
+                        `${playingData.watch.video.title}\nhttps://www.nicovideo.jp/watch/${playingData.watch.video.id}?ref=twitter\n#${playingData.watch.video.id} #nowplaying`,
                     ),
             );
         }
