@@ -26,7 +26,6 @@ jobs:
       - name: Build
         uses: samuelmeuli/action-electron-builder@v1
         env:
-          NODE_ENV: production
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           github_token: ${{ secrets.github_token }}
