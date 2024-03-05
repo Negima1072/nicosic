@@ -74,7 +74,7 @@ export const UserPage = () => {
                 return prev;
             });
         }
-    }
+    };
     return (
         <div className={styled.userPage}>
             {userData && (
@@ -99,11 +99,11 @@ export const UserPage = () => {
                                     {!userData.relationships.isMe && isLogin && (
                                         <button
                                             className={`${styled.userInfoFollowButton} ${userData.relationships.sessionUser.isFollowing ? styled.userInfoButtonFollowing : ""}`}
-                                            onClick={() => userFollowHandler(!userData.relationships.sessionUser.isFollowing)}
+                                            onClick={() =>
+                                                userFollowHandler(!userData.relationships.sessionUser.isFollowing)
+                                            }
                                         >
-                                            {userData.relationships.sessionUser.isFollowing
-                                                ? "フォロー中"
-                                                : "フォロー"}
+                                            {userData.relationships.sessionUser.isFollowing ? "フォロー中" : "フォロー"}
                                         </button>
                                     )}
                                     <div className={styled.userInfoSns}>

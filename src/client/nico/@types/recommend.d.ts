@@ -27,7 +27,7 @@ interface RecommendVideoItem extends RecommendItemBase {
 interface RecommendVideoWithReasonItem extends RecommendVideoItem {
     reason: {
         tag: string;
-    }
+    };
 }
 
 interface RecommendTagItem extends RecommendItemBase {

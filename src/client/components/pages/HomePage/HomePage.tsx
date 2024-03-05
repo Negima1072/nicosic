@@ -1,10 +1,15 @@
-import { useEffect, useState } from "react";
-import { getHomeRecommendVideos, getPopularWorks, getTrendUserMylists } from "../../../nico/recommend";
-import styled from "./HomePage.module.scss";
 import { useAtomValue } from "jotai";
-import { isLoginAtom, loginUserDataAtom } from "../../../atoms";
-import { getHomePickupFrames, getMylistRankingFrames, getPastEventFrames, getTwitterMylistFrames } from "../../../nico/wktk";
+import { useEffect, useState } from "react";
 import { RiPriceTag3Fill } from "react-icons/ri";
+import { isLoginAtom, loginUserDataAtom } from "../../../atoms";
+import { getHomeRecommendVideos, getPopularWorks, getTrendUserMylists } from "../../../nico/recommend";
+import {
+    getHomePickupFrames,
+    getMylistRankingFrames,
+    getPastEventFrames,
+    getTwitterMylistFrames,
+} from "../../../nico/wktk";
+import styled from "./HomePage.module.scss";
 
 export const HomePage = () => {
     const isLogin = useAtomValue(isLoginAtom);

@@ -20,6 +20,7 @@ import {
     RiVolumeMuteFill,
     RiVolumeUpFill,
 } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import {
     configAtom,
     isLoginAtom,
@@ -33,9 +34,15 @@ import {
     repeatModeAtom,
     volumeAtom,
 } from "../../atoms";
-import { dislikeVideo, getAccessRight, getWatchData, getWatchDataGuest, likeVideo, makeActionTrackId } from "../../nico/video";
+import {
+    dislikeVideo,
+    getAccessRight,
+    getWatchData,
+    getWatchDataGuest,
+    likeVideo,
+    makeActionTrackId,
+} from "../../nico/video";
 import styled from "./Controller.module.scss";
-import { useNavigate } from "react-router-dom";
 
 const EQUALIZER_BANDS = {
     "60Hz": 60,
@@ -44,7 +51,7 @@ const EQUALIZER_BANDS = {
     "1kHz": 1000,
     "2.4kHz": 2400,
     "15kHz": 15000,
-}
+};
 
 export const Controller = () => {
     const navigate = useNavigate();
@@ -380,17 +387,17 @@ export const Controller = () => {
             }
             setPlayingData((prev) => ({ ...prev, watch: newWatchData }));
         }
-    }
+    };
     const videoOwnerButtonHandler = () => {
         if (playingData.watch && playingData.watch.owner) {
             navigate(`/user/${playingData.watch.owner.id}`);
         }
-    }
+    };
     const videoInfoButtonHandler = () => {
         if (playingData.watch) {
             navigate(`/video/${playingData.watch.video.id}`);
         }
-    }
+    };
     return (
         <div className={styled.controller}>
             <audio
@@ -409,13 +416,25 @@ export const Controller = () => {
             <div className={styled.songMeta}>
                 {playingData.watch && (
                     <>
-                        <img src={playingData.watch.video.thumbnail.url} alt="thumbnail" onClick={videoInfoButtonHandler} />
+                        <img
+                            src={playingData.watch.video.thumbnail.url}
+                            alt="thumbnail"
+                            onClick={videoInfoButtonHandler}
+                        />
                         <div className={styled.songInfo}>
-                            <span className={styled.title} title={playingData.watch.video.title} onClick={videoInfoButtonHandler}>
+                            <span
+                                className={styled.title}
+                                title={playingData.watch.video.title}
+                                onClick={videoInfoButtonHandler}
+                            >
                                 {playingData.watch.video.title}
                             </span>
                             {playingData.watch.owner ? (
-                                <span className={styled.artist} title={playingData.watch.owner.nickname} onClick={videoOwnerButtonHandler}>
+                                <span
+                                    className={styled.artist}
+                                    title={playingData.watch.owner.nickname}
+                                    onClick={videoOwnerButtonHandler}
+                                >
                                     {playingData.watch.owner.nickname}
                                 </span>
                             ) : (

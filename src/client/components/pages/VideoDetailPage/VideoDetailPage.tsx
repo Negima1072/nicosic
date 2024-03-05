@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
+import { RiChat4Fill, RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
 import { NavLink, useParams } from "react-router-dom";
+import { getVideoRelatedMylists } from "../../../nico/recommend";
 import { getVideoData, getVideoTags } from "../../../nico/video";
 import styled from "./VideoDetailPage.module.scss";
-import { RiChat4Fill, RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
-import { getVideoRelatedMylists } from "../../../nico/recommend";
 
 export const VideoDetailPage = () => {
     const { videoId } = useParams();
@@ -25,9 +25,9 @@ export const VideoDetailPage = () => {
                 setRelatedMylists([]);
             }
         }
-        fetchVideoData()
-        return () => {}
-    }, [videoId])
+        fetchVideoData();
+        return () => {};
+    }, [videoId]);
     return (
         <div className={styled.videoDetailPage}>
             {videoData && (
@@ -68,7 +68,11 @@ export const VideoDetailPage = () => {
                     </div>
                     <div className={styled.videoTags}>
                         {tags.map((tag) => (
-                            <NavLink key={tag.name} className={styled.videoTag} to={`/search?q=${tag.name}&queryType=tag`}>
+                            <NavLink
+                                key={tag.name}
+                                className={styled.videoTag}
+                                to={`/search?q=${tag.name}&queryType=tag`}
+                            >
                                 {tag.name}
                             </NavLink>
                         ))}
@@ -79,7 +83,10 @@ export const VideoDetailPage = () => {
                             {relatedMylists.map((mylist) => (
                                 <NavLink key={mylist.id} className={styled.userMylistsItem} to={`/mylist/${mylist.id}`}>
                                     {mylist.content.sampleItems.length > 0 && mylist.content.sampleItems[0].video && (
-                                        <img src={mylist.content.sampleItems[0].video.thumbnail.listingUrl} alt="thumbnail" />
+                                        <img
+                                            src={mylist.content.sampleItems[0].video.thumbnail.listingUrl}
+                                            alt="thumbnail"
+                                        />
                                     )}
                                     <div className={styled.userMylistsItemInfo}>
                                         <div className={styled.userMylistsItemTitle}>{mylist.content.name}</div>
