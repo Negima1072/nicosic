@@ -90,10 +90,10 @@ interface WktkMylist {
 interface WktkVideo {
     commentCounter: number;
     id: string;
-    largeThumbnailUrl: string;
+    largeThumbnailUrl?: string;
     lastResBody: string;
     lengthSeconds: number;
-    middleThumbnailUrl: string;
+    middleThumbnailUrl?: string;
     mylistCounter: number;
     ownerIcon: string;
     ownerId: number;
