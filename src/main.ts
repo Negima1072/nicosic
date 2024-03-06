@@ -8,6 +8,8 @@ if (!app.requestSingleInstanceLock()) {
     app.quit();
 }
 
+const PORT = process.env.NODE_ENV === "development" ? 3080 : 4080;
+
 if (process.env.NODE_ENV === "development") {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     require("electron-reload")(__dirname, {
@@ -26,7 +28,7 @@ if (process.env.NODE_ENV !== "development" || app.isPackaged) {
     app.disableHardwareAcceleration();
 }
 
-const expressServer = expressApp.listen(4080, "127.0.0.1");
+const expressServer = expressApp.listen(PORT, "127.0.0.1");
 
 const store = new Store<AppConfig>();
 
@@ -175,7 +177,7 @@ app.whenReady().then(() => {
         store.set("config", JSON.stringify(config));
     });
 
-    mainWindow.loadURL("http://127.0.0.1:4080");
+    mainWindow.loadURL(`http://127.0.0.1:${PORT}`);
 });
 
 app.on("quit", () => {
