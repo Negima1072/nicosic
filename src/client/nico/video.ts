@@ -36,6 +36,7 @@ export async function getWatchData(
     const url = `https://www.nicovideo.jp/api/watch/v3/${videoId}`;
     const params = new URLSearchParams();
     params.append("actionTrackId", actionTrackId);
+    params.append("withoutHistory", "true")
     if (prevIntegratedLoudness !== undefined) {
         params.append("prevIntegratedLoudness", prevIntegratedLoudness.toString());
     }
