@@ -3,6 +3,8 @@
 Music Player Application for niconico.
 Built using Electron, Express and React.
 
+![screenshot](images/screenshot.png)
+
 ## Usage
 
 ### Development
