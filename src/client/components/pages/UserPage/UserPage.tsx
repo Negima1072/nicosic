@@ -41,8 +41,8 @@ export const UserPage = () => {
     const changePlayingId = (video?: EssentialVideo) => {
         if (video && userData) {
             setPlayingData((prev) => ({ ...prev, id: video.id }));
-            setPlaylistDataAtom([]);
-            setPlayingListAtom(null);
+            setPlaylistDataAtom([video]);
+            setPlayingListAtom([{ index: 0, id: video.id }]);
             setPlaylistIndexAtom(0);
         }
     };
