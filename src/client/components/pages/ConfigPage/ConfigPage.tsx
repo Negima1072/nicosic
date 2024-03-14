@@ -21,6 +21,19 @@ export const ConfigPage = () => {
             {config && (
                 <>
                     <div className={styled.configItem}>
+                        <span className={styled.configItemTitle}>自動起動(再起動後に反映)</span>
+                        <input
+                            type="checkbox"
+                            checked={config.autoLaunch}
+                            onChange={(e) => {
+                                setConfig({
+                                    ...config,
+                                    autoLaunch: e.target.checked,
+                                });
+                            }}
+                        />
+                    </div>
+                    <div className={styled.configItem}>
                         <span className={styled.configItemTitle}>音量の自動調整</span>
                         <input
                             type="checkbox"

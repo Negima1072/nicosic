@@ -1,5 +1,6 @@
 import { BrowserWindow, app, ipcMain, shell } from "electron";
 import Store from "electron-store";
+import AutoLaunch from "auto-launch";
 import path from "path";
 import globalVal from "./global";
 import expressApp from "./server";
@@ -32,12 +33,66 @@ const expressServer = expressApp.listen(PORT, "127.0.0.1");
 
 const store = new Store<AppConfig>();
 
+const configStr = store.get(
+    "config",
+    JSON.stringify({
+        autoLaunch: false,
+        autoNormalize: true,
+        equalizer: {
+            "60Hz": 0,
+            "150Hz": 0,
+            "400Hz": 0,
+            "1kHz": 0,
+            "2.4kHz": 0,
+            "15kHz": 0,
+        },
+    }),
+);
+let config = JSON.parse(configStr) as Config;
+if (!config.autoLaunch) {
+    config.autoLaunch = false;
+}
+if (!config.autoNormalize) {
+    config.autoNormalize = true;
+}
+if (!config.equalizer) {
+    config.equalizer = {
+        "60Hz": 0,
+        "150Hz": 0,
+        "400Hz": 0,
+        "1kHz": 0,
+        "2.4kHz": 0,
+        "15kHz": 0,
+    };
+}
+store.set("config", JSON.stringify(config));
+
 const user_session = store.get("user_session");
 if (user_session && globalVal.cookieJar) {
     globalVal.cookieJar.setCookie(
         `user_session=${user_session};Domain=.nicovideo.jp;Path=/`,
         "https://www.nicovideo.jp",
     );
+}
+
+if (process.env.NODE_ENV !== "development" && app.isPackaged) {
+    const launch = new AutoLaunch({
+        name: "nicosic",
+        isHidden: true,
+    });
+    async function setAutoLaunch() {
+        const isEnable = await launch.isEnabled();
+        if (config.autoLaunch) {
+            if (!isEnable) {
+                await launch.enable();
+            }
+        } else {
+            if (isEnable) {
+                await launch.disable();
+            }
+        }
+    }
+    setAutoLaunch();
 }
 
 app.whenReady().then(() => {
@@ -141,40 +196,12 @@ app.whenReady().then(() => {
     });
 
     ipcMain.handle("get-config", async () => {
-        const configStr = store.get(
-            "config",
-            JSON.stringify({
-                autoNormalize: true,
-                equalizer: {
-                    "60Hz": 0,
-                    "150Hz": 0,
-                    "400Hz": 0,
-                    "1kHz": 0,
-                    "2.4kHz": 0,
-                    "15kHz": 0,
-                },
-            }),
-        );
-        const config = JSON.parse(configStr) as Config;
-        if (!config.equalizer) {
-            config.equalizer = {
-                "60Hz": 0,
-                "150Hz": 0,
-                "400Hz": 0,
-                "1kHz": 0,
-                "2.4kHz": 0,
-                "15kHz": 0,
-            };
-        }
-        if (!config.autoNormalize) {
-            config.autoNormalize = true;
-        }
-        store.set("config", JSON.stringify(config));
         return config;
     });
 
-    ipcMain.on("save-config", (event, config: Config) => {
-        store.set("config", JSON.stringify(config));
+    ipcMain.on("save-config", (event, _config: Config) => {
+        config = _config;
+        store.set("config", JSON.stringify(_config));
     });
 
     mainWindow.loadURL(`http://127.0.0.1:${PORT}`);

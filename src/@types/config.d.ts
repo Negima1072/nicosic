@@ -12,6 +12,7 @@ interface PlayerConfig {
 }
 
 interface Config {
+    autoLaunch: boolean;
     autoNormalize: boolean;
     equalizer: TEqualizerValue;
 }
