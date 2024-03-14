@@ -37,26 +37,26 @@ export const HomePage = () => {
     const setPlaylistIndexAtom = useSetAtom(playlistIndexAtom);
     useEffect(() => {
         async function fetchHome() {
-            const pickupFrames = await getHomePickupFrames();
-            setPickupFrames(pickupFrames);
-            const popularWorks = await getPopularWorks();
-            setTrendVideos(popularWorks.items);
-            const popularMylists = await getMylistRankingFrames();
-            setPopularMylists(popularMylists);
-            const popularUserMylists = await getTrendUserMylists();
-            setPopularUserMylists(popularUserMylists.items);
-            const tweetMylists = await getTwitterMylistFrames();
-            setTweetMylists(tweetMylists);
-            const pastEventFrames = await getPastEventFrames();
-            setPastEventFrames(pastEventFrames);
+            const _pickupFrames = await getHomePickupFrames();
+            setPickupFrames(_pickupFrames);
+            const _popularWorks = await getPopularWorks();
+            setTrendVideos(_popularWorks.items);
+            const _popularMylists = await getMylistRankingFrames();
+            setPopularMylists(_popularMylists);
+            const _popularUserMylists = await getTrendUserMylists();
+            setPopularUserMylists(_popularUserMylists.items);
+            const _tweetMylists = await getTwitterMylistFrames();
+            setTweetMylists(_tweetMylists);
+            const _pastEventFrames = await getPastEventFrames();
+            setPastEventFrames(_pastEventFrames);
         }
         fetchHome();
     }, []);
     useEffect(() => {
         async function fetchRecommend() {
             if (isLogin && loginUserData) {
-                const recommendWorks = await getHomeRecommendVideos(loginUserData.id);
-                setRecommendWorks(recommendWorks.items);
+                const _recommendWorks = await getHomeRecommendVideos(loginUserData.id);
+                setRecommendWorks(_recommendWorks.items);
             }
         }
         fetchRecommend();

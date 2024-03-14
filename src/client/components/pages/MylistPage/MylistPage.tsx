@@ -11,8 +11,8 @@ export const MylistPage = () => {
     useEffect(() => {
         async function fetchMylists() {
             if (!isLogin) return;
-            const mylists = await getOwnMylists();
-            setOwnMylists(mylists);
+            const _mylists = await getOwnMylists();
+            setOwnMylists(_mylists);
         }
         fetchMylists();
         return () => {};

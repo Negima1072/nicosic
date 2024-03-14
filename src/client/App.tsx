@@ -38,8 +38,8 @@ export const App = () => {
                     setLoginUserData(null);
                 }
             }
-            const config = await window.electronAPI.getConfig();
-            setConfig(config);
+            const _config = await window.electronAPI.getConfig();
+            setConfig(_config);
             const playerConfig = await window.electronAPI.getPlayerConfig();
             setIsShuffle(playerConfig.shuffle);
             setRepeatMode(playerConfig.repeat);

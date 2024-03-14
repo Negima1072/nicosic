@@ -20,8 +20,8 @@ export const UserPage = () => {
     useEffect(() => {
         async function fetchUserData() {
             if (userId) {
-                const user = await getUserData(userId);
-                setUserData(user);
+                const _user = await getUserData(userId);
+                setUserData(_user);
                 const popular = await getUserVideos(userId, "viewCount", "desc", 1, 5);
                 setPopularWorks(popular.items);
                 const newWorks = await getUserVideos(userId, "registeredAt", "desc", 1, 3);

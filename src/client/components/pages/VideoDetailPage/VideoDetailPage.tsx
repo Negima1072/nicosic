@@ -13,12 +13,12 @@ export const VideoDetailPage = () => {
     useEffect(() => {
         async function fetchVideoData() {
             if (videoId) {
-                const video = await getVideoData(videoId);
-                setVideoData(video);
-                const tags = await getVideoTags(videoId);
-                setTags(tags);
-                const related = await getVideoRelatedMylists(videoId);
-                setRelatedMylists(related.items);
+                const _video = await getVideoData(videoId);
+                setVideoData(_video);
+                const _tags = await getVideoTags(videoId);
+                setTags(_tags);
+                const _related = await getVideoRelatedMylists(videoId);
+                setRelatedMylists(_related.items);
             } else {
                 setVideoData(null);
                 setTags([]);

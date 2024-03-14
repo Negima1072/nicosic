@@ -85,7 +85,7 @@ export const Controller = () => {
         if (audioRef.current) {
             const audioCtx = new window.AudioContext();
             const source = audioCtx.createMediaElementSource(audioRef.current);
-            const filters = Object.values(EQUALIZER_BANDS).map((value) => {
+            const _filters = Object.values(EQUALIZER_BANDS).map((value) => {
                 const filter = audioCtx.createBiquadFilter();
                 filter.type = "peaking";
                 filter.frequency.value = value;
@@ -93,13 +93,13 @@ export const Controller = () => {
                 filter.Q.value = 1;
                 return filter;
             });
-            source.connect(filters[0]);
-            filters.reduce((prev, current) => {
+            source.connect(_filters[0]);
+            _filters.reduce((prev, current) => {
                 prev.connect(current);
                 return current;
             });
-            filters[filters.length - 1].connect(audioCtx.destination);
-            setFilters(filters);
+            _filters[_filters.length - 1].connect(audioCtx.destination);
+            setFilters(_filters);
             return () => {
                 audioCtx.close();
             };
