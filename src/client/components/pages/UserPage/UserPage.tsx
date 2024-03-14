@@ -5,6 +5,7 @@ import { isLoginAtom, playingDataAtom, playingListAtom, playlistDataAtom, playli
 import { followUser, getUserData, getUserMylists, getUserVideos, unfollowUser } from "../../../nico/user";
 import styled from "./UserPage.module.scss";
 import { VideoItem } from "../../common/VideoItem/VideoItem";
+import { VideoItemList } from "../../common/VideoItemList/VideoItemList";
 
 export const UserPage = () => {
     const { userId } = useParams();
@@ -161,15 +162,7 @@ export const UserPage = () => {
                                 動画一覧
                             </NavLink>
                         </div>
-                        <div className={styled.newWorksList}>
-                            {newWorks.map((item) => (
-                                <VideoItem
-                                    key={item.essential.id}
-                                    video={item.essential}
-                                    onClick={() => changePlayingId(item.essential)}
-                                />
-                            ))}
-                        </div>
+                        <VideoItemList videos={newWorks.map((item) => item.essential)} isSingle={true} />
                     </div>
                     <div className={styled.userMylists}>
                         <h3>公開マイリスト</h3>

@@ -1,15 +1,7 @@
-import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
-import {
-    isShuffleAtom,
-    playingDataAtom,
-    playingListAtom,
-    playlistDataAtom,
-    playlistIndexAtom,
-} from "../../../../atoms";
 import { searchVideos } from "../../../../nico/search";
 import styled from "./VideoSearchViewer.module.scss";
-import { VideoItem } from "../../../common/VideoItem/VideoItem";
+import { VideoItemList } from "../../../common/VideoItemList/VideoItemList";
 
 interface VideoSearchViewerProps {
     searchQuery: string;
@@ -20,25 +12,6 @@ interface VideoSearchViewerProps {
 
 export const VideoSearchViewer = ({ searchQuery, queryType, sortKey, sortOrder }: VideoSearchViewerProps) => {
     const [searchResultVideos, setSearchResultVideos] = useState<EssentialVideo[] | null>(null);
-    const isShuffle = useAtomValue(isShuffleAtom);
-    const setPlayingData = useSetAtom(playingDataAtom);
-    const setPlayingListAtom = useSetAtom(playingListAtom);
-    const setPlaylistDataAtom = useSetAtom(playlistDataAtom);
-    const setPlaylistIndexAtom = useSetAtom(playlistIndexAtom);
-    const changePlayingId = (index: number, video?: EssentialVideo) => {
-        if (video && searchResultVideos) {
-            setPlayingData((prev) => ({ ...prev, id: video.id }));
-            setPlaylistDataAtom(searchResultVideos);
-            let list = searchResultVideos.map((item, index) => ({ index, id: item.id }));
-            let newIndex = index;
-            if (isShuffle) {
-                list = list.sort(() => Math.random() - 0.5);
-                newIndex = list.findIndex((item) => item.index === index);
-            }
-            setPlayingListAtom(list);
-            setPlaylistIndexAtom(newIndex);
-        }
-    };
     useEffect(() => {
         async function fetchSearch() {
             if (searchQuery === "") {
@@ -58,17 +31,7 @@ export const VideoSearchViewer = ({ searchQuery, queryType, sortKey, sortOrder }
     return (
         <div className={styled.videoSearchViewer}>
             {searchResultVideos && (
-                <>
-                    <div className={styled.videoSearchItems}>
-                        {searchResultVideos.map((item, index) => (
-                            <VideoItem
-                                key={index}
-                                video={item}
-                                onClick={() => changePlayingId(index, item)}
-                            />
-                        ))}
-                    </div>
-                </>
+                <VideoItemList videos={searchResultVideos} />
             )}
         </div>
     );

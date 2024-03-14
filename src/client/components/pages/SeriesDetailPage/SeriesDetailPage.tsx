@@ -1,19 +1,12 @@
-import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { getSeriesItems } from "../../../nico/list";
 import styled from "./SeriesDetailPage.module.scss";
-import { VideoItem } from "../../common/VideoItem/VideoItem";
+import { VideoItemList } from "../../common/VideoItemList/VideoItemList";
 
 export const SeriesDetailPage = () => {
     const { seriesId } = useParams();
     const [series, setSeries] = useState<SeriesData | null>(null);
-    const isShuffle = useAtomValue(isShuffleAtom);
-    const setPlayingData = useSetAtom(playingDataAtom);
-    const setPlayingListAtom = useSetAtom(playingListAtom);
-    const setPlaylistDataAtom = useSetAtom(playlistDataAtom);
-    const setPlaylistIndexAtom = useSetAtom(playlistIndexAtom);
     useEffect(() => {
         async function fetchSeries() {
             if (seriesId) {
@@ -26,20 +19,6 @@ export const SeriesDetailPage = () => {
         fetchSeries();
         return () => {};
     }, [seriesId]);
-    const changePlayingId = (index: number, video?: EssentialVideo) => {
-        if (video && series) {
-            setPlayingData((prev) => ({ ...prev, id: video.id }));
-            setPlaylistDataAtom(series.items.map((item) => item.video));
-            let list = series.items.map((item, index) => ({ index, id: item.video?.id }));
-            let newIndex = index;
-            if (isShuffle) {
-                list = list.sort(() => Math.random() - 0.5);
-                newIndex = list.findIndex((item) => item.index === index);
-            }
-            setPlayingListAtom(list);
-            setPlaylistIndexAtom(newIndex);
-        }
-    };
     return (
         <div className={styled.seriesDetailPage}>
             {series && (
@@ -56,15 +35,7 @@ export const SeriesDetailPage = () => {
                             <span>更新日: {new Date(series.detail.updatedAt).toLocaleString()}</span>
                         </div>
                     </div>
-                    <div className={styled.seriesItems}>
-                        {series.items.map((item, index) => (
-                            <VideoItem
-                                key={item.meta.order}
-                                video={item.video}
-                                onClick={() => changePlayingId(index, item.video)}
-                            />
-                        ))}
-                    </div>
+                    <VideoItemList videos={series.items.map((item) => item.video)} />
                 </>
             )}
         </div>
