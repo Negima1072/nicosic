@@ -5,6 +5,7 @@ import { NavLink, useParams } from "react-router-dom";
 import { isLoginAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { followUser, getUserData, getUserMylists, getUserVideos, unfollowUser } from "../../../nico/user";
 import styled from "./UserPage.module.scss";
+import { secondsToTime } from "../../../utils/time";
 
 export const UserPage = () => {
     const { userId } = useParams();
@@ -45,11 +46,6 @@ export const UserPage = () => {
             setPlayingListAtom([{ index: 0, id: video.id }]);
             setPlaylistIndexAtom(0);
         }
-    };
-    const secondsToTime = (seconds: number) => {
-        const min = Math.floor(seconds / 60);
-        const sec = Math.floor(seconds % 60);
-        return `${min}:${sec.toString().padStart(2, "0")}`;
     };
     const userFollowHandler = async (follow: boolean) => {
         if (userData) {

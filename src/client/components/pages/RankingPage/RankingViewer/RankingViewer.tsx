@@ -11,6 +11,7 @@ import {
 import { getRankingItems } from "../../../../nico/ranking";
 import { getNicoboxTrendVideos } from "../../../../nico/recommend";
 import styled from "./RankingViewer.module.scss";
+import { secondsToTime } from "../../../../utils/time";
 
 interface RankingViewerProps {
     rankingId: number;
@@ -37,11 +38,6 @@ export const RankingViewer = ({ rankingId, isTrend }: RankingViewerProps) => {
             setPlayingListAtom(list);
             setPlaylistIndexAtom(newIndex);
         }
-    };
-    const secondsToTime = (seconds: number) => {
-        const min = Math.floor(seconds / 60);
-        const sec = Math.floor(seconds % 60);
-        return `${min}:${sec.toString().padStart(2, "0")}`;
     };
     useEffect(() => {
         async function fetchRankingVideos() {

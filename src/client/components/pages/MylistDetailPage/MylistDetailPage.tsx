@@ -5,6 +5,7 @@ import { NavLink, useParams } from "react-router-dom";
 import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { getMylistItems } from "../../../nico/list";
 import styled from "./MylistDetailPage.module.scss";
+import { secondsToTime } from "../../../utils/time";
 
 export const MylistDetailPage = () => {
     const { mylistId } = useParams();
@@ -39,11 +40,6 @@ export const MylistDetailPage = () => {
             setPlayingListAtom(list);
             setPlaylistIndexAtom(newIndex);
         }
-    };
-    const secondsToTime = (seconds: number) => {
-        const min = Math.floor(seconds / 60);
-        const sec = Math.floor(seconds % 60);
-        return `${min}:${sec.toString().padStart(2, "0")}`;
     };
     return (
         <div className={styled.mylistDetailPage}>

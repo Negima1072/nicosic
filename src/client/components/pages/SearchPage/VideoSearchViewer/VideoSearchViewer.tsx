@@ -10,6 +10,7 @@ import {
 } from "../../../../atoms";
 import { searchVideos } from "../../../../nico/search";
 import styled from "./VideoSearchViewer.module.scss";
+import { secondsToTime } from "../../../../utils/time";
 
 interface VideoSearchViewerProps {
     searchQuery: string;
@@ -38,11 +39,6 @@ export const VideoSearchViewer = ({ searchQuery, queryType, sortKey, sortOrder }
             setPlayingListAtom(list);
             setPlaylistIndexAtom(newIndex);
         }
-    };
-    const secondsToTime = (seconds: number) => {
-        const min = Math.floor(seconds / 60);
-        const sec = Math.floor(seconds % 60);
-        return `${min}:${sec.toString().padStart(2, "0")}`;
     };
     useEffect(() => {
         async function fetchSearch() {

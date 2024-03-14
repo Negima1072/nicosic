@@ -43,6 +43,7 @@ import {
     makeActionTrackId,
 } from "../../nico/video";
 import styled from "./Controller.module.scss";
+import { secondsToTime } from "../../utils/time";
 
 const EQUALIZER_BANDS = {
     "60Hz": 60,
@@ -232,11 +233,6 @@ export const Controller = () => {
                 }
             }
         }
-    };
-    const secondsToTime = (seconds: number) => {
-        const min = Math.floor(seconds / 60);
-        const sec = Math.floor(seconds % 60);
-        return `${min}:${sec.toString().padStart(2, "0")}`;
     };
     const nowTime = useMemo(() => {
         return secondsToTime(audioCurrentTime);
