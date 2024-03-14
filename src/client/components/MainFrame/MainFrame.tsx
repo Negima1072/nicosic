@@ -4,6 +4,7 @@ import { ConfigPage } from "../pages/ConfigPage/ConfigPage";
 import { HomePage } from "../pages/HomePage/HomePage";
 import { MylistDetailPage } from "../pages/MylistDetailPage/MylistDetailPage";
 import { MylistPage } from "../pages/MylistPage/MylistPage";
+import { NotFoundPage } from "../pages/NotFoundPage/NotFoundPage";
 import { RankingPage } from "../pages/RankingPage/RankingPage";
 import { SearchPage } from "../pages/SearchPage/SearchPage";
 import { SeriesDetailPage } from "../pages/SeriesDetailPage/SeriesDetailPage";
@@ -36,6 +37,7 @@ export const MainFrame = () => {
                     <Route path="/user/:userId/videos" element={<UserVideosPage />} />
                     <Route path="/video/:videoId" element={<VideoDetailPage />} />
                     <Route path="/config" element={<ConfigPage />} />
+                    <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </div>
         </div>
