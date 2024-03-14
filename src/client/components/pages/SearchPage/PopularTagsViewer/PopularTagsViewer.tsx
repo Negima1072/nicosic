@@ -14,17 +14,18 @@ export const PopularTagsViewer = () => {
     useEffect(() => {
         async function fetchPopularTags() {
             const tags = await getNicoboxPopularTags();
-            const popularTags = [] as PopularTag[];
             for (const tag of tags.items) {
                 const search = await searchVideos(tag.content, "tag", "hot", "none", 1, 1);
                 if (search.items.length > 0) {
-                    popularTags.push({
-                        content: tag.content,
-                        image: search.items[0].thumbnail.listingUrl,
-                    });
+                    setPopularTags((prev) => [
+                        ...prev,
+                        {
+                            content: tag.content,
+                            image: search.items[0].thumbnail.listingUrl,
+                        },
+                    ]);
                 }
             }
-            setPopularTags(popularTags);
         }
         fetchPopularTags();
         return () => {};
