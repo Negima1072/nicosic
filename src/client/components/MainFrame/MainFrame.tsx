@@ -4,6 +4,7 @@ import { ConfigPage } from "../pages/ConfigPage/ConfigPage";
 import { HomePage } from "../pages/HomePage/HomePage";
 import { MylistDetailPage } from "../pages/MylistDetailPage/MylistDetailPage";
 import { MylistPage } from "../pages/MylistPage/MylistPage";
+import { NextPlayPage } from "../pages/NextPlayPage/NextPlayPage";
 import { NotFoundPage } from "../pages/NotFoundPage/NotFoundPage";
 import { RankingPage } from "../pages/RankingPage/RankingPage";
 import { SearchPage } from "../pages/SearchPage/SearchPage";
@@ -12,7 +13,6 @@ import { UserPage } from "../pages/UserPage/UserPage";
 import { UserVideosPage } from "../pages/UserVideosPage/UserVideosPage";
 import { VideoDetailPage } from "../pages/VideoDetailPage/VideoDetailPage";
 import styled from "./MainFrame.module.scss";
-import { NextPlayPage } from "../pages/NextPlayPage/NextPlayPage";
 
 export const MainFrame = () => {
     const navigate = useNavigate();

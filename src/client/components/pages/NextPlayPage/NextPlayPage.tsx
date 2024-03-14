@@ -1,7 +1,7 @@
 import { useAtom, useAtomValue } from "jotai";
+import { useMemo } from "react";
 import { playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import styled from "./NextPlayPage.module.scss";
-import { useMemo } from "react";
 
 export const NextPlayPage = () => {
     const [playingData, setPlayingData] = useAtom(playingDataAtom);
@@ -19,7 +19,7 @@ export const NextPlayPage = () => {
             setPlaylistIndex(data.index);
             setPlayingData((prev) => ({ ...prev, id: data.id }));
         }
-    }
+    };
     return (
         <div className={styled.nextPlayPage}>
             {playingData.watch && (
@@ -45,17 +45,21 @@ export const NextPlayPage = () => {
                         const video = playlistData[data.index];
                         if (video) {
                             return (
-                                <div className={styled.miniVideoItem} key={index} onClick={() => changePlayingIndex(data)}>
+                                <div
+                                    className={styled.miniVideoItem}
+                                    key={index}
+                                    onClick={() => changePlayingIndex(data)}
+                                >
                                     <div className={styled.miniVideoItemInfo}>
                                         <span className={styled.miniVideoTitle}>{video.title}</span>
                                         <span className={styled.miniVideoOwner}>{video.owner.name}</span>
                                     </div>
                                 </div>
-                            )
+                            );
                         }
                     })}
                 </div>
             )}
         </div>
     );
-}
+};

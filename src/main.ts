@@ -1,6 +1,6 @@
+import AutoLaunch from "auto-launch";
 import { BrowserWindow, app, ipcMain, shell } from "electron";
 import Store from "electron-store";
-import AutoLaunch from "auto-launch";
 import path from "path";
 import globalVal from "./global";
 import expressApp from "./server";
@@ -75,12 +75,12 @@ if (user_session && globalVal.cookieJar) {
     );
 }
 
-if (process.env.NODE_ENV !== "development" && app.isPackaged) {
-    const launch = new AutoLaunch({
-        name: "nicosic",
-        isHidden: true,
-    });
-    async function setAutoLaunch() {
+async function setAutoLaunch() {
+    if (process.env.NODE_ENV !== "development" && app.isPackaged) {
+        const launch = new AutoLaunch({
+            name: "nicosic",
+            isHidden: true,
+        });
         const isEnable = await launch.isEnabled();
         if (config.autoLaunch) {
             if (!isEnable) {
@@ -92,8 +92,8 @@ if (process.env.NODE_ENV !== "development" && app.isPackaged) {
             }
         }
     }
-    setAutoLaunch();
 }
+setAutoLaunch();
 
 app.whenReady().then(() => {
     const mainWindow = new BrowserWindow({

@@ -137,7 +137,7 @@ export const Controller = () => {
                     autoplayStatus.current = null;
                 }
             } else {
-                console.log(autoplayStatus.current)
+                console.log(autoplayStatus.current);
                 if (autoplayStatus.current !== null) {
                     if (autoplayStatus.current === "next") {
                         skipNext();
@@ -418,7 +418,7 @@ export const Controller = () => {
         if (playingData.watch) {
             navigate(`/nextplay`);
         }
-    }
+    };
     return (
         <div className={styled.controller}>
             <audio
