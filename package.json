@@ -1,6 +1,6 @@
 {
   "name": "nicosic",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Music Player Application for niconico",
   "main": "dist/main.js",
   "scripts": {
