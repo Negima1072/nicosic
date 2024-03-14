@@ -15,6 +15,7 @@ import {
     RiHeartLine,
     RiInformationLine,
     RiMovieFill,
+    RiPlayList2Fill,
     RiShareBoxLine,
     RiVolumeDownFill,
     RiVolumeMuteFill,
@@ -394,6 +395,11 @@ export const Controller = () => {
             navigate(`/video/${playingData.watch.video.id}`);
         }
     };
+    const nextPlayButtonHandler = () => {
+        if (playingData.watch) {
+            navigate(`/nextplay`);
+        }
+    }
     return (
         <div className={styled.controller}>
             <audio
@@ -526,6 +532,9 @@ export const Controller = () => {
                     </button>
                     <button disabled={!playingData.watch} onClick={shareBtnHandler} title="共有">
                         <RiShareBoxLine />
+                    </button>
+                    <button disabled={!playingData.watch} onClick={nextPlayButtonHandler} title="次に再生">
+                        <RiPlayList2Fill />
                     </button>
                 </div>
             </div>

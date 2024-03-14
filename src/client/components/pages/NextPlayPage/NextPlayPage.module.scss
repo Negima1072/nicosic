@@ -1,0 +1,62 @@
+.nextPlayPage {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    .nextPlayItem {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin-inline: 5px;
+
+        .title {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .miniVideoItem {
+            height: 50px;
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+            padding: 5px 15px;
+            color: #f6f6f6;
+            text-decoration: none;
+            cursor: pointer;
+
+            .miniVideoItemThumbnail {
+                height: 100%;
+                aspect-ratio: 1 / 1;
+                background-color: #353535;
+                position: relative;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .miniVideoItemInfo {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                padding: 2px;
+
+                .miniVideoTitle {
+                    font-size: 1rem;
+                }
+
+                .miniVideoOwner {
+                    font-size: 0.8rem;
+                    color: #a1a1a1;
+                }
+            }
+        }
+
+        .miniVideoItem:hover {
+            background-color: #151515;
+        }
+    }
+}

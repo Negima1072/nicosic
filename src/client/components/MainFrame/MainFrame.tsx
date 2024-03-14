@@ -12,6 +12,7 @@ import { UserPage } from "../pages/UserPage/UserPage";
 import { UserVideosPage } from "../pages/UserVideosPage/UserVideosPage";
 import { VideoDetailPage } from "../pages/VideoDetailPage/VideoDetailPage";
 import styled from "./MainFrame.module.scss";
+import { NextPlayPage } from "../pages/NextPlayPage/NextPlayPage";
 
 export const MainFrame = () => {
     const navigate = useNavigate();
@@ -36,6 +37,7 @@ export const MainFrame = () => {
                     <Route path="/user/:userId" element={<UserPage />} />
                     <Route path="/user/:userId/videos" element={<UserVideosPage />} />
                     <Route path="/video/:videoId" element={<VideoDetailPage />} />
+                    <Route path="/nextplay" element={<NextPlayPage />} />
                     <Route path="/config" element={<ConfigPage />} />
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
