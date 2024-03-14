@@ -1,6 +1,6 @@
 import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
-import styled from "./VideoItem.module.scss";
 import { secondsToTime } from "../../../utils/time";
+import styled from "./VideoItem.module.scss";
 
 interface VideoItemProps {
     video?: EssentialVideo;
@@ -47,9 +47,7 @@ export const VideoItem = (props: VideoItemProps) => {
                                     <span>{props.video.count.mylist.toLocaleString()}</span>
                                 </div>
                                 <div className={styled.videoItemMetaItem}>
-                                    <span>
-                                        {new Date(props.video.registeredAt).toLocaleString()}
-                                    </span>
+                                    <span>{new Date(props.video.registeredAt).toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>
@@ -59,5 +57,5 @@ export const VideoItem = (props: VideoItemProps) => {
                 )}
             </div>
         </div>
-    )
-}
+    );
+};

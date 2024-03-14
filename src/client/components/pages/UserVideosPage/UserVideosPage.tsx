@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getUserVideos } from "../../../nico/user";
-import styled from "./UserVideosPage.module.scss";
 import { VideoItemList } from "../../common/VideoItemList/VideoItemList";
+import styled from "./UserVideosPage.module.scss";
 
 export const UserVideosPage = () => {
     const { userId } = useParams();

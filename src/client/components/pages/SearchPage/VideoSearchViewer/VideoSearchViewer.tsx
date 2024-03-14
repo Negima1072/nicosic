@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { searchVideos } from "../../../../nico/search";
-import styled from "./VideoSearchViewer.module.scss";
 import { VideoItemList } from "../../../common/VideoItemList/VideoItemList";
+import styled from "./VideoSearchViewer.module.scss";
 
 interface VideoSearchViewerProps {
     searchQuery: string;
@@ -30,9 +30,7 @@ export const VideoSearchViewer = ({ searchQuery, queryType, sortKey, sortOrder }
     }, [searchQuery, queryType, sortKey, sortOrder]);
     return (
         <div className={styled.videoSearchViewer}>
-            {searchResultVideos && (
-                <VideoItemList videos={searchResultVideos} />
-            )}
+            {searchResultVideos && <VideoItemList videos={searchResultVideos} />}
         </div>
     );
 };

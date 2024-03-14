@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { getSeriesItems } from "../../../nico/list";
-import styled from "./SeriesDetailPage.module.scss";
 import { VideoItemList } from "../../common/VideoItemList/VideoItemList";
+import styled from "./SeriesDetailPage.module.scss";
 
 export const SeriesDetailPage = () => {
     const { seriesId } = useParams();

@@ -42,8 +42,8 @@ import {
     likeVideo,
     makeActionTrackId,
 } from "../../nico/video";
-import styled from "./Controller.module.scss";
 import { secondsToTime } from "../../utils/time";
+import styled from "./Controller.module.scss";
 
 const EQUALIZER_BANDS = {
     "60Hz": 60,

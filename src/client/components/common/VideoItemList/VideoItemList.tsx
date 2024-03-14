@@ -1,7 +1,7 @@
 import { useAtomValue, useSetAtom } from "jotai";
+import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { VideoItem } from "../VideoItem/VideoItem";
 import styled from "./VideoItemList.module.scss";
-import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 
 interface VideoItemListProps {
     videos: (EssentialVideo | undefined)[];
@@ -41,7 +41,7 @@ export const VideoItemList = (props: VideoItemListProps) => {
                 <VideoItem
                     key={index}
                     video={video}
-                    ranking={props.isRanking ? {index} : undefined}
+                    ranking={props.isRanking ? { index } : undefined}
                     onClick={() => changePlayingId(index, video)}
                 />
             ))}

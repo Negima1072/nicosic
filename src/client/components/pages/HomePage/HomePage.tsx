@@ -1,7 +1,16 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
 import { RiPriceTag3Fill } from "react-icons/ri";
-import { isLoginAtom, isShuffleAtom, loginUserDataAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
+import { NavLink } from "react-router-dom";
+import {
+    isLoginAtom,
+    isShuffleAtom,
+    loginUserDataAtom,
+    playingDataAtom,
+    playingListAtom,
+    playlistDataAtom,
+    playlistIndexAtom,
+} from "../../../atoms";
 import { getHomeRecommendVideos, getPopularWorks, getTrendUserMylists } from "../../../nico/recommend";
 import {
     getHomePickupFrames,
@@ -10,7 +19,6 @@ import {
     getTwitterMylistFrames,
 } from "../../../nico/wktk";
 import styled from "./HomePage.module.scss";
-import { NavLink } from "react-router-dom";
 
 export const HomePage = () => {
     const isLogin = useAtomValue(isLoginAtom);
@@ -74,7 +82,11 @@ export const HomePage = () => {
                 <h3>PICK UP</h3>
                 <div className={styled.eventItems}>
                     {pickupFrames.map((frame) => (
-                        <NavLink key={frame.itemId} className={styled.homeItem} to={`/${frame.values.link.type}/${frame.values.link.origin}`}>
+                        <NavLink
+                            key={frame.itemId}
+                            className={styled.homeItem}
+                            to={`/${frame.values.link.type}/${frame.values.link.origin}`}
+                        >
                             {frame.values.image.url && (
                                 <img src={frame.values.image.url} alt={frame.values.image.alt} />
                             )}
@@ -89,7 +101,11 @@ export const HomePage = () => {
                     <h3>おすすめの作品</h3>
                     <div className={styled.workItems}>
                         {recommendWorks.map((work, index) => (
-                            <div key={work.id} className={styled.homeItem} onClick={() => changePlayingIdHome(index, recommendWorks, work.content)}>
+                            <div
+                                key={work.id}
+                                className={styled.homeItem}
+                                onClick={() => changePlayingIdHome(index, recommendWorks, work.content)}
+                            >
                                 <img src={work.content.thumbnail.listingUrl} alt="work" />
                                 <span className={styled.itemContent}>{work.content.title}</span>
                                 <span className={styled.reasonTag}>
@@ -105,7 +121,11 @@ export const HomePage = () => {
                 <h3>人気の作品</h3>
                 <div className={styled.workItems}>
                     {trendVideos.map((video, index) => (
-                        <div key={video.id} className={styled.homeItem} onClick={() => changePlayingIdHome(index, trendVideos, video.content)}>
+                        <div
+                            key={video.id}
+                            className={styled.homeItem}
+                            onClick={() => changePlayingIdHome(index, trendVideos, video.content)}
+                        >
                             <img src={video.content.thumbnail.listingUrl} alt="work" />
                             <span className={styled.itemLabel}>{video.reason.tag}</span>
                             <span className={styled.itemContent}>{video.content.title}</span>
@@ -117,7 +137,11 @@ export const HomePage = () => {
                 <h3>人気のマイリスト</h3>
                 <div className={styled.mylistItems}>
                     {popularMylists.map((mylist) => (
-                        <NavLink key={mylist.itemId} className={styled.homeItem} to={`/mylist/${mylist.values.mylist.mylist.id}`}>
+                        <NavLink
+                            key={mylist.itemId}
+                            className={styled.homeItem}
+                            to={`/mylist/${mylist.values.mylist.mylist.id}`}
+                        >
                             {mylist.values.mylist.mylist.videos[0].largeThumbnailUrl ? (
                                 <img src={mylist.values.mylist.mylist.videos[0].largeThumbnailUrl} alt="mylist" />
                             ) : (
@@ -133,7 +157,11 @@ export const HomePage = () => {
                 <h3>人気のユーザー</h3>
                 <div className={styled.userItems}>
                     {popularUserMylists.map((mylist) => (
-                        <NavLink key={mylist.content.owner.id} className={styled.homeItem} to={`/user/${mylist.content.owner.id}`}>
+                        <NavLink
+                            key={mylist.content.owner.id}
+                            className={styled.homeItem}
+                            to={`/user/${mylist.content.owner.id}`}
+                        >
                             <img src={mylist.content.owner.iconUrl} alt="user" />
                             <span className={styled.userContent}>{mylist.content.owner.name}</span>
                         </NavLink>
@@ -144,7 +172,11 @@ export const HomePage = () => {
                 <h3>ツイートされたマイリスト</h3>
                 <div className={styled.mylistItems}>
                     {tweetMylists.map((mylist) => (
-                        <NavLink key={mylist.itemId} className={styled.homeItem} to={`/mylist/${mylist.values.mylist.mylist.id}`}>
+                        <NavLink
+                            key={mylist.itemId}
+                            className={styled.homeItem}
+                            to={`/mylist/${mylist.values.mylist.mylist.id}`}
+                        >
                             {mylist.values.mylist.mylist.videos[0].largeThumbnailUrl ? (
                                 <img src={mylist.values.mylist.mylist.videos[0].largeThumbnailUrl} alt="mylist" />
                             ) : (
@@ -160,7 +192,11 @@ export const HomePage = () => {
                 <h3>過去のイベント</h3>
                 <div className={styled.eventItems}>
                     {pastEventFrames.map((event) => (
-                        <NavLink key={event.itemId} className={styled.homeItem} to={`/${event.values.link.type}/${event.values.link.origin}`}>
+                        <NavLink
+                            key={event.itemId}
+                            className={styled.homeItem}
+                            to={`/${event.values.link.type}/${event.values.link.origin}`}
+                        >
                             {event.values.image.url && (
                                 <img src={event.values.image.url} alt={event.values.image.alt} />
                             )}

@@ -1,8 +1,8 @@
 import { BrowserWindow, app, ipcMain, shell } from "electron";
 import Store from "electron-store";
 import path from "path";
-import expressApp from "./server";
 import globalVal from "./global";
+import expressApp from "./server";
 
 if (!app.requestSingleInstanceLock()) {
     app.quit();

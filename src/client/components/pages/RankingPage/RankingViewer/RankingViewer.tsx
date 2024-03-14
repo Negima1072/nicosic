@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { getRankingItems } from "../../../../nico/ranking";
 import { getNicoboxTrendVideos } from "../../../../nico/recommend";
-import styled from "./RankingViewer.module.scss";
 import { VideoItemList } from "../../../common/VideoItemList/VideoItemList";
+import styled from "./RankingViewer.module.scss";
 
 interface RankingViewerProps {
     rankingId: number;
@@ -30,9 +30,7 @@ export const RankingViewer = ({ rankingId, isTrend }: RankingViewerProps) => {
     }, [isTrend, rankingId]);
     return (
         <div className={styled.rankingViewer}>
-            {rankingVideos && (
-                <VideoItemList videos={rankingVideos} isRanking={true} />
-            )}
+            {rankingVideos && <VideoItemList videos={rankingVideos} isRanking={true} />}
         </div>
     );
 };

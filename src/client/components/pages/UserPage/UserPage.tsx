@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { isLoginAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { followUser, getUserData, getUserMylists, getUserVideos, unfollowUser } from "../../../nico/user";
-import styled from "./UserPage.module.scss";
-import { VideoItem } from "../../common/VideoItem/VideoItem";
 import { VideoItemList } from "../../common/VideoItemList/VideoItemList";
+import styled from "./UserPage.module.scss";
 
 export const UserPage = () => {
     const { userId } = useParams();

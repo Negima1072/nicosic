@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { getMylistItems } from "../../../nico/list";
-import styled from "./MylistDetailPage.module.scss";
 import { VideoItemList } from "../../common/VideoItemList/VideoItemList";
+import styled from "./MylistDetailPage.module.scss";
 
 export const MylistDetailPage = () => {
     const { mylistId } = useParams();
