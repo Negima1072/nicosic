@@ -81,6 +81,8 @@ export const Controller = () => {
 
     const [audioDuration, setAudioDuration] = useState(0);
     const [audioCurrentTime, setAudioCurrentTime] = useState(0);
+
+    const autoplayStatus = useRef<"next" | "previous" | null>(null);
     useEffect(() => {
         if (audioRef.current) {
             const audioCtx = new window.AudioContext();
@@ -132,6 +134,21 @@ export const Controller = () => {
                     setPlayingData((prev) => ({ ...prev, watch: data }));
                     setLoudness(output.loudnessCollection[0].value);
                     setSourceUrl("/proxy?url=" + encodeURIComponent(right.contentUrl));
+                    autoplayStatus.current = null;
+                }
+            } else {
+                console.log(autoplayStatus.current)
+                if (autoplayStatus.current !== null) {
+                    if (autoplayStatus.current === "next") {
+                        skipNext();
+                    } else {
+                        skipPrevious();
+                    }
+                } else {
+                    setPlayingData({});
+                    setLoudness(undefined);
+                    setSourceUrl(null);
+                    autoplayStatus.current = null;
                 }
             }
         };
@@ -230,6 +247,7 @@ export const Controller = () => {
                     } else {
                         setPlaylistIndex(newIndex);
                         setPlayingData((prev) => ({ ...prev, id: playingList[newIndex].id }));
+                        autoplayStatus.current = "next";
                     }
                 }
             }
@@ -283,6 +301,7 @@ export const Controller = () => {
                     } else {
                         setPlaylistIndex(newIndex);
                         setPlayingData((prev) => ({ ...prev, id: playingList[newIndex].id }));
+                        autoplayStatus.current = "previous";
                     }
                 }
             }
