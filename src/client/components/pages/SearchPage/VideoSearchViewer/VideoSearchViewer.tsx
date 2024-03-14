@@ -1,6 +1,5 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
 import {
     isShuffleAtom,
     playingDataAtom,
@@ -10,7 +9,7 @@ import {
 } from "../../../../atoms";
 import { searchVideos } from "../../../../nico/search";
 import styled from "./VideoSearchViewer.module.scss";
-import { secondsToTime } from "../../../../utils/time";
+import { VideoItem } from "../../../common/VideoItem/VideoItem";
 
 interface VideoSearchViewerProps {
     searchQuery: string;
@@ -62,48 +61,11 @@ export const VideoSearchViewer = ({ searchQuery, queryType, sortKey, sortOrder }
                 <>
                     <div className={styled.videoSearchItems}>
                         {searchResultVideos.map((item, index) => (
-                            <div
+                            <VideoItem
                                 key={index}
-                                className={styled.videoSearchItem}
+                                video={item}
                                 onClick={() => changePlayingId(index, item)}
-                            >
-                                <div className={styled.videoImage}>
-                                    {item && <img src={item.thumbnail.listingUrl} alt="thumbnail" />}
-                                </div>
-                                <div className={styled.videoSearchItemInfo}>
-                                    {item ? (
-                                        <>
-                                            <div className={styled.videoSearchItemTitle}>{item.title}</div>
-                                            <div className={styled.videoSearchItemDetail}>
-                                                <div className={styled.videoSearchItemMeta1}>
-                                                    <span>{item.owner.name}</span>
-                                                    <span>/</span>
-                                                    <span>{secondsToTime(item.duration)}</span>
-                                                </div>
-                                                <div className={styled.videoSearchItemMeta2}>
-                                                    <div className={styled.videoSearchItemMetaItem}>
-                                                        <RiPlayFill />
-                                                        <span>{item.count.view.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={styled.videoSearchItemMetaItem}>
-                                                        <RiHeartFill />
-                                                        <span>{item.count.like.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={styled.videoSearchItemMetaItem}>
-                                                        <RiFolderFill />
-                                                        <span>{item.count.mylist.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={styled.videoSearchItemMetaItem}>
-                                                        <span>{new Date(item.registeredAt).toLocaleString()}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <span>削除された動画</span>
-                                    )}
-                                </div>
-                            </div>
+                            />
                         ))}
                     </div>
                 </>

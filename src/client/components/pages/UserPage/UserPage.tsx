@@ -1,11 +1,10 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
 import { NavLink, useParams } from "react-router-dom";
 import { isLoginAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { followUser, getUserData, getUserMylists, getUserVideos, unfollowUser } from "../../../nico/user";
 import styled from "./UserPage.module.scss";
-import { secondsToTime } from "../../../utils/time";
+import { VideoItem } from "../../common/VideoItem/VideoItem";
 
 export const UserPage = () => {
     const { userId } = useParams();
@@ -164,44 +163,11 @@ export const UserPage = () => {
                         </div>
                         <div className={styled.newWorksList}>
                             {newWorks.map((item) => (
-                                <div
+                                <VideoItem
                                     key={item.essential.id}
-                                    className={styled.newWorksItem}
+                                    video={item.essential}
                                     onClick={() => changePlayingId(item.essential)}
-                                >
-                                    <div className={styled.videoImage}>
-                                        <img src={item.essential.thumbnail.listingUrl} alt="thumbnail" />
-                                    </div>
-                                    <div className={styled.newWorksItemInfo}>
-                                        <div className={styled.newWorksItemTitle}>{item.essential.title}</div>
-                                        <div className={styled.newWorksItemMeta}>
-                                            <div className={styled.newWorksItemMeta1}>
-                                                <span>{item.essential.owner.name}</span>
-                                                <span>/</span>
-                                                <span>{secondsToTime(item.essential.duration)}</span>
-                                            </div>
-                                            <div className={styled.newWorksItemMeta2}>
-                                                <div className={styled.mylistItemMetaItem}>
-                                                    <RiPlayFill />
-                                                    <span>{item.essential.count.view.toLocaleString()}</span>
-                                                </div>
-                                                <div className={styled.mylistItemMetaItem}>
-                                                    <RiHeartFill />
-                                                    <span>{item.essential.count.like.toLocaleString()}</span>
-                                                </div>
-                                                <div className={styled.mylistItemMetaItem}>
-                                                    <RiFolderFill />
-                                                    <span>{item.essential.count.mylist.toLocaleString()}</span>
-                                                </div>
-                                                <div className={styled.mylistItemMetaItem}>
-                                                    <span>
-                                                        {new Date(item.essential.registeredAt).toLocaleString()}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                />
                             ))}
                         </div>
                     </div>

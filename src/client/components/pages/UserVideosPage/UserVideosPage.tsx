@@ -1,11 +1,10 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
 import { useParams } from "react-router-dom";
 import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { getUserVideos } from "../../../nico/user";
 import styled from "./UserVideosPage.module.scss";
-import { secondsToTime } from "../../../utils/time";
+import { VideoItem } from "../../common/VideoItem/VideoItem";
 
 export const UserVideosPage = () => {
     const { userId } = useParams();
@@ -53,52 +52,11 @@ export const UserVideosPage = () => {
                     </div>
                     <div className={styled.userVideosItems}>
                         {userVideos.items.map((item, index) => (
-                            <div
+                            <VideoItem
                                 key={item.essential.id}
-                                className={styled.userVideosItem}
+                                video={item.essential}
                                 onClick={() => changePlayingId(index, item.essential)}
-                            >
-                                <div className={styled.videoImage}>
-                                    {item.essential && (
-                                        <img src={item.essential.thumbnail.listingUrl} alt="thumbnail" />
-                                    )}
-                                </div>
-                                <div className={styled.userVideosItemInfo}>
-                                    {item.essential ? (
-                                        <>
-                                            <div className={styled.userVideosItemTitle}>{item.essential.title}</div>
-                                            <div className={styled.userVideosItemDetail}>
-                                                <div className={styled.userVideosItemMeta1}>
-                                                    <span>{item.essential.owner.name}</span>
-                                                    <span>/</span>
-                                                    <span>{secondsToTime(item.essential.duration)}</span>
-                                                </div>
-                                                <div className={styled.userVideosItemMeta2}>
-                                                    <div className={styled.userVideosItemMetaItem}>
-                                                        <RiPlayFill />
-                                                        <span>{item.essential.count.view.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={styled.userVideosItemMetaItem}>
-                                                        <RiHeartFill />
-                                                        <span>{item.essential.count.like.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={styled.userVideosItemMetaItem}>
-                                                        <RiFolderFill />
-                                                        <span>{item.essential.count.mylist.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={styled.userVideosItemMetaItem}>
-                                                        <span>
-                                                            {new Date(item.essential.registeredAt).toLocaleString()}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <span>削除された動画</span>
-                                    )}
-                                </div>
-                            </div>
+                            />
                         ))}
                     </div>
                 </>

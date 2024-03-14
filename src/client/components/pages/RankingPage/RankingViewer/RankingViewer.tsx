@@ -1,6 +1,5 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
 import {
     isShuffleAtom,
     playingDataAtom,
@@ -11,7 +10,7 @@ import {
 import { getRankingItems } from "../../../../nico/ranking";
 import { getNicoboxTrendVideos } from "../../../../nico/recommend";
 import styled from "./RankingViewer.module.scss";
-import { secondsToTime } from "../../../../utils/time";
+import { VideoItem } from "../../../common/VideoItem/VideoItem";
 
 interface RankingViewerProps {
     rankingId: number;
@@ -62,51 +61,12 @@ export const RankingViewer = ({ rankingId, isTrend }: RankingViewerProps) => {
                 <>
                     <div className={styled.rankingItems}>
                         {rankingVideos.map((item, index) => (
-                            <div
+                            <VideoItem
                                 key={index}
-                                className={styled.rankingItem}
+                                video={item}
+                                ranking={{index}}
                                 onClick={() => changePlayingId(index, item)}
-                            >
-                                <div className={styled.rankingItemIndex}>
-                                    <span>{index + 1}</span>
-                                </div>
-                                <div className={styled.videoImage}>
-                                    {item && <img src={item.thumbnail.listingUrl} alt="thumbnail" />}
-                                </div>
-                                <div className={styled.rankingItemInfo}>
-                                    {item ? (
-                                        <>
-                                            <div className={styled.rankingItemTitle}>{item.title}</div>
-                                            <div className={styled.rankingItemDetail}>
-                                                <div className={styled.rankingItemMeta1}>
-                                                    <span>{item.owner.name}</span>
-                                                    <span>/</span>
-                                                    <span>{secondsToTime(item.duration)}</span>
-                                                </div>
-                                                <div className={styled.rankingItemMeta2}>
-                                                    <div className={styled.rankingItemMetaItem}>
-                                                        <RiPlayFill />
-                                                        <span>{item.count.view.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={styled.rankingItemMetaItem}>
-                                                        <RiHeartFill />
-                                                        <span>{item.count.like.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={styled.rankingItemMetaItem}>
-                                                        <RiFolderFill />
-                                                        <span>{item.count.mylist.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={styled.rankingItemMetaItem}>
-                                                        <span>{new Date(item.registeredAt).toLocaleString()}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <span>削除された動画</span>
-                                    )}
-                                </div>
-                            </div>
+                            />
                         ))}
                     </div>
                 </>

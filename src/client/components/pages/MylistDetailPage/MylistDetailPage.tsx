@@ -1,11 +1,10 @@
 import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { RiFolderFill, RiHeartFill, RiPlayFill } from "react-icons/ri";
 import { NavLink, useParams } from "react-router-dom";
 import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { getMylistItems } from "../../../nico/list";
 import styled from "./MylistDetailPage.module.scss";
-import { secondsToTime } from "../../../utils/time";
+import { VideoItem } from "../../common/VideoItem/VideoItem";
 
 export const MylistDetailPage = () => {
     const { mylistId } = useParams();
@@ -59,50 +58,11 @@ export const MylistDetailPage = () => {
                     </div>
                     <div className={styled.mylistItems}>
                         {mylist.items.map((item, index) => (
-                            <div
+                            <VideoItem
                                 key={item.itemId}
-                                className={styled.mylistItem}
+                                video={item.video}
                                 onClick={() => changePlayingId(index, item.video)}
-                            >
-                                <div className={styled.videoImage}>
-                                    {item.video && <img src={item.video.thumbnail.listingUrl} alt="thumbnail" />}
-                                </div>
-                                <div className={styled.mylistItemInfo}>
-                                    {item.video ? (
-                                        <>
-                                            <div className={styled.mylistItemTitle}>{item.video.title}</div>
-                                            <div className={styled.mylistItemDetail}>
-                                                <div className={styled.mylistItemMeta1}>
-                                                    <span>{item.video.owner.name}</span>
-                                                    <span>/</span>
-                                                    <span>{secondsToTime(item.video.duration)}</span>
-                                                </div>
-                                                <div className={styled.mylistItemMeta2}>
-                                                    <div className={styled.mylistItemMetaItem}>
-                                                        <RiPlayFill />
-                                                        <span>{item.video.count.view.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={styled.mylistItemMetaItem}>
-                                                        <RiHeartFill />
-                                                        <span>{item.video.count.like.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={styled.mylistItemMetaItem}>
-                                                        <RiFolderFill />
-                                                        <span>{item.video.count.mylist.toLocaleString()}</span>
-                                                    </div>
-                                                    <div className={styled.mylistItemMetaItem}>
-                                                        <span>
-                                                            {new Date(item.video.registeredAt).toLocaleString()}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </>
-                                    ) : (
-                                        <span>削除された動画</span>
-                                    )}
-                                </div>
-                            </div>
+                            />
                         ))}
                     </div>
                 </>
