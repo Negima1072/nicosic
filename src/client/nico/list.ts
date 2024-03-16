@@ -1,4 +1,4 @@
-import { NicoError, get } from "./common";
+import { NicoError, get, post } from "./common";
 
 export async function getOwnMylists(sampleItemCount: number = 3): Promise<MylistInfoData[]> {
     const url = `https://nvapi.nicovideo.jp/v1/users/me/mylists?sampleItemCount=${sampleItemCount}`;
@@ -7,6 +7,20 @@ export async function getOwnMylists(sampleItemCount: number = 3): Promise<Mylist
         throw new NicoError(res.meta.errorCode!);
     }
     return res.data.mylists;
+}
+
+export async function addVideoToMylist(mylistId: number, videoId: string, description: string = ""): Promise<number> {
+    let url = `https://nvapi.nicovideo.jp/v1/users/me/mylists/${mylistId}/items`;
+    const params = new URLSearchParams();
+    params.append("itemId", videoId);
+    params.append("description", description);
+    url += "?" + params.toString();
+    const res = await post<NvAPIResponse<undefined>>(url);
+    if (res.meta.status === 201 || res.meta.status === 200) {
+        return res.meta.status;
+    } else {
+        throw new NicoError(res.meta.errorCode!);
+    }
 }
 
 export async function getMylistItems(

@@ -1,9 +1,11 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
+import { isLoginAtom, isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { VideoItem } from "../VideoItem/VideoItem";
 import styled from "./VideoItemList.module.scss";
-import { Item, ItemParams, Menu, Separator, useContextMenu } from "react-contexify";
+import { Item, ItemParams, Menu, Separator, Submenu, useContextMenu } from "react-contexify";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { addVideoToMylist, getOwnMylists } from "../../../nico/list";
 
 interface VideoItemListProps {
     videos: (EssentialVideo | undefined)[];
@@ -15,14 +17,29 @@ interface ContextMenuItemProps {
     video?: EssentialVideo;
 }
 
+interface ContextMylistInfoData {
+    mylistId: number;
+}
+
 export const VideoItemList = (props: VideoItemListProps) => {
     const navigate = useNavigate();
     const { show: showVideoItemContext } = useContextMenu<ContextMenuItemProps>({ id: "videoitem-context" });
+    const isLogin = useAtomValue(isLoginAtom);
     const isShuffle = useAtomValue(isShuffleAtom);
     const setPlayingData = useSetAtom(playingDataAtom);
     const [playingList, setPlayingListAtom] = useAtom(playingListAtom);
     const [playlistData, setPlaylistDataAtom] = useAtom(playlistDataAtom);
     const [playlistIndex, setPlaylistIndexAtom] = useAtom(playlistIndexAtom);
+    // TODO: マイリストの情報をAtomで管理する。(issue #13)
+    const [mylists, setMylists] = useState<MylistInfoData[]>([]);
+    useEffect(() => {
+        (async () => {
+            if (isLogin) {
+                const mylists = await getOwnMylists();
+                setMylists(mylists);
+            }
+        })();
+    }, [isLogin]);
     const changePlayingId = (index: number, video?: EssentialVideo) => {
         if (video && props.videos) {
             setPlayingData((prev) => ({ ...prev, id: video.id }));
@@ -48,6 +65,12 @@ export const VideoItemList = (props: VideoItemListProps) => {
             event: e,
             props: { video },
         });
+    }
+    const cm_addToMylist = ({ props, data }: ItemParams<ContextMenuItemProps, ContextMylistInfoData>) => {
+        if (props && props.video && data) {
+            addVideoToMylist(data.mylistId, props.video.id);
+            // TODO: 再生中のListsにも反映できるようマイリスト情報をローカルで更新する。(issue #13)
+        }
     }
     const cm_addToNextplay = ({ props }: ItemParams<ContextMenuItemProps>) => {
         // TODO: 次に見るリストのようなものを別途用意して優先させる。ランダム再生とも競合しないようにする。(issue #12)
@@ -97,6 +120,15 @@ export const VideoItemList = (props: VideoItemListProps) => {
                 />
             ))}
             <Menu id="videoitem-context" theme="dark" animation={false}>
+                {isLogin && (
+                    <Submenu label="マイリストに追加">
+                        {mylists.slice(0, 10).map((mylist, index) => (
+                            <Item key={index} onClick={cm_addToMylist} data={{ mylistId: mylist.id }}>
+                                {mylist.name}
+                            </Item>
+                        ))}
+                    </Submenu>
+                )}
                 <Item onClick={cm_addToNextplay}>
                     次に再生に追加
                 </Item>
