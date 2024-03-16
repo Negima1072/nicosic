@@ -6,6 +6,7 @@ interface VideoItemProps {
     video?: EssentialVideo;
     ranking?: RankingStatus;
     onClick: () => void;
+    onContextMenu?: (e: React.MouseEvent) => void;
 }
 
 interface RankingStatus {
@@ -23,7 +24,7 @@ export const VideoItem = (props: VideoItemProps) => {
             <div className={styled.videoImage}>
                 {props.video && <img src={props.video.thumbnail.listingUrl} alt="thumbnail" />}
             </div>
-            <div className={styled.videoItemInfo}>
+            <div className={styled.videoItemInfo} onContextMenu={props.onContextMenu}>
                 {props.video ? (
                     <>
                         <div className={styled.videoItemTitle}>{props.video.title}</div>

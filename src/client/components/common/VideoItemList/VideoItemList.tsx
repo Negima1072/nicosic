@@ -1,7 +1,9 @@
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { isShuffleAtom, playingDataAtom, playingListAtom, playlistDataAtom, playlistIndexAtom } from "../../../atoms";
 import { VideoItem } from "../VideoItem/VideoItem";
 import styled from "./VideoItemList.module.scss";
+import { Item, ItemParams, Menu, Separator, useContextMenu } from "react-contexify";
+import { useNavigate } from "react-router-dom";
 
 interface VideoItemListProps {
     videos: (EssentialVideo | undefined)[];
@@ -9,12 +11,18 @@ interface VideoItemListProps {
     isSingle?: boolean;
 }
 
+interface ContextMenuItemProps {
+    video?: EssentialVideo;
+}
+
 export const VideoItemList = (props: VideoItemListProps) => {
+    const navigate = useNavigate();
+    const { show: showVideoItemContext } = useContextMenu<ContextMenuItemProps>({ id: "videoitem-context" });
     const isShuffle = useAtomValue(isShuffleAtom);
     const setPlayingData = useSetAtom(playingDataAtom);
-    const setPlayingListAtom = useSetAtom(playingListAtom);
-    const setPlaylistDataAtom = useSetAtom(playlistDataAtom);
-    const setPlaylistIndexAtom = useSetAtom(playlistIndexAtom);
+    const [playingList, setPlayingListAtom] = useAtom(playingListAtom);
+    const [playlistData, setPlaylistDataAtom] = useAtom(playlistDataAtom);
+    const [playlistIndex, setPlaylistIndexAtom] = useAtom(playlistIndexAtom);
     const changePlayingId = (index: number, video?: EssentialVideo) => {
         if (video && props.videos) {
             setPlayingData((prev) => ({ ...prev, id: video.id }));
@@ -35,6 +43,48 @@ export const VideoItemList = (props: VideoItemListProps) => {
             }
         }
     };
+    const onContextMenu = (e: React.MouseEvent, video?: EssentialVideo) => {
+        showVideoItemContext({
+            event: e,
+            props: { video },
+        });
+    }
+    const cm_addToNextplay = ({ props }: ItemParams<ContextMenuItemProps>) => {
+        // TODO: 次に見るリストのようなものを別途用意して優先させる。ランダム再生とも競合しないようにする。(issue #12)
+        if (props && props.video) {
+            const video = props.video;
+            if (playingList && playingList.length > 0) {
+                const index = playingList.findIndex((item) => item.id === video.id);
+                if (index >= 0) {
+                    const ob = playingList.splice(index, 1);
+                    playingList.splice(playlistIndex + 1, 0, ob[0]);
+                    setPlayingListAtom(playingList);
+                } else {
+                    let videoIndex = playlistData.findIndex((item) => item?.id === video.id);
+                    if (videoIndex === -1) {
+                        setPlaylistDataAtom((prev) => [...prev, video]);
+                        videoIndex = playlistData.length;
+                    }
+                    playingList.splice(playlistIndex + 1, 0, { index: videoIndex, id: video.id });
+                }
+            } else {
+                setPlayingData((prev) => ({ ...prev, id: video.id }));
+                setPlayingListAtom([{ index: 0, id: video.id }]);
+                setPlaylistDataAtom([video]);
+                setPlaylistIndexAtom(0);
+            }
+        }
+    }
+    const cm_navigateMusicInfo = ({ props }: ItemParams<ContextMenuItemProps>) => {
+        if (props && props.video) {
+            navigate(`/video/${props.video.id}`);
+        }
+    }
+    const cm_navigateUserInfo = ({ props }: ItemParams<ContextMenuItemProps>) => {
+        if (props && props.video) {
+            navigate(`/user/${props.video.owner.id}`);
+        }
+    }
     return (
         <div className={styled.videoItems}>
             {props.videos.map((video, index) => (
@@ -43,8 +93,21 @@ export const VideoItemList = (props: VideoItemListProps) => {
                     video={video}
                     ranking={props.isRanking ? { index } : undefined}
                     onClick={() => changePlayingId(index, video)}
+                    onContextMenu={(e) => onContextMenu(e, video)}
                 />
             ))}
+            <Menu id="videoitem-context" theme="dark" animation={false}>
+                <Item onClick={cm_addToNextplay}>
+                    次に再生に追加
+                </Item>
+                <Separator />
+                <Item onClick={cm_navigateMusicInfo}>
+                    曲の情報
+                </Item>
+                <Item onClick={cm_navigateUserInfo}>
+                    ユーザーの情報
+                </Item>
+            </Menu>
         </div>
     );
 };
